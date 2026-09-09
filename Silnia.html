@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+
+<html>
+    <head>
+        <link rel="stylesheet" type="text/css" href="style.css">
+        <script>
+       MathJax = {
+        // Zmieniono input/asciimath na input/tex
+        loader: {load: ["input/tex", "output/chtml", "ui/menu"]},
+        output: {font: "mathjax-newcm"}
+    }
+        </script>
+        <script defer src="https://cdn.jsdelivr.net/npm/mathjax@4/startup.js">
+        </script>
+    </head>
+    <body style="background-color:powderblue;">
+        <h1>Silnia</h1>
+        <p>Wszyscy znamy (albo i nie :D) definicję silni ze szkoły średniej. Na wszelki wypadek przypomnijmy: używamy symbolu wykrzyknika (!) po liczbie i definiujemy następująco:</p>
+        \(n! = \prod_{k=1}^{n} k = 1\cdot2\cdot3\cdots\cdot(n-1)\cdot n\)
+        <p><b>Przykład:</b></p>
+        \(4! = 1\cdot2\cdot3\cdot4 = 24\)
+        <p>Generalnie silnia "dosyć szybko rośnie", bo już 10! przekracza 3,5 miliona</p>
+        <h2>Ile zer ma na końcu 30!</h2>
+        <p>Przyjrzyjmy się temu problemowi:</p>
+        0!=1 // brak zer na końcu<br>
+        1!=1 // brak zer na końcu<br>
+        2!=2 // brak zer na końcu<br>
+        3!=6 // brak zer na końcu<br>
+        4!=24 // brak zer na końcu<br>
+        5!=12<span style="color:red;">0</span> // 1 zero na końcu<br>
+        6!=72<span style="color:red;">0</span> // 1 zero na końcu<br>
+        7!=504<span style="color:red;">0</span> // 1 zero na końcu<br>
+        8!=4032<span style="color:red;">0</span> // 1 zero na końcu<br>
+        9!=36288<span style="color:red;">0</span> // 1 zero na końcu<br>
+        10!=36288<span style="color:red;">00</span> // 2 zera na końcu<br>
+        <p>Czy widzimy tu jakąś zależność? Niespecjalnie...</p>
+        <p>Aby rozwiązać to zadanie, należy wiedzieć czym jest liczba pierwsza. Na bazie pojęcia liczby pierwszej zdefiniujemy nowe pojęcie: wykładnik p-adyczny.</p>
+        <b>Definicja</b>
+        Wykładnikiem p-adczynym liczby n, gdzie p- liczba pierwsza nazywamy największą potęgę liczby p, przez którą dzieli się liczba n<br>
+        Formalnie: \(v_p(n) = k \iff p^k \mid n \ \land \ p^{k+1} \nmid n\) <br>
+        <b>Przykład1:</b> \(v_2(36) = 2\) bo \(2^2 \mid 36\) ale \(2^3 \nmid 36\)<br>
+        <b>Przykład2:</b> \(v_2(21) = 0\) bo \(1 = 2^0 \mid 21\) ale \(2 = 2^1 \nmid 21\) (W rozkładzie na czynniki pierwsze liczby 21 nie występuje ani jedna dwójka)<br>
+        <p>Będziemy potrzebowali jeszcze czegoś co nazywa się "podłogą z liczby"</p>
+        <b>Definicja</b>
+        <p>Podłoga z liczby rzeczywistej \(x\), oznaczana jako \( \lfloor x \rfloor \) to największa liczba całkowita, nieprzekraczająca liczby \(x\)</p>
+        Formalnie: \( \lfloor x \rfloor = max(k \in \mathbb{Z}: k \leq x)\)
+        <p>Brzmi groźnie? Wszystko rozjaśni przykład z wytłumaczeniem: </p>
+        <p><b>Przykład1: \( \lfloor 4,9 \rfloor \) = 4</b>// Zbijamy 4,9 do najbliższej liczby całkowitej mniejszej niż 4.9. Jest nią oczywiście 4</p>
+        <p>Aby ustalić, ile zer na końcu ma liczba 30! musimy ustalić, jaka jest nawiększa potęga liczby 10, która dzieli 30!</p>
+        <p>Zauważmy, że \(10 = 2\cdot5\). Wystarczy zatem ustalić, jaka jest największa potęga dwójki, która dzieli 30!, czyli <i>de facto</i> wykładnik 5-adyczny z liczby 30!</p>
+        <p>I w tym momencie na scene wkracza tzw. wzór Legendre'a - noszący tą nazwę na cześć francuskiego matematyka Adriena-Marie Legendre'a</p>
+        <p>\(v_p(n!) = \sum_{n=1}^{\infty} \lfloor \frac{n}{p^k} \rfloor = \lfloor \frac{n}{p} \rfloor + \lfloor \frac{n}{p^2} \rfloor + \lfloor \frac{n}{p^2} \rfloor + \cdots \)</p>
+        <p>Spokojnie, powyższy szereg (czyli nieskończona suma) - w takim sensie, że sumujemy nieskończenie wiele składników jest skończony(a) (zbieżny(a)), bo od pewnego momentu wszystkie wyrazy są równe zero. </p>
+        <p>Wystarczy zatem podstawić w powyższym wzorze \(p = 5, n = 30\). Otrzymujemy:</p>
+        <p> \( v_5(30!) = \lfloor \frac{30}{5} \rfloor + \lfloor \frac{30}{5^2}\ + \lfloor \frac{30}{5^3}) + \cdots = 6 + 1 + 0 + \cdots = 7 \)</p>
+        <p>Tak więc liczba 30! kończy się siedmioma zerami :D </p>
+    </body>
+</html>

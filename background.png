@@ -1,0 +1,12 @@
+--2026-09-09 19:53:15--  https://www.omj.edu.pl/assets/wzory_recznie-87f126f21ab0bf02d7eb0191dc0f9a6c.png
+Resolving www.omj.edu.pl (www.omj.edu.pl)... 104.21.62.115, 172.67.223.95, 2606:4700:3037::6815:3e73, ...
+Connecting to www.omj.edu.pl (www.omj.edu.pl)|104.21.62.115|:443... connected.
+HTTP request sent, awaiting response... 200 OK
+Length: 63894 (62K) [image/png]
+Saving to: ‘wzory_recznie-87f126f21ab0bf02d7eb0191dc0f9a6c.png’
+
+     0K .......... .......... .......... .......... .......... 80% 7.00M 0s
+    50K .......... ..                                         100% 4.67M=0.01s
+
+2026-09-09 19:53:16 (6.37 MB/s) - ‘wzory_recznie-87f126f21ab0bf02d7eb0191dc0f9a6c.png’ saved [63894/63894]
+
