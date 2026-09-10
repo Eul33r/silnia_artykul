@@ -18,6 +18,24 @@
     </head>
     <body style="background-color:powderblue;">
         <h1>Wielosilnia</h1>
+        <p>W zakładce Dwusilnia zdefiniowaliśmy uogólnienie pojęcia silni. Przypomnijmy, że \(n!!\) to iloczyn dodatnich liczb całkowitych niewiększych niż \(n\) i tej samej parzystości, co \(n\)</p>
+        <p>Dosyć łatwo "pójść dalej" i zdefiniować trójsilnie <i>(ang. triplefactorial)</i> \(n!!!\) jako iloczyn wszystkich dodatnich liczb całkowitych niewiększych niż \(n\) dających tę samą resztę przy dzieleniu przez 3, co liczba \(n\)</p>
+        <b>Przykład 1:</b>
+        <p>Chcemy policzyć wartość 15!!! W tym celu sprawdzamy, jaką resztę przy dzieleniu przez 3 daje liczba 15, z której to silnie liczymy. Okazuje się, że 15 jest podzielna przez 3, tzn. daje resztę 0 przy dzieleniu przez 3.</p>
+        <p>Dlatego znajdujemy wszystkie liczby podzielne przez 3, które są \(\leq 15\) i wymnażamy je przez siebie.</p>
+        <p>Mamy: 15!!! = \(3\cdot6\cdot9\cdot12\cdot15\) = 29160</p>
 
+        <b>Przykład 2:</b>
+        <p>Chcemy policzyć wartość 16!!! W tym celu sprawdzamy, jaką resztę przy dzieleniu przez 3 daje liczba 16, z której to silnie liczymy. Okazuje się, że 16 daje resztę 1 przy dzieleniu przez 3</p>
+        <p>Dlatego znajdujemy wszystkie liczby, które dają resztę 1 przy dzieleniu przez 3 i są \(\leq 16\) i wymnażamy je przez siebie.</p>
+        <p>Mamy: 16!!! = \(1\cdot4\cdot7\cdot10\cdot13\cdot16\) = 58240</p>
+        
+        <b>Przykład 3:</b>
+        <p>Chcemy policzyć wartość 17!!! W tym celu sprawdzamy, jaką resztę przy dzieleniu przez 3 daje liczba 17, z której to silnie liczymy. Okazuje się, że 17 daje resztę 2 przy dzieleniu przez 3</p>
+        <p>Dlatego znajdujemy wszystkie liczby, które dają resztę 2 przy dzieleniu przez 3 i są \(\leq 16\) i wymnażamy je przez siebie.</p>
+        <p>Mamy: 17!!! = \(2\cdot5\cdot8\cdot11\cdot14\cdot17\) = 209440</p>   
+
+        <p>W zasadzie... Po co się ograniczać? Zdefiniujmy od razu porządnie wielosilnie. Dla wygody i przejrzystości zapisu zamiast używać wielu wykrzykników przyjmijmy następującą umowę:</p>
+       <p>\((n!)_{k} = n\!\!\!\!\!\!\!\!\!\!\underbrace{!!\cdots!}_{k\text{ wykrzykników}}\)</p>
     </body>
 </html>
