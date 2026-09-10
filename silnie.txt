@@ -1,6 +1,9 @@
+Silnia.html
+Pierwsznia.html
 Dwusilnia.html
 Wielosilnia.html
 Podsilnia.html
 Supersilnia.html
 Hipersilnia.html
 Exposilnia.html
+Iteracyjna.html

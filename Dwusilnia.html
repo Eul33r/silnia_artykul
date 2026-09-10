@@ -18,6 +18,35 @@
     </head>
     <body style="background-color:powderblue;">
         <h1>Dwusilnia</h1>
+        <p>Dla liczby \(n \in \mathbb{N} \) definiujemy \(n!!\) <i>czyt. "en silnia-silnia" lub "en podwójna silnia"</i> jako iloczyn wszystkich liczb całkowitych dodatnich, nieprzekraczających \(n\), tej samej parzystości co \(n\)</p>
+        <p>Formalnie:</p>
+        \[
+        n!! =
+        \begin{cases}
+            1, & n = 0, \\
+            2\cdot4\cdot6\cdots n = \displaystyle\prod_{k=1}^{n/2} 2k, & n > 0 \text{ i } 2 \mid n, \\
+            1\cdot3\cdot5\cdots n = \displaystyle\prod_{k=0}^{(n-1)/2} (2k+1), & 2 \nmid n.
+        \end{cases}
+        \]
+        <p><b>Przykład:</b></p>
+        \(4!! = 2\cdot4 = 8\)
+        <p>Generalnie dwusilnia "dosyć szybko rośnie", bo już 10!! wynosi 3840.</p>
+        <p>Możesz skorzystać z poniższego formularza, aby obliczyć dwusilnie z liczby naturalnej, która Cię interesuje:</p>
+        <form id="dwusilniaForm">
+        <input
+            type="number"
+            id="liczba"
+            placeholder="Wprowadź liczbę naturalną"
+            min="0"
+            step="1"
+            required
+        >
 
+        <input type="submit" value="Oblicz">
+        </form>
+
+        <p id="wynik"></p>
+
+        <script src="src/Dwusilnia/script.js"></script>
     </body>
 </html>
