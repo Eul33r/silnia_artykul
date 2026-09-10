@@ -1,6 +1,7 @@
-const formularz = document.getElementById("silniaForm");
-const poleLiczby = document.getElementById("liczba");
-const wynik = document.getElementById("wynik");
+(() => {
+const formularz = document.getElementById("lastNonZeroDigit");
+const poleLiczby = document.getElementById("liczbaOstatniaCyfra");
+const wynik = document.getElementById("wynikOstatniaCyfra");
 
 formularz.addEventListener("submit", function (event) {
     event.preventDefault();
@@ -21,13 +22,18 @@ formularz.addEventListener("submit", function (event) {
         return;
     }
 
-    // // Obliczanie silni za pomocą BigInt
-    // let silnia = 1n;
+    let silnia = 1;
 
-    // for (let i = 2n; i <= BigInt(n); i++) {
-    //     silnia *= i;
-    // }
+    for (let i = 2; i <= n; i++) {
+        silnia *= i;
 
-    // Wyświetlenie wyniku
-    wynik.textContent = `Ostatnią niezerową cyfrą liczby ${n}! jest ${result}`;
+        while (silnia % 10 === 0) {
+            silnia /= 10;
+        }
+
+        silnia %= 1000000;
+    }
+
+    wynik.textContent = `Ostatnią niezerową cyfrą liczby ${n}! jest ${silnia % 10}`;
 });
+})();

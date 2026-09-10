@@ -1,3 +1,4 @@
+(() => {
 const formularz = document.getElementById("howManyZeros");
 const poleLiczby = document.getElementById("liczbaZera");
 const wynik = document.getElementById("wynikZera");
@@ -33,3 +34,4 @@ formularz.addEventListener("submit", function (event) {
     // Wyświetlenie wyniku
     wynik.textContent = `${n}! kończy się ${count} zerami`;
 });
+})();

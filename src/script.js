@@ -1,3 +1,4 @@
+(() => {
 const formularz = document.getElementById("silniaForm");
 const poleLiczby = document.getElementById("liczba");
 const wynik = document.getElementById("wynik");
@@ -31,3 +32,4 @@ formularz.addEventListener("submit", function (event) {
     // Wyświetlenie wyniku
     wynik.textContent = `${n}! = ${silnia}`;
 });
+})();
