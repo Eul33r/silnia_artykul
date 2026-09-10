@@ -20,6 +20,24 @@
         <p><b>Przykład:</b></p>
         \(4! = 1\cdot2\cdot3\cdot4 = 24\)
         <p>Generalnie silnia "dosyć szybko rośnie", bo już 10! przekracza 3,5 miliona</p>
+        <p>Możesz skorzystać z poniższego formularza, aby obliczyć silnie z liczby naturalnej, która Cię interesuje:</p>
+        <form id="silniaForm">
+        <input
+            type="number"
+            id="liczba"
+            placeholder="Wprowadź liczbę naturalną"
+            min="0"
+            step="1"
+            required
+        >
+
+        <input type="submit" value="Oblicz">
+        </form>
+
+        <p id="wynik"></p>
+
+        <script src="src/script.js"></script>
+
         <h2>Ile zer ma na końcu 30!</h2>
         <p>Przyjrzyjmy się temu problemowi:</p>
         0!=1 // brak zer na końcu<br>
@@ -45,14 +63,118 @@
         <p>Podłoga z liczby rzeczywistej \(x\), oznaczana jako \( \lfloor x \rfloor \) to największa liczba całkowita, nieprzekraczająca liczby \(x\)</p>
         Formalnie: \( \lfloor x \rfloor = max(k \in \mathbb{Z}: k \leq x)\)
         <p>Brzmi groźnie? Wszystko rozjaśni przykład z wytłumaczeniem: </p>
-        <p><b>Przykład1: \( \lfloor 4,9 \rfloor \) = 4</b>// Zbijamy 4,9 do najbliższej liczby całkowitej mniejszej niż 4.9. Jest nią oczywiście 4</p>
+        <p><b>Przykład1: \( \lfloor 4,9 \rfloor \) = 4</b>// Zbijamy 4,9 do najbliższej liczby całkowitej mniejszej bądź równej 4.9. Jest nią oczywiście 4</p>
         <p>Aby ustalić, ile zer na końcu ma liczba 30! musimy ustalić, jaka jest nawiększa potęga liczby 10, która dzieli 30!</p>
-        <p>Zauważmy, że \(10 = 2\cdot5\). Wystarczy zatem ustalić, jaka jest największa potęga dwójki, która dzieli 30!, czyli <i>de facto</i> wykładnik 5-adyczny z liczby 30!</p>
+        <p>Zauważmy, że \(10 = 2\cdot5\). Wystarczy zatem ustalić, jaka jest największa potęga piątki, która dzieli 30!, czyli <i>de facto</i> wykładnik 5-adyczny z liczby 30!</p>
         <p>I w tym momencie na scene wkracza tzw. wzór Legendre'a - noszący tą nazwę na cześć francuskiego matematyka Adriena-Marie Legendre'a</p>
         <p>\(v_p(n!) = \sum_{n=1}^{\infty} \lfloor \frac{n}{p^k} \rfloor = \lfloor \frac{n}{p} \rfloor + \lfloor \frac{n}{p^2} \rfloor + \lfloor \frac{n}{p^2} \rfloor + \cdots \)</p>
         <p>Spokojnie, powyższy szereg (czyli nieskończona suma) - w takim sensie, że sumujemy nieskończenie wiele składników jest skończony(a) (zbieżny(a)), bo od pewnego momentu wszystkie wyrazy są równe zero. </p>
         <p>Wystarczy zatem podstawić w powyższym wzorze \(p = 5, n = 30\). Otrzymujemy:</p>
-        <p> \( v_5(30!) = \lfloor \frac{30}{5} \rfloor + \lfloor \frac{30}{5^2}\ + \lfloor \frac{30}{5^3}) + \cdots = 6 + 1 + 0 + \cdots = 7 \)</p>
+        <p> \( v_5(30!) = \lfloor \frac{30}{5} \rfloor + \lfloor \frac{30}{5^2}\ \rfloor+ \lfloor \frac{30}{5^3}) \rfloor + \cdots = 6 + 1 + 0 + \cdots = 7 \)</p>
         <p>Tak więc liczba 30! kończy się siedmioma zerami :D </p>
+
+        <p>Możesz skorzystać z poniższego formularza, aby sprawdzić, iloma zerami kończy się silnia</p>
+        <form id="howManyZeros">
+        <input
+            type="number"
+            id="liczbaZera"
+            placeholder="Wprowadź liczbę naturalną"
+            min="0"
+            step="1"
+            required
+        >
+
+        <input type="submit" value="Oblicz">
+        </form>
+
+        <p id="wynikZera"></p>
+
+        <script src="src/howmanyzeros.js"></script>
+
+
+        <h2>Ile cyfr w zapisie dziesiętnym ma 100!</h2>
+        <p>Przyjrzyjmy się temu problemowi:</p>
+        0!=1 // jedna cyfra <br>
+        1!=1 // jedna cyfra <br>
+        2!=2 // jedna cyfra<br>
+        3!=6 // jedna cyfra<br>
+        4!=24 // dwie cyfry<br>
+        5!=120 // trzy cyfry<br>
+        6!=720 // trzy cyfry<br>
+        7!=5040 // cztery cyfry<br>
+        8!=40320 // 5 cyfr<br>
+        9!=362880 // 6 cyfr<br>
+        10!=3628800 // 7 cyfr<br>
+        <p>Znowu, czy widzimy tu jakąś zależność? Niespecjalnie... Możemy co najwyżej powiedzieć, że im większa liczba, z której silnie liczymy to na ogół silnia kończy się większą liczbą zer.</p>
+        <p>Przypuśćmy, że liczba \(100!\) ma w swoim zapisie dziesiętnym \(k\) cyfr. Musimy zadać sobie fundamentalne <b>Pytanie:</b> <i>Co to znaczy, że liczba jest \(k\)-cyfrowa?</i></p>
+        <p>No na przykład liczba n jest 2-cyfrowa gdy spełnia warunek \(10 \leq n \lt 100\)</p>
+        <p>Z kolei liczba jest 3-cyfrowa, jeżeli \(100 \leq n \lt 1000\)</p>
+        <p>Czy widzisz już, drogi Czytelniku analogię?</p>
+        <p>Liczba n jest wobec tego k-cyfrowa, gdy spełnia warunek \(10^k \leq n \lt 10^{k+1}\)</p>
+        <p>Niech \(n = 100!\), w takim razie \(10^k \leq 100! \lt 10^{k+1}\) (Bo założyliśmy, że 100! ma \(k\) cyfr w zapisie dziesiętnym).</p>
+        <p>W takim razie, wystarczy z tych nierówności wyliczyć \(k\), tylko jak to zrobić?</p>
+        <p>W tym momecie wielu uczniów chce pierwiastkować te nierówności stronami, co <u>jest błędne.</u>Niewiadoma \(k\) występuje bowiem w wykładniku. W takiej sytuacji musimy <i>zlogarytmować</i> stronami, logarytmem dziesiętnym (o podstawie 10), bo taka jest podstawa potęg po obu stronach.</p>
+        <p>Otrzymujemy: \(log(10^k) \leq log(100!) \lt log(10^{k+1}) \iff k \leq log(100!) \lt k+1\)</p>
+        <p><i>Co teraz?</i> A no, przecież 100! jest iloczynem 100 początkowych liczb całkowitych dodatnich, a znamy taką przyjemną własność logarytmów, że logarytm z iloczynu jest sumą logarytmów (John Napier chyba byłby z nas dumny...)</p>
+        <p>\(log(100!) = log(1\cdot2\cdot3\cdots\cdot100) = log(1) + log(2) + log(3) + \cdots + log(99) + log(100)\)</p>
+        <p>Zamieniliśmy zatem problem policzenia logarytmu dziesiętnego ze 100! na problem policzenia sumy stu logarytmów. Tylko, czy da się to jakoś zwięźle obliczyć?</p>
+        <p>Owszem :D I tutaj na scenę wkracza tzw. <i>wzór Stirlinga</i> Wygląda on mniej więcej tak:</p>
+        <p>\(n! \approx \sqrt{2\pi n}\cdot (\frac{n}{e})^n\) # TODO</p>
+
+        <p>Możesz skorzystać z poniższego formularza, aby sprawdzić, ile cyfr w zapisie dzisiętnym ma silnia wybranej przez Ciebie liczby naturalnej</p>
+        <form id="howManyDigits">
+        <input
+            type="number"
+            id="liczbaCyfr"
+            placeholder="Wprowadź liczbę naturalną"
+            min="0"
+            step="1"
+            required
+        >
+
+        <input type="submit" value="Oblicz">
+        </form>
+
+        <p id="wynikDigits"></p>
+
+        <script src="src/howmanydigits.js"></script> 
+
+        <h2>Jaka jest ostatnia niezerowa cyfra 100!</h2>
+        <p>Przyjrzyjmy się temu problemowi:</p>
+        0!=<span style="color:red;">1</span>  // 1 <br>
+        1!=<span style="color:red;">1</span>  // 1 <br>
+        2!=<span style="color:red;">2</span>  // 2 <br>
+        3!=<span style="color:red;">6</span>  // 6 <br>
+        4!=2<span style="color:red;">4</span>  // 4 <br>
+        5!=1<span style="color:red;">2</span>0 // 2 <br>
+        6!=7<span style="color:red;">2</span>0 // 2 <br>
+        7!=50<span style="color:red;">4</span>0 // 4 <br>
+        8!=403<span style="color:red;">2</span>0 // 2 <br>
+        9!=3628<span style="color:red;">8</span>0 // 8 <br>
+        10!=3628<span style="color:red;">8</span>00 // 8 <br>
+        11! = 39916<span style="color:red;">8</span>00 //8 <br>
+        12! = 479001<span style="color:red;">6</span>00 // 6 <br>
+        13! = 6227020<span style="color:red;">8</span>00 // 8 <br>
+        14! = 87178291<span style="color:red;">2</span>00 // 2 <br>
+        15! = 130767436<span style="color:red;">8</span>000 // 8 <br>
+
+        <p>Ponownie, czy dostrzegamy tu jakąś zależność? Niespecjalnie...</p>
+        <p>Możesz skorzystać z poniższego formularza, aby sprawdzić jaka jest ostatnia niezerowa cyfra silni</p>
+        <form id="lastNonZeroDigit">
+        <input
+            type="number"
+            id="liczba"
+            placeholder="Wprowadź liczbę naturalną"
+            min="0"
+            step="1"
+            required
+        >
+
+        <input type="submit" value="Oblicz">
+        </form>
+
+        <p id="wynik"></p>
+
+        <script src="src/lastNonZeroDigit.js"></script>
     </body>
 </html>
