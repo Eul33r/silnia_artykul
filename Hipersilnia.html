@@ -18,6 +18,28 @@
     </head>
     <body style="background-color:powderblue;">
         <h1>Hipersilnia</h1>
+        <p>Dla liczby \(n \in \mathbb{N}\) hipersilnie <i>(ang. hyperfactorial)</i> oznaczamy przez \(H(n)\) i definiujemy:</p>
+        <p>Formalnie:</p>
+        \(H(n) = \prod_{k=1}^{n} k^k = 1^1\cdot2^2\cdot3^3\cdot\cdots\cdot(n-1)^{n-1}\cdot n^n\)
+        <p><b>Przykład:</b></p>
+        \(H(4) = 1^1\cdot2^2\cdot3^3\cdot4^4 = 1\cdot4\cdot27\cdot256 = 27648\)
+        <p>Generalnie hiersilnia "rośnie BARDZO szybko".Rośnie szybciej niż zwykła silnia.</p>
+        <p>Możesz skorzystać z poniższego formularza, aby obliczyć hipersilnie z liczby naturalnej, która Cię interesuje:</p>
+        <form id="hipersilniaForm">
+        <input
+            type="number"
+            id="liczba"
+            placeholder="Wprowadź liczbę naturalną"
+            min="0"
+            step="1"
+            required
+        >
 
+        <input type="submit" value="Oblicz">
+        </form>
+
+        <p id="wynik"></p>
+
+        <script src="src/Hipersilnia/script.js"></script>
     </body>
 </html>

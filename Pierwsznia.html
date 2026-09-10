@@ -18,6 +18,30 @@
     </head>
     <body style="background-color:powderblue;">
         <h1>Pierwsznia</h1>
+    <p>Dla liczby \(n \in \mathbb{N}\) definiujemy \(n\#\) jako iloczyn wszystkich liczb pierwszych, nieprzekraczających \(n\).</p>
+    <p>Formalnie:</p>
+    \[
+    n\# = \prod_{\substack{p \le n \\ p\ \text{pierwsza}}} p
+    \]
+        <p><b>Przykład:</b></p>
+        \(10\# = 2\cdot3\cdot5\cdot7 = 210\)
+        <p>Generalnie pierwsznia "rośnie umiarkowanie szybko", żeby nie powiedzieć wolno. Rośnie wolniej niż dwusilnia.</p>
+        <p>Możesz skorzystać z poniższego formularza, aby obliczyć pierwsznie z liczby naturalnej, która Cię interesuje:</p>
+        <form id="pierwszniaForm">
+        <input
+            type="number"
+            id="liczba"
+            placeholder="Wprowadź liczbę naturalną"
+            min="0"
+            step="1"
+            required
+        >
 
+        <input type="submit" value="Oblicz">
+        </form>
+
+        <p id="wynik"></p>
+
+        <script src="src/Pierwsznia/script.js"></script>
     </body>
 </html>

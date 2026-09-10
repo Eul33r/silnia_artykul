@@ -1,7 +1,22 @@
 (() => {
-const formularz = document.getElementById("silniaForm");
+const formularz = document.getElementById("hipersilniaForm");
 const poleLiczby = document.getElementById("liczba");
 const wynik = document.getElementById("wynik");
+
+function potegaBigInt(podstawa, wykladnik) {
+    let wynikPotegi = 1n;
+
+    while (wykladnik > 0n) {
+        if (wykladnik % 2n === 1n) {
+            wynikPotegi *= podstawa;
+        }
+
+        podstawa *= podstawa;
+        wykladnik /= 2n;
+    }
+
+    return wynikPotegi;
+}
 
 formularz.addEventListener("submit", function (event) {
     event.preventDefault();
@@ -23,13 +38,13 @@ formularz.addEventListener("submit", function (event) {
     }
 
     // Obliczanie silni za pomocą BigInt
-    let silnia = 1n;
+    let result = 1n;
 
     for (let i = 2n; i <= BigInt(n); i++) {
-        silnia *= i;
+        result *= potegaBigInt(i, i);
     }
 
     // Wyświetlenie wyniku
-    wynik.textContent = `${n}! = ${silnia}`;
+    wynik.textContent = `H(${n}) = ${result}`;
 });
 })();

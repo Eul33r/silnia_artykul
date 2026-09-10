@@ -1,8 +1,25 @@
 (() => {
-const formularz = document.getElementById("silniaForm");
+const formularz = document.getElementById("pierwszniaForm");
 const poleLiczby = document.getElementById("liczba");
 const wynik = document.getElementById("wynik");
 
+function is_prime(n)
+{
+    if(n < 2)
+        return false;
+    else if(n === 2)
+        return true;
+    else if(n % 2 === 0)
+        return false;
+    else{
+        for(let i = 3; i * i <= n; i += 2)
+        {
+            if(n % i === 0)
+                return false;
+        }
+        return true;
+    }
+}
 formularz.addEventListener("submit", function (event) {
     event.preventDefault();
 
@@ -21,15 +38,23 @@ formularz.addEventListener("submit", function (event) {
         wynik.textContent = "Błąd: wprowadź liczbę naturalną.";
         return;
     }
-
-    // Obliczanie silni za pomocą BigInt
-    let silnia = 1n;
+    if(n <= 1)
+    {
+        wynik.textContent = `Pierwsznia z ${n} nie istnieje, gdyż nie ma liczb pierwszych <= ${n}. 2 jest najmniejszą liczbą pierwszą.`;
+        return;
+    }
+    // Obliczanie pierwszni za pomocą BigInt
+    let result = 1n;
 
     for (let i = 2n; i <= BigInt(n); i++) {
-        silnia *= i;
+        if(is_prime(Number(i)))
+        {
+            result *= i;
+        }
+        
     }
 
     // Wyświetlenie wyniku
-    wynik.textContent = `${n}! = ${silnia}`;
+    wynik.textContent = `${n}# = ${result}`;
 });
 })();
