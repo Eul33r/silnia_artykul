@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Diagramy Venna</title>
+    <link rel="stylesheet" type="text/css" href="style.css">
+    <style>
+        #controls { display:flex; gap:24px; align-items:flex-start; flex-wrap: wrap; margin-top: 15px; }
+        .expressions-wrapper { display:flex; flex-direction:column; gap:8px; }
+        #expressions { display:flex; flex-direction:column; gap:6px; max-height: 400px; overflow-y: auto; padding-right: 10px; border: 1px solid #c8d6e5; border-radius: 6px; padding: 10px; background: rgba(255,255,255,0.7); }
+        #clearBtn { padding: 8px 14px; background: #d32f2f; color: #fff; border: none; border-radius: 6px; cursor: pointer; font-weight: bold; width: 100%; transition: opacity 0.2s; }
+        #clearBtn:hover { opacity: 0.9; }
+        canvas { background: #fff; border:1px solid #ddd; border-radius: 4px; max-width: 100%; height: auto; }
+        label.expr { display:flex; align-items:center; gap:8px; cursor: pointer; }
+        .legend { display:flex; gap:12px; margin-top:8px; }
+        .color-swatch { width:18px; height:10px; display:inline-block; border:1px solid #ccc; }
+    </style>
+</head>
+<body style="background-color:powderblue;">
+    <!-- Side navigation -->
+    <div class="sidenav">
+    <button class="sidenav-toggle" type="button" aria-label="Zwiń menu"><</button>
+    <a href="index.html">About</a>
+    <a href="Silnia.html">Silnia</a>
+    <a href="Dwusilnia.html">Dwusilnia</a>
+    <a href="Wielosilnia.html">Wielosilnia</a>
+    <a href="Podsilnia.html">Podsilnia</a>
+    <a href="Pierwsznia.html">Pierwsznia</a>
+    <a href="Supersilnia.html">Supersilnia</a>
+    <a href="Hipersilnia.html">Hipersilnia</a>
+    <a href="Exposilnia.html">Silnia eksponencjalna (Eksposilnia)</a>
+    <a href="Binomials.html">Symbol Newtona</a>
+    <a href="venna-diagrams.html">Diagramy Venna</a>
+    </div>
+
+    <div class="main">
+        <h1>Diagramy Venna (3 zbiory)</h1>
+        <p>Wybierz wyrażenia z listy — zaznaczone obszary zostaną kreskowane.</p>
+
+        <div id="controls">
+            <div class="expressions-wrapper">
+                <div>
+                    <button id="clearBtn">Wyczyść zaznaczenia</button>
+                </div>
+                <div id="expressions">
+                    <strong>Wyrażenia (zaznacz):</strong>
+                    <label class="expr"><input type="checkbox" data-key="A"> A</label>
+                    <label class="expr"><input type="checkbox" data-key="B"> B</label>
+                    <label class="expr"><input type="checkbox" data-key="C"> C</label>
+                    <label class="expr"><input type="checkbox" data-key="Aub"> A ∪ B</label>
+                    <label class="expr"><input type="checkbox" data-key="Aib"> A ∩ B</label>
+                    <label class="expr"><input type="checkbox" data-key="Amb"> A \ B</label>
+                    <label class="expr"><input type="checkbox" data-key="Buc"> B ∪ C</label>
+                    <label class="expr"><input type="checkbox" data-key="Auc"> A ∪ C</label>
+                    <label class="expr"><input type="checkbox" data-key="Aprime"> A'</label>
+                    <label class="expr"><input type="checkbox" data-key="Bprime"> B'</label>
+                    <label class="expr"><input type="checkbox" data-key="Cprime"> C'</label>
+                    <label class="expr"><input type="checkbox" data-key="AprimeBprime"> A' ∩ B'</label>
+                    <label class="expr"><input type="checkbox" data-key="AprimeCprime"> A' ∩ C'</label>
+                    <label class="expr"><input type="checkbox" data-key="BprimeCprime"> B' ∩ C'</label>
+                    <label class="expr"><input type="checkbox" data-key="AprimeBprimeCprime"> A' ∩ B' ∩ C'</label>
+                    <label class="expr"><input type="checkbox" data-key="AprimeUnionBprime"> A' ∪ B'</label>
+                    <label class="expr"><input type="checkbox" data-key="Omega"> Ω (Omega - cała przestrzeń)</label>
+                    <label class="expr"><input type="checkbox" data-key="Aubuc"> A ∪ B ∪ C</label>
+                    <label class="expr"><input type="checkbox" data-key="Bic"> B ∩ C</label>
+                    <label class="expr"><input type="checkbox" data-key="Aic"> A ∩ C</label>
+                    <label class="expr"><input type="checkbox" data-key="Aibic"> A ∩ B ∩ C</label>
+                    <label class="expr"><input type="checkbox" data-key="BminusC"> B \ C</label>
+                    <label class="expr"><input type="checkbox" data-key="AminusC"> A \ C</label>
+                    <label class="expr"><input type="checkbox" data-key="BminusA"> B \ A</label>
+                    <label class="expr"><input type="checkbox" data-key="CminusB"> C \ B</label>
+                    <label class="expr"><input type="checkbox" data-key="CminusA"> C \ A</label>
+                    <label class="expr"><input type="checkbox" data-key="AuBminusC"> A ∪ (B \ C)</label>
+                    <label class="expr"><input type="checkbox" data-key="AibUc"> A ∩ (B ∪ C)</label>
+                    <label class="expr"><input type="checkbox" data-key="(Aib)minusC"> (A ∩ B) \ C</label>
+                </div>
+            </div>
+
+            <div>
+                <canvas id="myCanvas" width="640" height="460"></canvas>
+                <div class="legend">
+                    <div><span class="color-swatch" style="background:rgba(255,0,0,0.15)"></span> A</div>
+                    <div><span class="color-swatch" style="background:rgba(0,0,255,0.15)"></span> B</div>
+                    <div><span class="color-swatch" style="background:rgba(0,128,0,0.15)"></span> C</div>
+                </div>
+            </div>
+        </div>
+
+        <footer style="margin-top:18px; font-size:14px; color:#444;">
+            Autor: Karol Kubek 2025
+        </footer>
+    </div>
+    <script src="src/VennaDiagrams/main.js"></script>
+    <script src="src/sidebar.js"></script>
+</body>
+</html>
