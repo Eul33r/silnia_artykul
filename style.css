@@ -93,6 +93,157 @@
 @media screen and (max-height: 450px) {
   .sidenav {padding-top: 15px;}
   .sidenav a {font-size: 18px;}
+}
+
+/* Grid Paths Combinatorics Simulation */
+.grid-simulation-card {
+  background: rgba(255, 255, 255, 0.95);
+  border-radius: 12px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+  padding: 20px;
+  margin: 25px 0;
+  max-width: 850px;
+  font-family: inherit;
+}
+
+.grid-simulation-card h3 {
+  margin-top: 0;
+  color: #222;
+}
+
+.sim-layout {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  align-items: flex-start;
+}
+
+.canvas-container {
+  background: #ffffff;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  padding: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#gridCanvas {
+  background-color: #fafafa;
+  border-radius: 4px;
+}
+
+.sim-sidebar {
+  flex: 1;
+  min-width: 260px;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.points-inputs {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  background: #f1f5f9;
+  padding: 12px;
+  border-radius: 8px;
+}
+
+.point-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.point-row input[type="number"] {
+  width: 55px;
+  padding: 4px 6px;
+  border: 1px solid #aaa;
+  border-radius: 4px;
+  font-size: 14px;
+}
+
+.sim-controls-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.sim-btn {
+  padding: 8px 14px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: bold;
+  font-size: 13px;
+  transition: opacity 0.2s, transform 0.1s;
+}
+
+.sim-btn:active {
+  transform: scale(0.97);
+}
+
+.sim-btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.btn-primary {
+  background-color: #1976d2;
+  color: #fff;
+}
+
+.btn-danger {
+  background-color: #d32f2f;
+  color: #fff;
+}
+
+.btn-secondary {
+  background-color: #555;
+  color: #fff;
+}
+
+.sim-slider-row {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  font-size: 13px;
+}
+
+.sim-slider-row input[type="range"] {
+  width: 100%;
+}
+
+.path-stats-box {
+  background: #263238;
+  color: #eceff1;
+  border-radius: 8px;
+  padding: 14px;
+  font-family: monospace;
+}
+
+.path-stats-box .counter-large {
+  font-size: 18px;
+  font-weight: bold;
+  color: #4fc3f7;
+  margin-bottom: 8px;
+}
+
+.path-stats-box .step-r {
+  background: #1976d2;
+  color: white;
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-size: 11px;
+}
+
+.path-stats-box .step-u {
+  background: #388e3c;
+  color: white;
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-size: 11px;
 } 
 
 

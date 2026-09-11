@@ -63,6 +63,77 @@
         <p id="wynik"></p>
 
         <script src="src/binomials.js"></script>
+
+        <h2>Zadanie z kombinatoryki: Ścieżki na kracie</h2>
+        <p>Klasyczne zadanie kombinatoryczne brzmi:</p>
+        <p><i>Mamy dwa punkty o współrzędnych całkowitych \(A = (x_A, y_A)\) oraz \(B = (x_B, y_B)\), gdzie \(x_B \geq x_A\) oraz \(y_B \geq y_A\). Na ile sposobów możemy przejść z punktu \(A\) do punktu \(B\), poruszając się po liniach siatki wyłącznie w prawo (\(\rightarrow\)) lub w górę (\(\uparrow\))?</i></p>
+
+        <p><b>Wytłumaczenie:</b></p>
+        <p>Aby dotrzeć z \(A\) do \(B\), musimy wykonać łącznie:</p>
+        <ul>
+            <li>\(dx = x_B - x_A\) kroków w prawo (\(\rightarrow\)),</li>
+            <li>\(dy = y_B - y_A\) kroków w górę (\(\uparrow\)).</li>
+        </ul>
+        <p>Łączna liczba wszystkich kroków wynosi \(N = dx + dy\). Każda ścieżka to ciąg o długości \(N\) złożony z liter \(R\) (prawo) oraz \(U\) (góra).</p>
+        <p>Wszystko sprowadza się więc do wyboru, które spośród \(N\) miejsc w sekwencji zajmą kroki w prawo (pozostałe automatycznie będą krokami w górę). Liczba takich wyborów wynosi dokładnie:</p>
+        <p>$$\binom{dx + dy}{dx} = \binom{(x_B - x_A) + (y_B - y_A)}{x_B - x_A}$$</p>
+
+        <p>Dla punktów \(A = (0, 0)\) oraz \(B = (4, 5)\) mamy \(dx = 4\) i \(dy = 5\), co daje:</p>
+        <p>$$\binom{4 + 5}{4} = \binom{9}{4} = \frac{9!}{4!\cdot 5!} = \frac{9\cdot 8\cdot 7\cdot 6}{4\cdot 3\cdot 2\cdot 1} = 126\text{ różnych ścieżek}$$</p>
+
+        <!-- Interaktywna symulacja ścieżek -->
+        <div class="grid-simulation-card">
+            <h3>Animacja i wizualizacja ścieżek</h3>
+            <p id="pathFormula" style="font-weight: bold; margin-bottom: 15px;"></p>
+
+            <div class="sim-layout">
+                <div class="canvas-container">
+                    <canvas id="gridCanvas" width="460" height="420"></canvas>
+                </div>
+
+                <div class="sim-sidebar">
+                    <div class="points-inputs">
+                        <b>Współrzędne punktów:</b>
+                        <div class="point-row">
+                            <span>Punkt <b>A</b>:</span>
+                            <label>X: <input type="number" id="startX" value="0" min="0" max="15"></label>
+                            <label>Y: <input type="number" id="startY" value="0" min="0" max="15"></label>
+                        </div>
+                        <div class="point-row">
+                            <span>Punkt <b>B</b>:</span>
+                            <label>X: <input type="number" id="endX" value="4" min="0" max="15"></label>
+                            <label>Y: <input type="number" id="endY" value="5" min="0" max="15"></label>
+                        </div>
+                    </div>
+
+                    <div class="sim-controls-buttons">
+                        <button id="btnStart" class="sim-btn btn-primary">Uruchom animację</button>
+                        <button id="btnPause" class="sim-btn btn-danger" style="display: none;">Pauza</button>
+                        <button id="btnPrev" class="sim-btn btn-secondary">◀ Poprzednia</button>
+                        <button id="btnNext" class="sim-btn btn-secondary">Następna ▶</button>
+                        <button id="btnReset" class="sim-btn btn-secondary">Reset</button>
+                    </div>
+
+                    <div class="sim-slider-row">
+                        <label for="speedRange"><b>Szybkość animacji:</b></label>
+                        <input type="range" id="speedRange" min="1" max="10" value="7">
+                    </div>
+
+                    <label style="font-size: 13px; cursor: pointer;">
+                        <input type="checkbox" id="keepTrails" checked> Pozostawiaj ślady poprzednich ścieżek
+                    </label>
+
+                    <div class="path-stats-box">
+                        <div class="counter-large" id="pathCounter">Ścieżka: 1 / 126 (1%)</div>
+                        <div id="pathSequence" style="font-size: 13px; line-height: 1.6;">
+                            <b>Sekwencja kroków:</b> —
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <script src="src/gridPaths.js"></script>
         </div>
         <script src="src/sidebar.js"></script>
     </body>
