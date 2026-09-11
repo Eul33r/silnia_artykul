@@ -38,8 +38,7 @@
         \(\binom{n}{k} = \frac{n!}{k!\cdot(n-k)!}\)
         <p><b>Przykład:</b></p>
         \(\binom{4}{2} = \frac{4!}{2!\cdot(4-2)!} = \frac{4!}{2\cdot2} = \frac{4!}{4} = 3! = 6\)
-        <p>TODO</p>
-        <p>Możesz skorzystać z poniższego formularza, aby obliczyć symbol Newtona z wybranej przez Ciebie pary liczb naturalnych (pamiętaj, że \(k \leq n\))</p>
+                <p>Możesz skorzystać z poniższego formularza, aby obliczyć symbol Newtona z wybranej przez Ciebie pary liczb naturalnych (pamiętaj, że \(k \leq n\))</p>
         <form id="binomialForm">
         <input
             type="number"
@@ -64,6 +63,15 @@
         <p id="wynik"></p>
 
         <script src="src/binomials.js"></script>
+        <p>Do czego w ogóle są nam potrzebne symbole Newtona? Jaka jest ich interpretacja kombinatoryczna?</p>
+        <p>Otóż \(\binom{n}{k}\) to liczba \(k\) - elementowych podzbiorów zbioru \(n\) - elementowego. Brzmi skomplikowanie?</p>
+        <p>Posłużę się przykładem, aby to rozjaśnić. Niech dany będzie zbiór \(A = \{a, b, c, d\}\)</p>
+        <p>Zbiór ten liczy 4 elementy, możemy zapisać: \(\overline{\overline{A}} = 4\) Sróbujmy się zastanowić, ile jest dwuelemntowych podzbiorów zbioru A</p>
+        <p>Wypiszmy je wszystkie, ale przypomnę jeszcze, że w zbiorach kolejność <u>nie ma znaczenia</u>(!), tzn. \(\{x, y\} = \{y, x\}\)</p>
+        <p>Oto dwuelementowe podzbiory zbioru \(A\): \(\{a, b\},\{a, c\},\{a, d\},\{b, c\},\{b, d\},\{c, d\} \)</p>
+        <p>Jest ich oczywiście 6, co nie dziwi specjalnie, bo przecież obliczyliśmy przed chwilą, że \(\binom{4}{2} = 6\)</p>
+
+
 
         <h2>Zadanie z kombinatoryki: Ścieżki na kracie</h2>
         <p>Klasyczne zadanie kombinatoryczne brzmi:</p>
