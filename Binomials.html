@@ -30,20 +30,28 @@
         <a href="Exposilnia.html">Silnia eksponencjalna (Eksposilnia)</a>
         <a href="Binomials.html">Symbol Newtona</a>
         </div>
+
         <div class="main">
-        <h1>Hipersilnia</h1>
-        <p>Dla liczby \(n \in \mathbb{N}\) hipersilnie <i>(ang. hyperfactorial)</i> oznaczamy przez \(H(n)\) i definiujemy:</p>
-        <p>Formalnie:</p>
-        \(H(n) = \prod_{k=1}^{n} k^k = 1^1\cdot2^2\cdot3^3\cdot\cdots\cdot(n-1)^{n-1}\cdot n^n\)
+        <h1>Symbol Newtona</h1>
+        <p>Dla liczb \(n,k \in \mathbb{N}\) takich, że \(k \leq n \) definiujemy <i>symbol Newtona</i> (nazywany także <i>współczynnikiem dwumiennym</i>) następująco</p>
+        \(\binom{n}{k} = \frac{n!}{k!\cdot(n-k)!}\)
         <p><b>Przykład:</b></p>
-        \(H(4) = 1^1\cdot2^2\cdot3^3\cdot4^4 = 1\cdot4\cdot27\cdot256 = 27648\)
-        <p>Generalnie hiersilnia "rośnie BARDZO szybko".Rośnie szybciej niż zwykła silnia.</p>
-        <p>Możesz skorzystać z poniższego formularza, aby obliczyć hipersilnie z liczby naturalnej, która Cię interesuje:</p>
-        <form id="hipersilniaForm">
+        \(\binom{4}{2} = \frac{4!}{2!\cdot(4-2)!} = \frac{4!}{2\cdot2} = \frac{4!}{4} = 3! = 6\)
+        <p>TODO</p>
+        <p>Możesz skorzystać z poniższego formularza, aby obliczyć symbol Newtona z wybranej przez Ciebie pary liczb naturalnych (pamiętaj, że \(k \leq n\))</p>
+        <form id="binomialForm">
         <input
             type="number"
-            id="liczba"
-            placeholder="Wprowadź liczbę naturalną"
+            id="liczban"
+            placeholder="Podaj n"
+            min="0"
+            step="1"
+            required
+        >
+        <input
+            type="number"
+            id="liczbak"
+            placeholder="Podaj k"
             min="0"
             step="1"
             required
@@ -54,7 +62,7 @@
 
         <p id="wynik"></p>
 
-        <script src="src/Hipersilnia/script.js"></script>
+        <script src="src/binomials.js"></script>
         </div>
         <script src="src/sidebar.js"></script>
     </body>
