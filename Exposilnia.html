@@ -18,6 +18,28 @@
     </head>
     <body style="background-color:powderblue;">
         <h1>Exposilnia</h1>
+        <p>Dla liczby \(n \in \mathbb{N}, n \neq 0 \) definiujemy silnie eksponencjalną E(n) (eksposilnie) jako rekurencyjną wieżę potęgową, gdzie każdy kolejny wykładnik jest mniejszy o 1 od poprzedniego.</p>
+        <p>Formalnie: \(E(n) = n^{(n-1)^{(n-2)^{\cdots^{2^1}}}}\)</p>
+        <p><b>Przykład:</b></p>
+        \(E(4) = 4^{3^{2^1}} = 4^9 = 2^{18} = 262144\)
+        <!-- <p>Generalnie silnia "dosyć szybko rośnie", bo już 10! przekracza 3,5 miliona</p> -->
+        <p>Możesz skorzystać z poniższego formularza, aby obliczyć silnie z liczby naturalnej, która Cię interesuje:</p>
+        <form id="eksposilniaForm">
+        <input
+            type="number"
+            id="liczba"
+            placeholder="Wprowadź liczbę naturalną"
+            min="0"
+            step="1"
+            required
+        >
+
+        <input type="submit" value="Oblicz">
+        </form>
+
+        <p id="wynik"></p>
+
+        <script src="src/Exposilnia/script.js"></script>
 
     </body>
 </html>
