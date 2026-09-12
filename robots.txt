@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://eul33r.github.io/silnia_artykul/sitemap.xml
