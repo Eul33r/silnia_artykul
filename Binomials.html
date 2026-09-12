@@ -165,7 +165,8 @@
         </details>
         <details>
             <summary>Rozwiązanie</summary>
-            <p># TODO</p>
+            <p>Powyższy wynik to nic innego jak <i>symbol wielomianowy</i> \(\binom{3n}{n,n,n} = \frac{(3n)!}{n!\cdot n!\cdot n!}\). W ogólności, jeśli krowa miałaby dojść z punktu \((0,0,0)\) do punktu \((a,b,c)\) (niekoniecznie \(a=b=c\)), wykonując dokładnie \(a\) kroków wzdłuż \(\vec{v}\), \(b\) kroków wzdłuż \(\vec{u}\) oraz \(c\) kroków wzdłuż \(\vec{w}\), liczba takich dróg wynosi:</p>
+            <p>$$\binom{a+b+c}{a,b,c} = \frac{(a+b+c)!}{a!\cdot b!\cdot c!}$$</p>
         </details>
         <details>
             <summary>Bonus</summary>
@@ -174,8 +175,61 @@
             <p>Sróbuj udowodnić, nie odwołując się do interpretacji kombinatorycznej, tylko używając metod teorioliczbowych, że</p>
             <p>Dla dowolnych \(k, n \in \mathbb{N}\) zachodzi podzielność \((n!)^k \mod (k\cdot n)!\)</p>
         </details>
-        <p>Na koniec, możesz prześledzić tą animację 3D</p>
+
+        <p>Na koniec, możesz prześledzić animację 3D analogiczną do tej powyżej - tym razem krowa porusza się w przestrzeni trójwymiarowej z punktu \((0,0,0)\) do wybranego przez Ciebie punktu \((a,b,c)\)</p>
+
+        <!-- Interaktywna symulacja ścieżek 3D -->
+        <div class="grid-simulation-card">
+            <h3>Animacja i wizualizacja ścieżek 3D</h3>
+            <p id="pathFormula3D" style="font-weight: bold; margin-bottom: 15px;"></p>
+
+            <p style="font-size: 13px; color: #555; margin: 0 0 10px;">Przeciągnij kostkę myszką (lub palcem), aby obrócić bryłę i lepiej zobaczyć punkty A i B.</p>
+            <div class="sim-layout">
+                <div class="canvas-container">
+                    <canvas id="gridCanvas3D" width="460" height="420" style="cursor: grab; touch-action: none;"></canvas>
+                </div>
+
+                <div class="sim-sidebar">
+                    <div class="points-inputs">
+                        <b>Punkt docelowy (start zawsze w \(0,0,0\)):</b>
+                        <div class="point-row">
+                            <span>Punkt <b>B</b>:</span>
+                            <label>X: <input type="number" id="endX3D" value="3" min="0" max="8" step="1"></label>
+                            <label>Y: <input type="number" id="endY3D" value="2" min="0" max="8" step="1"></label>
+                            <label>Z: <input type="number" id="endZ3D" value="1" min="0" max="8" step="1"></label>
+                        </div>
+                    </div>
+
+                    <div class="sim-controls-buttons">
+                        <button id="btnStart3D" class="sim-btn btn-primary">Uruchom animację</button>
+                        <button id="btnPause3D" class="sim-btn btn-danger" style="display: none;">Pauza</button>
+                        <button id="btnPrev3D" class="sim-btn btn-secondary">◀ Poprzednia</button>
+                        <button id="btnNext3D" class="sim-btn btn-secondary">Następna ▶</button>
+                        <button id="btnReset3D" class="sim-btn btn-secondary">Reset</button>
+                        <button id="btnResetView3D" class="sim-btn btn-secondary">Reset widoku</button>
+                    </div>
+
+                    <div class="sim-slider-row">
+                        <label for="speedRange3D"><b>Szybkość animacji:</b></label>
+                        <input type="range" id="speedRange3D" min="1" max="10" value="7">
+                    </div>
+
+                    <label style="font-size: 13px; cursor: pointer;">
+                        <input type="checkbox" id="keepTrails3D" checked> Pozostawiaj ślady poprzednich ścieżek
+                    </label>
+
+                    <div class="path-stats-box">
+                        <div class="counter-large" id="pathCounter3D">Ścieżka: 1 / 1 (0%)</div>
+                        <div id="pathSequence3D" style="font-size: 13px; line-height: 1.6;">
+                            <b>Sekwencja kroków:</b> —
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <script src="src/gridPaths.js"></script>
+        <script src="src/gridPaths3D.js"></script>
         </div>
         <script src="src/sidebar.js"></script>
     </body>

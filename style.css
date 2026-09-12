@@ -244,6 +244,19 @@
   padding: 2px 6px;
   border-radius: 4px;
   font-size: 11px;
-} 
+}
+
+.path-stats-box .step-w {
+  background: #7b1fa2;
+  color: white;
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-size: 11px;
+}
+
+#gridCanvas3D {
+  background-color: #fafafa;
+  border-radius: 4px;
+}
 
 
