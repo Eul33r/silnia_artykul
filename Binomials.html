@@ -73,11 +73,13 @@
         <p>Wypiszmy je wszystkie, ale przypomnę jeszcze, że w zbiorach kolejność <u>nie ma znaczenia</u>(!), tzn. \(\{x, y\} = \{y, x\}\)</p>
         <p>Oto dwuelementowe podzbiory zbioru \(A\): \(\{a, b\},\{a, c\},\{a, d\},\{b, c\},\{b, d\},\{c, d\} \)</p>
         <p>Jest ich oczywiście 6, co nie dziwi specjalnie, bo przecież obliczyliśmy przed chwilą, że \(\binom{4}{2} = 6\)</p>
+        <p>Można też powiedzieć, że \(\binom{n}{k}\) to liczba sposobów, na jakie można wybrać \(k\) elementów spośród \(n\) dostępnych.</p>
 
         <h2>Własności symbolu Newtona</h2>
         <p>Jedną z ważnieszych własności jest to, że \(\binom{n}{k} = \binom{n}{n-k}\). Własność ta pozwala czasem przyspieszyć obliczenia</p>
         <p><b><i>Dowód:</i></b></p>
         <p>Wystarczy rozpisać z definicji lewą i prawą stronę równania (*) a następnie zauważyć, że mianowniki są w istocie takie same, bo mnożenie liczb jest przemienne.</p>
+
 
 
         <h2>Zadanie z kombinatoryki: Ścieżki na kracie</h2>
@@ -172,8 +174,8 @@
             <summary>Bonus</summary>
             <p>Uważny Czytelnik na pewno zauważył, że "przy okazji" zrobiliśmy inne zadanie... Z teorii liczb</p>
             <p>Mianowicie, udowodniliśmy, że \((n!)^3\) jest dzielnikiem liczby \((3n)!\) dla dowolnego \(n \in \mathbb{N}\)</p>
-            <p>Sróbuj udowodnić, nie odwołując się do interpretacji kombinatorycznej, tylko używając metod teorioliczbowych, że</p>
-            <p>Dla dowolnych \(k, n \in \mathbb{N}\) zachodzi podzielność \((n!)^k \mod (k\cdot n)!\)</p>
+            <p>Spróbuj udowodnić, nie odwołując się do interpretacji kombinatorycznej, tylko używając metod teorioliczbowych, że</p>
+            <p>Dla dowolnych \(k, n \in \mathbb{N}\) zachodzi podzielność \((n!)^k \mid (k\cdot n)!\)</p>
         </details>
 
         <p>Na koniec, możesz prześledzić animację 3D analogiczną do tej powyżej - tym razem krowa porusza się w przestrzeni trójwymiarowej z punktu \((0,0,0)\) do wybranego przez Ciebie punktu \((a,b,c)\)</p>
@@ -228,6 +230,10 @@
             </div>
         </div>
 
+        <p>Ok, teraz wróćmy na chwilę na płaszczyznę (w sensie do przypadku 2D).</p>
+        <p>Zastanówmy się, na ile sposobów można przemieścić się z punktu \(A = (x_A, y_A)\) do punktu \(B = (x_B, y_B)\), ale tym razem</p>
+        <p>oprócz ruchów góra/prawo jest dostępny jeszcze trzecia możliwość: przejście "na ukos", tzn. przemieszczenie o wektor \(\vec{v} = [1, 1].\)</p>
+        <p>Na przykład, zamiast przechodzić z punktu \((0,0)\) do \((1,0)\) a nastęnie do \((1,1)\) możemy OD RAZU przemieścić się z \((0,0)\) do \((1,1)\)</p>
         <script src="src/gridPaths.js"></script>
         <script src="src/gridPaths3D.js"></script>
         </div>
