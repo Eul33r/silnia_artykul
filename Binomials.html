@@ -38,7 +38,10 @@
         \(\binom{n}{k} = \frac{n!}{k!\cdot(n-k)!}\)
         <p><b>Przykład:</b></p>
         \(\binom{4}{2} = \frac{4!}{2!\cdot(4-2)!} = \frac{4!}{2\cdot2} = \frac{4!}{4} = 3! = 6\)
-                <p>Możesz skorzystać z poniższego formularza, aby obliczyć symbol Newtona z wybranej przez Ciebie pary liczb naturalnych (pamiętaj, że \(k \leq n\))</p>
+        <p><i><u>Ćwiczenie</u></i></p>
+        <p>Spróbuj udownodnić, korzytając jedynie z definicji, że symbol Newtona jest ZAWSZE liczbą naturalną, tzn.</p>
+        <p>Wykaż, że dla dowolnych \(n, k \in \mathbb{N}\) liczba \(\binom{n}{k} \in \mathbb{N}\)</p>
+        <p>Możesz skorzystać z poniższego formularza, aby obliczyć symbol Newtona z wybranej przez Ciebie pary liczb naturalnych (pamiętaj, że \(k \leq n\))</p>
         <form id="binomialForm">
         <input
             type="number"
@@ -71,6 +74,10 @@
         <p>Oto dwuelementowe podzbiory zbioru \(A\): \(\{a, b\},\{a, c\},\{a, d\},\{b, c\},\{b, d\},\{c, d\} \)</p>
         <p>Jest ich oczywiście 6, co nie dziwi specjalnie, bo przecież obliczyliśmy przed chwilą, że \(\binom{4}{2} = 6\)</p>
 
+        <h2>Własności symbolu Newtona</h2>
+        <p>Jedną z ważnieszych własności jest to, że \(\binom{n}{k} = \binom{n}{n-k}\). Własność ta pozwala czasem przyspieszyć obliczenia</p>
+        <p><b><i>Dowód:</i></b></p>
+        <p>Wystarczy rozpisać z definicji lewą i prawą stronę równania (*) a następnie zauważyć, że mianowniki są w istocie takie same, bo mnożenie liczb jest przemienne.</p>
 
 
         <h2>Zadanie z kombinatoryki: Ścieżki na kracie</h2>
@@ -142,6 +149,32 @@
             </div>
         </div>
 
+        <h2>Zadanie trudniejsze</h2>
+        <p>Kolejne zadanie pochodzi z obozu matematycznego przygotowującego do Olimpiady Matematycznej (OM), który odbywał się w Porębie Wielkiej, bodajże w 2018 roku. Miałem ogromną przyjemność uczestniczyć w zajęciach tego obozu.</p>
+        <p><b><i>Treść zadania:</i></b></p>
+        <p>Krowa znajduje się w punkcie \((0,0,0)\), czyli początku trójwymiarowego układu wsółrzędnych.</p>
+        <p>Może poruszać się po zbiorze \(\Omega = \mathbb{Z}^3\) w każdym ruchu przesuwając się o wersor (wektor jednostkowy) \(\vec{v} = [1, 0, 0], \vec{u} = [0, 1, 0]\) lub \(\vec{w} = [0, 0, 1]\)</p>
+        <p>Na ile sposobów może dostać się do punktu \((n, n, n)\) w dokładnie \(3n\) ruchach?</p>
+        <details>
+            <summary>Pokaż wskazówkę</summary>
+            <p>Przydatnę mogą okazać się <i>tzw. symbole wielomienne</i> - uogólnienie symboli Newtona</p>
+        </details>
+        <details>
+            <summary>Odpowiedź</summary>
+            <p>\(\frac{(3n)!}{(n!)^3}\)</p>
+        </details>
+        <details>
+            <summary>Rozwiązanie</summary>
+            <p># TODO</p>
+        </details>
+        <details>
+            <summary>Bonus</summary>
+            <p>Uważny Czytelnik na pewno zauważył, że "przy okazji" zrobiliśmy inne zadanie... Z teorii liczb</p>
+            <p>Mianowicie, udowodniliśmy, że \((n!)^3\) jest dzielnikiem liczby \((3n)!\) dla dowolnego \(n \in \mathbb{N}\)</p>
+            <p>Sróbuj udowodnić, nie odwołując się do interpretacji kombinatorycznej, tylko używając metod teorioliczbowych, że</p>
+            <p>Dla dowolnych \(k, n \in \mathbb{N}\) zachodzi podzielność \((n!)^k \mod (k\cdot n)!\)</p>
+        </details>
+        <p>Na koniec, możesz prześledzić tą animację 3D</p>
         <script src="src/gridPaths.js"></script>
         </div>
         <script src="src/sidebar.js"></script>
