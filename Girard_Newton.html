@@ -6,6 +6,7 @@
         <meta name="description" content="Uogólnienia pojęcia silni">
         <meta name="keywords" content="Silnia, Podsilnia, Dwusilnia, Pierwsznia">
         <link rel="stylesheet" type="text/css" href="style.css">
+        <link rel="stylesheet" type="text/css" href="css/girard-newton.css">
         <script>
        MathJax = {
         // Zmieniono input/asciimath na input/tex
@@ -44,23 +45,69 @@
             \end{cases}
         </p>
         <b><i>Problem:</i></b> <p>Ile wynosi suma \(x^4 + y^4 + z^4\) ?</p>
-        <details>
-            <summary>Pokaż wskazówkę 1</summary>
+        <details class="hint">
+            <summary>💡 Pokaż wskazówkę 1</summary>
             <p>Zaskakująco, prawidłową odpowiedzią NIE JEST 4.</p>
         </details>
-        <details>
-            <summary>Pokaż wskazówkę 2</summary>
+        <details class="hint">
+            <summary>💡 Pokaż wskazówkę 2</summary>
             <p>Wcale nie trzeba rozwiązywać tego układu, tzn. nie jest konieczne wyznaczać ile wynosi każda z liczb \(x, y, z\).</p>
         </details>
-        <details>
-            <summary>Pokaż wskazówkę 3</summary>
+        <details class="hint">
+            <summary>💡 Pokaż wskazówkę 3</summary>
             <p>Pomocne mogą okazać się tytułowe wzory Girarda - Newtona, aczkolwiek można rozwiązać to zadanie elementarną algebrą, bez znajomości tych wzorów</p>
         </details>
-        <details>
-            <summary>Pokaż rozwiązanie</summary>
-            <p>Rozwiązanie zostanie wktórce opublikowane...</p>
+        <details class="solution">
+            <summary>🔎 Pokaż rozwiązanie</summary>
+            <p>Rozwiązanie zostanie wkrótce opublikowane...</p>
         </details>
+        <p>Możesz skorzystać z poniższego formularza, aby obliczyć sumę \(n\)-tych potęg:</p>
+        <form id="girard_newtonForm">
+        <span>
+            \(x + y + z\) = 
+            <input
+            type="number"
+            id="s1"
+            placeholder="1"
+            step="1"
+            required
+        ></span>
+        <span>
+            \(x^2 + y^2 + z^2\)= 
+            <input
+            type="number"
+            id="s2"
+            placeholder="2"
+            step="1"
+            required
+        ></span>
+        <span>
+            \(x^3 + y^3+ z^3\)= 
+            <input
+            type="number"
+            id="s3"
+            placeholder="3"
+            step="1"
+            required
+        ></span>
+        <span>
+            \(n\) = 
+            <input
+            type="number"
+            id="n"
+            placeholder="4"
+            min="0"
+            step="1"
+            required
+        ></span>
+        <input type="submit" value="Oblicz">
+
+        </form>
+
+        <p id="wynik"></p>
+        
         </div>
+        <script src="src/Girard_Newton.js"></script>
         <script src="src/sidebar.js"></script>
     </body>
 </html>

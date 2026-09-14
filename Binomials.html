@@ -159,20 +159,20 @@
         <p>Krowa znajduje się w punkcie \((0,0,0)\), czyli początku trójwymiarowego układu wsółrzędnych.</p>
         <p>Może poruszać się po zbiorze \(\Omega = \mathbb{Z}^3\) w każdym ruchu przesuwając się o wersor (wektor jednostkowy) \(\vec{v} = [1, 0, 0], \vec{u} = [0, 1, 0]\) lub \(\vec{w} = [0, 0, 1]\)</p>
         <p>Na ile sposobów może dostać się do punktu \((n, n, n)\) w dokładnie \(3n\) ruchach?</p>
-        <details>
-            <summary>Pokaż wskazówkę</summary>
+        <details class="hint">
+            <summary>💡 Pokaż wskazówkę</summary>
             <p>Przydatnę mogą okazać się <i>tzw. symbole wielomienne</i> - uogólnienie symboli Newtona</p>
         </details>
-        <details>
+        <details class="answer">
             <summary>Odpowiedź</summary>
             <p>\(\frac{(3n)!}{(n!)^3}\)</p>
         </details>
-        <details>
-            <summary>Rozwiązanie</summary>
+        <details class="solution">
+            <summary>🔎 Rozwiązanie</summary>
             <p>Powyższy wynik to nic innego jak <i>symbol wielomianowy</i> \(\binom{3n}{n,n,n} = \frac{(3n)!}{n!\cdot n!\cdot n!}\). W ogólności, jeśli krowa miałaby dojść z punktu \((0,0,0)\) do punktu \((a,b,c)\) (niekoniecznie \(a=b=c\)), wykonując dokładnie \(a\) kroków wzdłuż \(\vec{v}\), \(b\) kroków wzdłuż \(\vec{u}\) oraz \(c\) kroków wzdłuż \(\vec{w}\), liczba takich dróg wynosi:</p>
             <p>$$\binom{a+b+c}{a,b,c} = \frac{(a+b+c)!}{a!\cdot b!\cdot c!}$$</p>
         </details>
-        <details>
+        <details class="extra-task">
             <summary>Bonus</summary>
             <p>Uważny Czytelnik na pewno zauważył, że "przy okazji" zrobiliśmy inne zadanie... Z teorii liczb</p>
             <p>Mianowicie, udowodniliśmy, że \((n!)^3\) jest dzielnikiem liczby \((3n)!\) dla dowolnego \(n \in \mathbb{N}\)</p>

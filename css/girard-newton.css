@@ -1,0 +1,77 @@
+/* Formularz do obliczania sum potęg wg wzorów Girarda - Newtona */
+#girard_newtonForm {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 14px;
+  background: rgba(255, 255, 255, 0.9);
+  border-radius: 10px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+  padding: 18px 20px;
+  margin: 20px 0;
+  max-width: 500px;
+}
+
+#girard_newtonForm span {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 15px;
+  color: #222;
+}
+
+#girard_newtonForm input[type="number"] {
+  width: 90px;
+  padding: 6px 8px;
+  border: 1px solid #aaa;
+  border-radius: 6px;
+  font-size: 14px;
+}
+
+#girard_newtonForm input[type="number"]:focus {
+  outline: none;
+  border-color: #1976d2;
+  box-shadow: 0 0 0 2px rgba(25, 118, 210, 0.2);
+}
+
+#girard_newtonForm input[type="submit"] {
+  padding: 8px 18px;
+  border: none;
+  border-radius: 6px;
+  background-color: #1976d2;
+  color: #fff;
+  font-weight: bold;
+  font-size: 14px;
+  cursor: pointer;
+  transition: opacity 0.2s, transform 0.1s;
+  height: fit-content;
+}
+
+#girard_newtonForm input[type="submit"]:hover {
+  opacity: 0.9;
+}
+
+#girard_newtonForm input[type="submit"]:active {
+  transform: scale(0.97);
+}
+
+#wynik {
+  font-size: 16px;
+  font-weight: bold;
+  color: #0d3b66;
+}
+
+#wynik.error {
+  color: #d32f2f;
+}
+.solution {
+    margin: 1em 0;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    padding: 0.8em 1em;
+}
+
+.solution summary {
+    cursor: pointer;
+    font-weight: bold;
+}
