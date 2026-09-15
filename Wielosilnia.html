@@ -50,11 +50,37 @@
         
         <b>Przykład 3:</b>
         <p>Chcemy policzyć wartość 17!!! W tym celu sprawdzamy, jaką resztę przy dzieleniu przez 3 daje liczba 17, z której to silnie liczymy. Okazuje się, że 17 daje resztę 2 przy dzieleniu przez 3</p>
-        <p>Dlatego znajdujemy wszystkie liczby, które dają resztę 2 przy dzieleniu przez 3 i są \(\leq 16\) i wymnażamy je przez siebie.</p>
+        <p>Dlatego znajdujemy wszystkie liczby, które dają resztę 2 przy dzieleniu przez 3 i są \(\leq 17\) i wymnażamy je przez siebie.</p>
         <p>Mamy: 17!!! = \(2\cdot5\cdot8\cdot11\cdot14\cdot17\) = 209440</p>   
 
         <p>W zasadzie... Po co się ograniczać? Zdefiniujmy od razu porządnie wielosilnie. Dla wygody i przejrzystości zapisu zamiast używać wielu wykrzykników przyjmijmy następującą umowę:</p>
-       <p>\((n!)_{k} = n\!\!\!\!\!\!\!\!\!\!\underbrace{!!\cdots!}_{k\text{ wykrzykników}}\)</p>
+        <p>\[(n!)_{k} = n\!\!\!\!\!\!\!\!\!\!\underbrace{!!\cdots!}_{k\text{ wykrzykników}}\]</p>
+        <p>Od tej chwili, zamiast pisać np. 17!!! możemy zapisać \((17!)_3\)</p>
+
+        <p>Możesz skorzystać z poniższego formularza, aby obliczyć wilosilnie \((n!)_k\) dwóch wybranych przez Ciebie liczb całkowitych \(n, k\)</p>
+        <form id="multifactorialForm">
+        <input
+            type="number"
+            id="liczban"
+            placeholder="Podaj n"
+            step="1"
+            required
+        >
+        <input
+            type="number"
+            id="liczbak"
+            placeholder="Podaj n"
+            step="1"
+            required
+        >
+
+        <input type="submit" value="Oblicz">
+        </form>
+
+        <p id="wynik"></p>
+
+        <script src="src/Wielosilnia/script.js"></script>
+
         </div>
         <script src="src/sidebar.js"></script>
     </body>
