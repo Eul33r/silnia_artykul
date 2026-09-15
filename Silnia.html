@@ -17,24 +17,43 @@
         <script defer src="https://cdn.jsdelivr.net/npm/mathjax@4/startup.js">
         </script>
     </head>
-    <body style="background-color:powderblue;">
-        <div class="sidenav">
-        <button class="sidenav-toggle" type="button" aria-label="Zwiń menu"><</button>
-        <a href="index.html">About</a>
-        <a href="Silnia.html">Silnia</a>
-        <a href="Dwusilnia.html">Dwusilnia</a>
-        <a href="Wielosilnia.html">Wielosilnia</a>
-        <a href="Podsilnia.html">Podsilnia</a>
-        <a href="Pierwsznia.html">Pierwsznia</a>
-        <a href="Supersilnia.html">Supersilnia</a>
-        <a href="Hipersilnia.html">Hipersilnia</a>
-        <a href="Exposilnia.html">Silnia eksponencjalna (Eksposilnia)</a>
-        <a href="Binomials.html">Symbol Newtona</a>
-        <a href="venna-diagrams.html">Diagramy Venna</a>
-        <a href="nwd-i-nww.html">NWD i NWW</a>
-        <a href="Girard_Newton.html">Wzory Girarda - Newtona</a>
-        </div>
-        <div class="main">
+    <body>
+        <div id="container" class="container">
+
+            <header class="site-header">
+                <nav class="navbar" aria-label="Główna nawigacja">
+                    <div class="brand">∑ eul33r</div>
+
+                    <div class="nav-links">
+                        <a class="nav-link" href="#">Artykuły</a>
+                        <a class="nav-link" href="#">Zadania</a>
+                        <a class="nav-link" href="#">O mnie</a>
+                    </div>
+
+                    <button class="search-button" type="button" aria-label="Szukaj">🔍</button>
+                </nav>
+            </header>
+
+            <aside>
+                <div class="sidenav">
+                    <button class="sidenav-toggle" type="button" aria-label="Zwiń menu"><</button>
+                    <a href="index.html">About</a>
+                    <a href="Silnia.html">Silnia</a>
+                    <a href="Dwusilnia.html">Dwusilnia</a>
+                    <a href="Wielosilnia.html">Wielosilnia</a>
+                    <a href="Podsilnia.html">Podsilnia</a>
+                    <a href="Pierwsznia.html">Pierwsznia</a>
+                    <a href="Supersilnia.html">Supersilnia</a>
+                    <a href="Hipersilnia.html">Hipersilnia</a>
+                    <a href="Exposilnia.html">Silnia eksponencjalna (Eksposilnia)</a>
+                    <a href="Binomials.html">Symbol Newtona</a>
+                    <a href="venna-diagrams.html">Diagramy Venna</a>
+                    <a href="nwd-i-nww.html">NWD i NWW</a>
+                    <a href="Girard_Newton.html">Wzory Girarda - Newtona</a>
+                </div>
+            </aside>
+
+            <div class="main">
         <h1>Silnia</h1>
         <p>Wszyscy znamy (albo i nie :D) definicję silni ze szkoły średniej. Na wszelki wypadek przypomnijmy:</p>
         <p>Dla liczby \(n \in \mathbb{N} \) definiujemy n! jako iloczyn wszystkich liczb całkowitych dodatnich, nieprzekraczających n.</p>
@@ -198,6 +217,10 @@
         <p id="wynikOstatniaCyfra"></p>
 
         <script src="src/Silnia/lastNonZeroDigit.js"></script>
+
+        <footer class="site-footer">
+            © 2026 eul33r · Matematyczny blog
+        </footer>
         </div>
         <script src="src/sidebar.js"></script>
     </body>

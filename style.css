@@ -1,4 +1,220 @@
- /* The sidebar menu */
+ body {
+  margin: 0;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  background: #f5f7fb;
+  color: #1f2937;
+}
+
+#container {
+  width: min(1240px, calc(100% - 28px));
+  margin: 0 auto;
+  padding: 20px 0 28px;
+}
+
+.site-header {
+  margin-left: 180px;
+  margin-bottom: 20px;
+}
+
+.navbar {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  background: #ffffff;
+  border: 1px solid #dfe7f1;
+  border-radius: 18px;
+  box-shadow: 0 10px 25px rgba(15, 23, 42, 0.06);
+  padding: 16px 22px;
+}
+
+.brand {
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  color: #111827;
+  white-space: nowrap;
+}
+
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: 28px;
+  margin-left: 12px;
+  flex: 1 1 auto;
+}
+
+.nav-link {
+  color: #1f2937;
+  text-decoration: none;
+  font-size: 0.96rem;
+}
+
+.nav-link:hover {
+  color: #2563eb;
+}
+
+.search-button {
+  width: 40px;
+  height: 40px;
+  border: 1px solid #dfe7f1;
+  border-radius: 10px;
+  background: #f3f7ff;
+  cursor: pointer;
+  font-size: 1rem;
+}
+
+#silniaForm,
+#howManyZeros,
+#howManyDigits,
+#lastNonZeroDigit,
+#dwusilniaForm,
+#binomialForm,
+#superprimorialForm,
+#gcdForm,
+#lcmForm,
+#superfactorialForm,
+#is-primeForm,
+#multifactorialForm,
+#pierwszniaForm,
+#eksposilniaForm,
+#hipersilniaForm {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px;
+  max-width: 560px;
+  margin: 1rem 0 1.5rem;
+  padding: 18px 20px;
+  background: #f8fafc;
+  border: 1px solid #dfe7f1;
+  border-radius: 14px;
+  box-shadow: 0 6px 18px rgba(15, 23, 42, 0.03);
+}
+
+#silniaForm input[type="number"],
+#howManyZeros input[type="number"],
+#howManyDigits input[type="number"],
+#lastNonZeroDigit input[type="number"],
+#dwusilniaForm input[type="number"],
+#binomialForm input[type="number"],
+#superprimorialForm input[type="number"],
+#gcdForm input[type="number"],
+#lcmForm input[type="number"],
+#superfactorialForm input[type="number"],
+#is-primeForm input[type="number"],
+#multifactorialForm input[type="number"],
+#pierwszniaForm input[type="number"],
+#eksposilniaForm input[type="number"],
+#hipersilniaForm input[type="number"] {
+  flex: 1 1 220px;
+  min-width: 180px;
+  padding: 0.8rem 0.9rem;
+  font-size: 1rem;
+  line-height: 1.4;
+  color: #111827;
+  border: 1px solid #d1d9e6;
+  border-radius: 10px;
+  background: #ffffff;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+#silniaForm input[type="number"]:focus,
+#howManyZeros input[type="number"]:focus,
+#howManyDigits input[type="number"]:focus,
+#lastNonZeroDigit input[type="number"]:focus,
+#dwusilniaForm input[type="number"]:focus,
+#binomialForm input[type="number"]:focus,
+#superprimorialForm input[type="number"]:focus,
+#gcdForm input[type="number"]:focus,
+#lcmForm input[type="number"]:focus,
+#superfactorialForm input[type="number"]:focus,
+#is-primeForm input[type="number"]:focus,
+#multifactorialForm input[type="number"]:focus,
+#pierwszniaForm input[type="number"]:focus,
+#eksposilniaForm input[type="number"]:focus,
+#hipersilniaForm input[type="number"]:focus {
+  outline: none;
+  border-color: #7aa8ff;
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.12);
+}
+
+#silniaForm input[type="submit"],
+#howManyZeros input[type="submit"],
+#howManyDigits input[type="submit"],
+#lastNonZeroDigit input[type="submit"],
+#dwusilniaForm input[type="submit"],
+#binomialForm input[type="submit"],
+#superprimorialForm input[type="submit"],
+#gcdForm input[type="submit"],
+#lcmForm input[type="submit"],
+#superfactorialForm input[type="submit"],
+#is-primeForm input[type="submit"],
+#multifactorialForm input[type="submit"],
+#pierwszniaForm input[type="submit"],
+#eksposilniaForm input[type="submit"],
+#hipersilniaForm input[type="submit"] {
+  padding: 0.8rem 1.2rem;
+  border: none;
+  border-radius: 10px;
+  background: linear-gradient(180deg, #2f6ae8 0%, #2456c7 100%);
+  color: #ffffff;
+  font-weight: 600;
+  font-size: 0.96rem;
+  cursor: pointer;
+  transition: transform 0.15s ease, box-shadow 0.2s ease;
+  box-shadow: 0 8px 18px rgba(37, 99, 235, 0.2);
+}
+
+#silniaForm input[type="submit"]:hover,
+#howManyZeros input[type="submit"]:hover,
+#howManyDigits input[type="submit"]:hover,
+#lastNonZeroDigit input[type="submit"]:hover,
+#dwusilniaForm input[type="submit"]:hover,
+#binomialForm input[type="submit"]:hover,
+#superprimorialForm input[type="submit"]:hover,
+#gcdForm input[type="submit"]:hover,
+#lcmForm input[type="submit"]:hover,
+#superfactorialForm input[type="submit"]:hover,
+#is-primeForm input[type="submit"]:hover,
+#multifactorialForm input[type="submit"]:hover,
+#pierwszniaForm input[type="submit"]:hover,
+#eksposilniaForm input[type="submit"]:hover,
+#hipersilniaForm input[type="submit"]:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 12px 22px rgba(37, 99, 235, 0.22);
+}
+
+#silniaForm input[type="submit"]:active,
+#howManyZeros input[type="submit"]:active,
+#howManyDigits input[type="submit"]:active,
+#lastNonZeroDigit input[type="submit"]:active,
+#dwusilniaForm input[type="submit"]:active,
+#binomialForm input[type="submit"]:active,
+#superprimorialForm input[type="submit"]:active,
+#gcdForm input[type="submit"]:active,
+#lcmForm input[type="submit"]:active,
+#superfactorialForm input[type="submit"]:active,
+#is-primeForm input[type="submit"]:active,
+#multifactorialForm input[type="submit"]:active,
+#pierwszniaForm input[type="submit"]:active,
+#eksposilniaForm input[type="submit"]:active,
+#hipersilniaForm input[type="submit"]:active {
+  transform: translateY(0);
+}
+
+.site-footer {
+  margin-left: 180px;
+  margin-top: 22px;
+  background: #ffffff;
+  border: 1px solid #dfe7f1;
+  border-radius: 18px;
+  box-shadow: 0 10px 25px rgba(15, 23, 42, 0.06);
+  padding: 18px 24px;
+  text-align: center;
+  color: #5b6475;
+  font-size: 0.95rem;
+}
+
+/* The sidebar menu */
 .sidenav {
   height: 100vh;
   width: 180px;
@@ -74,7 +290,7 @@
 /* Style page content */
 .main {
   margin-left: 180px;
-  padding: 0px 10px;
+  padding: 0 10px 10px;
   min-height: 100vh;
   box-sizing: border-box;
   /* background-image: url('img/bg.png'); */
