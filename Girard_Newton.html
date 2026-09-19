@@ -48,6 +48,7 @@
         <a href="venna-diagrams.html">Diagramy Venna</a>
         <a href="nwd-i-nww.html">NWD i NWW</a>
         <a href="Girard_Newton.html">Wzory Girarda - Newtona</a>
+        <a href="krany.html">Krany</a>
         </div>
         <div class="main">
         <h1>Wzory Girarda - Newtona</h1>
@@ -74,7 +75,26 @@
         </details>
         <details class="solution">
             <summary>🔎 Pokaż rozwiązanie</summary>
-            <p>Rozwiązanie zostanie wkrótce opublikowane...</p>
+            <p>Zacznijmy od zdefiniowania, czym jest wielomian symetryczny.</p>
+            <p>Otóż wielomian dwóch zmiennych \(f(X, Y)\) nazwiemy symetrycznym, jeśli dla dowolnych \(X, Y\) spełnia warunek: \(f(X, Y) = f(Y, X)\). Czyli tak jakby, jak zamienimy kolejnością zmienne, to nasz wielomian "tego nie poczuje".</p>
+            <p><u>Przykład 1:</u></p>
+            <p>Wielomian \(f(X, Y) = X^2 + 2XY + Y^2\) jest, jak łatwo się przekonać, symetryczny, bowiem \(f(X, Y) = X^2 + 2XY + Y^2 = Y^2 + 2YX + X^2 = f(Y, X)\)</p>
+            <p><u>Przykład 2</u></p>
+            <p>Wielomian \(f(X, Y) = X^3 + X^2Y + Y^3\) NIE JEST symetryczny, bo można wskazać takie \(X, Y\) dla których \(f(X, Y) \neq f(Y, X)\), chociażby \(f(2,1) \neq f(1, 2)\)</p>
+            <p>Analogicznie wielomian trzech zmiennych \(g(X, Y, Z)\) jest symetryczny, jeśli spełnia warunek \[g(X, Y, Z) = g(X, Z, Y) = g(Y, X, Z) = g(Y, Z, X) = g(Z, X, Y) = g(Z, Y, X)\] (Znowu: zamiana kolejnością argumetów "nie nie robi wielomianowi")</p>
+            <p>Ogólnie: Wielomian \(h\) o \(n\) zmiennych \(X_1, X_2, \cdots X_n\) jest symetryczny, jeśli dla dowolnej permutacji \(\sigma\) (a przypominam: wszystkich takich permutacji jest \(n!\)) zachodzi równość:</p>
+            <p>\[h(X_{\sigma(1)},X_{\sigma(2)},\cdots X_{\sigma(n)}) = h(X_1, X_2, \cdots, X_n)\]</p>
+            <p>Symetryczne są m. in. wzory skróconego mnożenia na kwadrat sumy, sześcian sumy, itd.</p>
+            <p>Symetryczne są także, co ważne(!) wyrażenia postaci:</p>
+            <p>\(a + b + c + d, ab + ac + ad + bc + bd + cd, abc + abd + acd + bcd, abcd\)</p>
+            <p>Ogólnie symetryczne są tzw. <i>elementarne wielomiany</i>, nazywane wielomianami Viete'a:</p>
+            <p>\[W(x_1, x_2, \cdots,  x_n) = \sum_{i = 1}^{n} x_i = x_1 + x_2 + \cdots + x_n\] (\(n = \binom{n}{1}\)składników)</p>
+            <p>\[W(x_1, x_2, \cdots,  x_n) = \sum_{1 \leq i < j \leq n} x_i\cdot x_j = x_1\cdot x_2 + x_1\cdot x_3 + \cdots x_{n-1}x_n\] (\(\frac{n\cdot(n-1)}{2} = \binom{n}{2}\) składników złożonych z iloczynu dwóch czynników każdy)</p> 
+            <p>\[W(x_1, x_2, \cdots,  x_n) = \sum_{1 \leq i < j < k \leq n} x_i\cdot x_j \cdot x_k = x_1\cdot x_2\cdot x_3+ x_1\cdot x_2\cdot x_4 + \cdots x_{n-1}\cdot x_{n-2} \cdot x_n\] (\(\frac{n\cdot (n-1) \cdot (n-2)}{6} = \binom{n}{3}\) składników złożonych z iloczynu trzech czynników każdy)</p> 
+            <p>\[\cdots\]</p>
+            <p>\[W(x_1, x_2, \cdots,  x_n) = \prod_{i=1}^{n} x_i = x_1 \cdot x_2 \cdot x_3 \cdot \cdots \cdot x_n\] (\(1 = \binom{n}{n}\) iloczyn złożony z \(n\) czynników)</p>
+            <p>Zauważmy, że lewa strona każdego z równań w powyższym układzie równań w istocie jest wielomianem symetrycznym.</p>
+
         </details>
         <p>Możesz skorzystać z poniższego formularza, aby obliczyć sumę \(n\)-tych potęg:</p>
         <form id="girard_newtonForm">
@@ -120,6 +140,9 @@
         </form>
 
         <p id="wynik"></p>
+        <h2>Co dalej?</h2>
+        <p>Mam nadzieję, drogi Czytelniku, że spodobało Ci się to zadanie. Już teraz zapraszam do przeglądnięcia kolejnego artykułu, także dotyczącego wielomianów, który to artykuł wkrótcę opublikuje.</p>
+        <p>A porozmawiamy w nim o tzw. <i>wielomianach palindromicznych</i> i ich własnościach, a także dowiemy się, co to znaczy, że wielomian (lub ogólniej: wyrażenie algebraiczne) jest <i>jednorodne</i>.</p>
         
         </div>
         <script src="src/Girard_Newton.js"></script>

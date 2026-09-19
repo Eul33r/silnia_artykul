@@ -49,7 +49,7 @@ formularz.addEventListener("submit", function (event) {
     const wynikSumy = getSum(n, s1, s2, s3);
 
         // Wyświetlenie wyniku i ponowne renderowanie MathJax
-    wynik.innerHTML = `\\(x^${n} + y^${n} + z^${n} = ${wynikSumy.toString()}\\)`;
+    wynik.innerHTML = `\\(x^{${n}} + y^{${n}} + z^{${n}} = ${wynikSumy.toString()}\\)`;
     if (window.MathJax && MathJax.typesetPromise) {
         MathJax.typesetPromise([wynik]);
     }

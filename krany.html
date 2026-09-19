@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+
+<html lang="pl">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="description" content="Kalkulator i animacja wspólnego napełniania zbiornika przez n kranów">
+        <meta name="keywords" content="krany, napełnianie zbiornika, kalkulator, wydajność">
+        <link rel="stylesheet" type="text/css" href="style.css">
+        <title>Krany napełniające zbiornik</title>
+        <script>
+        MathJax = {
+            loader: {load: ["input/tex", "output/chtml", "ui/menu"]},
+            output: {font: "mathjax-newcm"}
+        }
+        </script>
+        <script defer src="https://cdn.jsdelivr.net/npm/mathjax@4/startup.js"></script>
+        <style>
+            .solution {
+                margin: 1em 0;
+                border: 1px solid #ccc;
+                border-radius: 8px;
+                padding: 0.8em 1em;
+            }
+
+            .solution summary {
+                cursor: pointer;
+                font-weight: bold;
+            }
+        </style>
+    </head>
+    <body>
+        <div id="container" class="container">
+            <header class="site-header">
+                <nav class="navbar" aria-label="Główna nawigacja">
+                    <div class="brand">∑ eul33r</div>
+
+                    <div class="nav-links">
+                        <a class="nav-link" href="#">Artykuły</a>
+                        <a class="nav-link" href="#">Zadania</a>
+                        <a class="nav-link" href="#">O mnie</a>
+                    </div>
+
+                    <button class="search-button" type="button" aria-label="Szukaj">🔍</button>
+                </nav>
+            </header>
+
+        <div class="sidenav">
+        <button class="sidenav-toggle" type="button" aria-label="Zwiń menu"><</button>
+        <a href="index.html">About</a>
+        <a href="Silnia.html">Silnia</a>
+        <a href="Dwusilnia.html">Dwusilnia</a>
+        <a href="Wielosilnia.html">Wielosilnia</a>
+        <a href="Podsilnia.html">Podsilnia</a>
+        <a href="Pierwsznia.html">Pierwsznia</a>
+        <a href="Supersilnia.html">Supersilnia</a>
+        <a href="Hipersilnia.html">Hipersilnia</a>
+        <a href="Exposilnia.html">Silnia eksponencjalna (Eksposilnia)</a>
+        <a href="Binomials.html">Symbol Newtona</a>
+        <a href="venna-diagrams.html">Diagramy Venna</a>
+        <a href="nwd-i-nww.html">NWD i NWW</a>
+        <a href="Girard_Newton.html">Wzory Girarda - Newtona</a>
+        <a href="krany.html">Krany</a>
+        </div>
+        <main class="main">
+        <section class="taps-page" aria-labelledby="taps-title">
+            <div class="taps-heading">
+                <p class="eyebrow">Wspólna wydajność</p>
+                <h1 id="taps-title">Krany napełniające zbiornik</h1>
+                <p>Klasyczne zadanie, gdy omawia się funkcje wymierne w szkole lub przy okazji proporcjonalności odwrotnej, wygląda tak:</p>
+                <p>Dwa krany (mogą być dwie rury albo pompy, whatever) napełniają jakiś zbiornik (np. basen). Kran \(A\) napełnia samodzielnie basen w ciągu \(6h\), natomiast kran \(B\) napełnia go w ciągu \(8h\).
+                <p><u>Problem 1:</u></p>
+                <p>W jakim czasie oba krany, pracując jednocześnie napełnią basen?</p>
+                <p>Spróbuj to zadanie rozwiązać samodzielnie. Następnie możesz podejrzeć rozwiązanie poniżej.</p>
+                <details class="hint">
+                    <summary>💡 Pokaż wskazówkę</summary>
+                        <p>Wydajność kranu/rury/pompy i czas jej pracy są wielkościami <i>odwrotnie proporcjonalnymi</i>, zatem cechuje je stały iloczyn.</p>
+                </details>
+                <details class="solution">
+                    <summary>🔎 Pokaż rozwiązanie</summary>
+                        <p>Intuicyjnie czujemy, że wynik to na pewno mniej niż \(6h\). No bo sam kran \(A\) napełni w \(6h\) a tutaj jeszcze kran \(B\) mu "pomaga".</p>
+                        <p>Chcemy jednak znać dokładny wynik.</p>
+                        <p>Aby rozwiązać to zadanie, trzeba oznaczyć przez \(w_A\) wydajność kranu \(A\), przez \(w_B\) wydajność kranu \(B\). Możemy ułożyć równania:</p>
+                        <p>\(w_A \cdot 6 = w_B \cdot 8 = (w_A + w_B)\cdot t\), gdzie \(t\) jest szukanym czasem</p>
+                        <p>Wyznaczamy stąd \(w_B = \frac{6}{8}w_A = \frac{3}{4}w_A\)</p>
+                        <p>W takim razie \(w_A \cdot 6 = (w_A + w_B)\cdot 8 = (w_A + \frac{3}{4}w_A)\cdot 8 = w_A(1+\frac{3}{4})\cdot t \)</p>
+                        <p>\(w_A \cdot 6 = w_A\cdot (1 + \frac{3}{4})\cdot t\) // :\(w_A\) </p>
+                        <p>\(6 = (1+\frac{3}{4})\cdot t \implies t = \frac{6}{1+\frac{3}{4}} = \frac{6\cdot 8}{6 + 8} = \frac{48}{14} = \frac{24}{7}\), gdzie w przedostatnim przejściu rozszerzyłem ułamek (pomożyłem licznik i mianownik) przez \(8\)</p>
+                        <p>Zatem oba krany pracując jednocześnie napełnią basen w czasie \(\frac{24}{7}h \approx 3,43 h = 3h \ 25 min \ 43 s\)</p>
+                </details>
+                <p><u>Problem 2:</u></p>
+                <p>Spróbujmy to uogólnić. Kran \(A\) napełnia samodzielnie zbiornik w czasie \(t_1\), natomiast kran \(B\) w czasie \(t_2\), przy czym \(t_1, t_2 > 0\) są wyrażone w godzinach.</p>
+                <p>W jakim czasie zbiornik zostanie napełniony przez oba krany pracujące jednocześnie?</p>
+                <details>
+                    <summary>💡 Pokaż wskazówkę</summary>
+                    <p>To zadanie jest analogiczne do poprzedniego. Ułóż równania, zamiast konkretnych czasów operujemy tym razem na "literkach" - zmiennych</p>
+                </details>
+                <details>
+                    <summary>🔎 Pokaż odpowiedź</summary>
+                    <p>\[\frac{t_1\cdot t_2}{t_1 + t_2}\]</p>
+                </details>
+               <p><u>Problem 3:</u></p>
+                <p>Po co się ograniczać? Niech dane będa \(3\) krany: \(A, B, C\). Każdy z nich napełnia kran odpowiednio w czasie \(t_1, t_2, t_3\)</p>
+                <p>W jakim czasie zbiornik zostanie napełniony przez wszystkie \(3\) krany pracujące jednocześnie?</p>
+                <details>
+                    <summary>💡 Pokaż wskazówkę</summary>
+                    <p>To zadanie jest <i>podobne</i> do poprzedniego. Ułóż równania, zamiast konkretnych czasów operujemy tym razem na "literkach" - zmiennych</p>
+                    <p>Wyraź wydajność kranów \(B\) i \(C\) przy użyciu wydajności kranu \(A\)</p>
+                </details>
+                <details>
+                    <summary>🔎 Pokaż odpowiedź</summary>
+                    <p>\[\frac{t_1\cdot t_2 \cdot t_3}{t_1\cdot t_2 + t_1\cdot t_3 + t_2 \cdot t_3}\]</p>
+                    <p>Fizycy mogą się przekonać, wykonując rachunek jednostek, że wymiar się zgadza :D</p>
+                </details>
+
+                <p><u>Problem 4:</u></p>
+                <p>Idźmy dalej, załóżmy, że mamy \(n\) kranów: \(K_1, K_2, K_3, \cdots K_n\). Kran o numerze \(i\) napełnia basen w czasie \(t_i\)</p>
+                <p>W jakim czasie basen napełnią wszystkie \(n\) kranów odkręconych jednocześnie?</p>
+                <details>
+                    <summary>🔎 Pokaż odpowiedź</summary>
+                    <p>\[\frac{1}{\frac{1}{t_1} + \frac{1}{t_2} + \cdots \frac{1}{t_n}} = \frac{I}{\frac{I}{t_1} + \frac{I}{t_2} + \cdots + \frac{I}{t_n} }\], gdzie \(I\) to iloczyn wczystkich czasów, tzn. \(I = t_1 \cdot t_2 \cdot \cdots \cdot t_n\)</p>
+                </details>
+                <details class="solution">
+                    <summary>🔎 Pokaż rozwiązanie</summary>
+                    <p>Powiedzmy, że najbardziej wydajny kran pompuje samodzielnie basen w czasie</p>
+                    <p>\(t_{best} = min\{t_1, t_2, ..., t_n\}\) Intuicyjnie czujemy, że wynik na pewno jest mniejszy niż \(t_{best}\), bo pozostałe krany "pomagają" temu "najlepszemu". </p>
+                    <p>Oznaczmy przez \(w_1\) wydajność kranu \(K_1\), \(w_2\) wydajność kranu \(K_2\), ..., \(w_n\) wydajność kranu \(K_n\)</p>
+                    <p>Zachodzą równości: \(w_1 \cdot t_1 = w_2 \cdot t_2 = \cdots = w_n \cdot t_n = (w_1 + w_2 + \cdots + w_n)\cdot t_x\)</p>
+                    <p>Gdzie \(t_x\) to szukany czas. Możemy teraz dzieki powyższym równościom wyrazić wydajność drugiego, trzeciego itd. wreszcie \(n\)-tego kranu poprzez wydajność pierwszego kranu. Wystarczy dzielić równości stronami przez \(t_i\)</p>
+                    <p>Mamy:</p>
+                    <p>\(w_1 = w_1\)</p>
+                    <p>\(w_2 = w_1 \cdot \frac{t_1}{t_2}\)</p>
+                    <p>\(w_3 = w_1 \cdot \frac{t_1}{t_3}\)</p>
+                    <p>\(\cdots\)</p>
+                    <p>\(w_n = w_1 \cdot \frac{t_1}{t_n}\)</p>
+                    <p>Sumując wszystkie \(n\) równości stronami a następnie wyłączając wspólny czynnik \(w_1\) przed nawias otrzymujemy:</p>
+                    <p>\(w_1 + w_2 + \cdots + w_n = w_1 \cdot (1 + \frac{t_1}{t_2} + \frac{t_1}{t_3} + \cdots \frac{t_1}{t_n})\)</p>
+                    <p>Ale jak sobie przypomnimy, zachodzi: \(w_1 \cdot t_1 = (w_1 + w_2 + \cdots + w_n)\cdot t_x\)</p>
+                    <p>Możemy teraz zastąpić prawą stronę powyższego równania odpowiednim wyrażeniem:</p>
+                    <p>\(w_1 \cdot t_1 =  w_1 \cdot(1 + \frac{t_1}{t_2} + \frac{t_1}{t_3} + \cdots \frac{t_1}{t_n}) \cdot t_x\) // :\(w_1\)</p>
+                    <p>\(t_1 = (1 + \frac{t_1}{t_2} + \frac{t_1}{t_3} + \cdots \frac{t_1}{t_n}) \cdot t_x\)</p>
+                    <p>Skąd szukany czas \(t_x = \frac{t_1}{1 + \frac{t_1}{t_2} + \frac{t_1}{t_3} + \cdots \frac{t_1}{t_n}} = \frac{t_1 \cdot t_2 \cdots t_n}{t_2 \cdot t_3 \cdots t_n + t_1 \cdot t_3 \cdots t_n + \cdots + t_1 \cdot t_2 \cdots t_{n-1}} \)</p>
+                    <p>Rozszerzyłem ułamek przez iloczyn wszystkich czasów. W mianowinku jest suma \(n\) składników. Każdy składnik to iloczyn \(n-1\) czynników. Dokładniej, w \(i\)-tym składniku występuje iloczyn wszystkich czasów, oprócz czasu \(t_i\)
+                    </p>
+
+                </details>
+                <p>Podaj, ile godzin potrzebuje każdy kran, aby samodzielnie napełnić cały zbiornik. Kalkulator połączy ich wydajności i pokaże wynik na animacji.</p>
+            </div>
+
+            <div class="taps-layout">
+                <form id="taps-form" class="taps-form">
+                    <div class="taps-form-header">
+                        <div>
+                            <p class="control-kicker">Dane wejściowe</p>
+                            <h2>Ustaw liczbę kranów</h2>
+                        </div>
+                        <label for="tap-count">Liczba kranów</label>
+                        <input id="tap-count" type="number" min="1" max="20" value="2" required>
+                    </div>
+                    <div id="tap-times" class="tap-times" aria-live="polite"></div>
+                    <button class="taps-submit" type="submit">Oblicz i uruchom</button>
+                    <p id="taps-error" class="taps-error" role="alert"></p>
+                </form>
+
+                <section class="tank-section" aria-labelledby="tank-title">
+                    <div class="tank-heading">
+                        <div>
+                            <p class="control-kicker">Symulacja</p>
+                            <h2 id="tank-title">Wspólne napełnianie</h2>
+                        </div>
+                        <output id="tank-percent" for="taps-form">0%</output>
+                    </div>
+                    <div id="tap-stage" class="tap-stage">
+                        <div id="tap-lines-left" class="tap-lines tap-lines-left" aria-hidden="true"></div>
+                        <div class="tank" aria-label="Animowany zbiornik">
+                            <div id="water" class="water"></div>
+                            <div class="tank-rim"></div>
+                        </div>
+                        <div id="tap-lines-right" class="tap-lines tap-lines-right" aria-hidden="true"></div>
+                    </div>
+                    <div class="tank-result">
+                        <p id="tank-status">Wprowadź czasy kranów, aby rozpocząć.</p>
+                        <strong id="tank-time">--</strong>
+                    </div>
+                </section>
+            </div>
+
+            <!-- <section class="formula-note" aria-label="Wzór obliczeniowy">
+                <h2>Jak to działa?</h2>
+                <p>Jeśli kran <i>i</i> napełnia zbiornik w czasie <i>t<sub>i</sub></i>, to jego wydajność wynosi <i>1 / t<sub>i</sub></i> zbiornika na godzinę.</p>
+                <p class="formula">T = 1 / (1/t<sub>1</sub> + 1/t<sub>2</sub> + ... + 1/t<sub>n</sub>)</p>
+            </section> -->
+        </section>
+        </main>
+        <script src="src/krany.js"></script>
+        <script src="src/sidebar.js"></script>
+    
+
+            <footer class="site-footer">
+                © 2026 eul33r · Matematyczny blog
+            </footer>
+
+        </div>
+    </body>
+</html>
+
+
+                                 
