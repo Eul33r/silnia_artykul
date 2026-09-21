@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+
+<html lang="pl">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="description" content="Wielomiany palindromiczne i antypalidromiczne oraz ich własności">
+        <meta name="keywords" content="Wielomiany palindromiczne i antypalidromiczne oraz ich własności">
+        <link rel="stylesheet" type="text/css" href="style.css">
+        <title>Wielomiany palindromiczne i antypalidromiczne oraz ich własności</title>
+        <script>
+       MathJax = {
+        // Zmieniono input/asciimath na input/tex
+        loader: {load: ["input/tex", "output/chtml", "ui/menu"]},
+        output: {font: "mathjax-newcm"}
+    }
+        </script>
+        <script defer src="https://cdn.jsdelivr.net/npm/mathjax@4/startup.js">
+        </script>
+    </head>
+    <body>
+        <div id="container" class="container">
+            <header class="site-header">
+                <nav class="navbar" aria-label="Główna nawigacja">
+                    <div class="brand">∑ eul33r</div>
+
+                    <div class="nav-links">
+                        <a class="nav-link" href="#">Artykuły</a>
+                        <a class="nav-link" href="#">Zadania</a>
+                        <a class="nav-link" href="#">O mnie</a>
+                    </div>
+
+                    <button class="search-button" type="button" aria-label="Szukaj">🔍</button>
+                </nav>
+            </header>
+
+        <div class="sidenav">
+        <button class="sidenav-toggle" type="button" aria-label="Zwiń menu"><</button>
+        <a href="index.html">About</a>
+        <a href="Silnia.html">Silnia</a>
+        <a href="Dwusilnia.html">Dwusilnia</a>
+        <a href="Wielosilnia.html">Wielosilnia</a>
+        <a href="Podsilnia.html">Podsilnia</a>
+        <a href="Pierwsznia.html">Pierwsznia</a>
+        <a href="Supersilnia.html">Supersilnia</a>
+        <a href="Hipersilnia.html">Hipersilnia</a>
+        <a href="Exposilnia.html">Silnia eksponencjalna (Eksposilnia)</a>
+        <a href="Binomials.html">Symbol Newtona</a>
+        <a href="venna-diagrams.html">Diagramy Venna</a>
+        <a href="nwd-i-nww.html">NWD i NWW</a>
+        <a href="Girard_Newton.html">Wzory Girarda - Newtona</a>
+        <a href="krany.html">Krany</a>
+        <a href="jednorodnosc.html">Jednorodność</a>
+        <a href="wielomiany_palindromiczne.html">Wielomiany palindromiczne i antypalindromiczne</a>
+        </div>
+        <div class="main">
+        <h1>Wielomiany palindromiczne i antypalidromiczne</h1>
+        <p><u>Definicja 1</u></p>
+        <p>Dla danego wielomianu \(P(x) = a_0 + a_1x + a_2x^2 + \cdots + a_{n-1}x^{n-1} + a_nx^n\) definiujemy <i>wielomian odbity (ang. reflected polynomial)</i> \(P^{*}(x)\) jako wielomian, którego współczynniki są odwrócone, tzn.</p>
+        <p>\(P^{*}(x) = a_n + a_{n-1}x + a_{n-2}x^2 + \cdots + a_1x^{n-1} + a_0x^n\)</p>
+        <p><u>Przykład 1</u></p>
+        <p>Znajdź wielomian odbity względem wielomianu \(W(x) = x^3 + 7x^2 -2x + 3\)</p>
+        <p>Wystarczy wypisać współczynniki wielomianu \(W\), odwrócić ich kolejność i wstawić z powrotem przed iksy. Mamy:</p>
+        <p>\(W^{*}(x) = 3x^3 -2x^2 + 7x + 1\)</p>
+        <p><u>Definicja 2</u></p>
+        <p>Wielomian \(P(x) = a_0 + a_1x + a_2x^2 + \cdots + a_{n-1}x^{n-1} + a_nx^n\) nazywamy wielomianem palindromicznym, jeżeli spełnia dwa warunki:</p>
+        <p>Po pierwsze \(a_0 \neq 0\) (Wyraz wolny wielomianu jest niezerowy, tzn. różny od zera)</p>
+        <p>Po drugie \(a_{k} = a_{n-k}\) dla każdego \(k \in \{0, 1, 2, ..., n\}\) Warunek ten oznacza, że czytając współczynniki wielomianu wspak uzyskamy ten sam efekt, co czytając je "normalnie". Współczynnik przy \(x^n\) jest taki sam jak wyraz wolny, czyli współczynnik przy \(x^0\), współczynnik przy \(x^{n-1}\) jest taki sam jak przy \(x^1\) itd.</p>
+        <p><u>Przykład 2</u></p>
+        <p>Wielomian \(W(x) = 2x^4 +3x^3 -12x^2 +3x + 2\) jest palindromiczny, natomiast wielomiany</p>
+        <p>\(P(x) = x^2 + 5x + 6\) oraz \(Q(x) = 3x^4 -4x^3 - 4x^2 +3x\) NIE SĄ </p>
+        <p>(Bo w przypadku wielomianu \(P\) \(1 \neq 6\), zaś w przypadku wielomianu \(Q\) jego wyraz wolny to \(0\), a tego zabrania definicja palindromiczności.)</p>
+
+
+        <p><u>Definicja 3</u></p>
+        <p>Wielomian \(P(x) = a_0 + a_1x + a_2x^2 + \cdots + a_{n-1}x^{n-1} + a_nx^n\) nazywamy wielomianem antypalindromicznym, jeżeli spełnia dwa warunki:</p>
+        <p>Po pierwsze \(a_0 \neq 0\) (Wyraz wolny wielomianu jest niezerowy, tzn. różny od zera)</p>
+        <p>Po drugie \(a_{k} = -a_{n-k}\) dla każdego \(k \in \{0, 1, 2, ..., n\}\) Warunek ten oznacza, że współczynnik pierwszy i ostatni sumują się do zera, drugi i przedostatni też sumują się do zera itd.</p>
+
+        <p>Łatwo zauważyć, że jeśli wielomian \(P\) jest palindromiczny, to jest równy swojemu odbiciu, to znaczy: \(P(x) = P^{*}(x)\)</p>
+        <p>Podobnie, jeśli wielomian \(P\) jest antypalindromiczny, to spełnia równanie \(P(x) = -P^{*}(x)\)</p>
+        <p>Zapraszam do sekcji zadań związanych z tymi specyficznymi wielomianami, które właśnie poznaliśmy :) Rozwiązania poniższych zadań opublikuję wkrótce</p>
+
+        <h2>Zadania:</h2>
+        <p>Zadanie 1</p>
+        <p>Wykaż, że nie istnieje wielomian, który jest jednocześnie palindromiczny i antypalindromiczny</p>
+        <p>Zadanie 2</p>
+        <p>Wykaż, że dla dowolnego wielomianu \(f\), wielomian \(f + f^{*}\) jest palindromiczny, zaś wielomian \(f - f^{*}\) jest antypalindromiczny</p>
+        <p>Zadanie 3</p>
+        <p>Wykaż, że <b>KAŻDY</b> wielomian można przedstawić jako sumę wielomianu palindromicznego i antypalindromicznego</p>
+        <p>Zadanie 4</p>
+        <p>Wykaż, że iloczyn dwóch wielomianów palindromicznych jest wielomianem palindromicznym</p>
+        <p>Zadanie 5</p>
+        <p>Wykaż, że iloczyn dwóch wielomianów antypalindromicznych jest wielomianem palindromicznym</p>
+        <p>Zadanie 6</p>
+        <p>Wykaż, że iloczyn wielomianu palindromicznego i wielomianu antypalindromicznego jest wielomianem antypalindromicznym</p>
+        <p>Zadanie 7</p>
+        <p>Udowodnij, że wielomian \(P(x)\) stopnia \(n\) jest wielomianem palindromicznym wtedy i tylko wtedy, gdy zachodzi równość \(P(x) = x^nP(\frac{1}{x})\)</p>
+        <p>Zadanie 8</p>
+        <p>Udowodnij, że jeżeli \(\alpha\) jest pierwiastkiem wielomianu palindromicznego, to \(\alpha \neq 0\) i liczba \(\alpha^{-1} = \frac{1}{\alpha}\) także jest pierwiastkiem tego wielomianu, co więcej \(\frac{1}{\alpha}\) jest pierwiastkiem tej samej krotności co \(\alpha\)</p>
+        <p>Zadanie 9</p>
+        <p>Udowodnij tezę zadania 8, ale tym razem zakładając antypalindromiczność wielomianu zamiast jego palindromiczności</p>
+        <p>Zadanie 10</p>
+        <p>Udowodnij, że jeśli \(f(x)\) jest wielomianem palindromicznym stopnia nieparzystego, to liczba \(-1\) jest jego pierwiastkiem.</p>
+        <p>Jak już to udowodnisz, to udowodnij, że po wyciągnięciu \(x - 1\) przed nawias i przedstawieniu \(f(x) = (x+1)g(x)\)(a na mocy tw. Bezoute'a można to zrobić) wielomian \(g(x)\) także jest wielomianem palindromicznym, tylko tym razem stopnia parzystego.</p>
+        <p>Zadanie 11</p>
+        <p>Rozwiąż równanie \(x^9 + x^8 -3x^7 -3x^6 + 4x^5 + 4x^4 -3x^3 -3x^2 + x + 1 = 0\)</p>
+
+        </div>
+        <script src="src/sidebar.js"></script>
+    
+
+            <footer class="site-footer">
+                © 2026 eul33r · Matematyczny blog
+            </footer>
+
+        </div>
+    </body>
+</html>
