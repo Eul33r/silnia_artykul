@@ -605,6 +605,232 @@
   margin-left: 52px;
 }
 
+/* Train and fly simulation */
+.train-fly-page {
+  max-width: 980px;
+  margin: 0 auto;
+  padding-bottom: 2rem;
+}
+
+.train-fly-heading {
+  max-width: 720px;
+  margin: 1rem 0 1.8rem;
+}
+
+.train-fly-eyebrow {
+  margin: 0 0 0.4rem;
+  color: #b6492f;
+  font-size: 0.76rem;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+}
+
+.train-fly-heading h1,
+.train-fly-results h2,
+.train-fly-simulation h2,
+.train-fly-solution h2 {
+  margin: 0;
+  color: #18313b;
+}
+
+.train-fly-heading h1 {
+  font-size: clamp(2rem, 4vw, 3rem);
+}
+
+.train-fly-heading p:not(.train-fly-eyebrow),
+.train-fly-solution p,
+.train-fly-caption {
+  color: #4b6169;
+  line-height: 1.65;
+}
+
+.train-fly-workspace {
+  display: grid;
+  grid-template-columns: minmax(0, 1.25fr) minmax(260px, 0.75fr);
+  gap: 1.2rem;
+  align-items: start;
+}
+
+.train-fly-form,
+.train-fly-results,
+.train-fly-simulation,
+.train-fly-solution {
+  box-sizing: border-box;
+  background: #ffffff;
+  border: 1px solid #d6e2e6;
+  border-radius: 8px;
+  box-shadow: 0 12px 24px rgba(27, 55, 65, 0.07);
+  padding: 1.4rem;
+}
+
+.train-fly-form h2 {
+  margin: 0 0 1.1rem;
+  color: #18313b;
+  font-size: 1.25rem;
+}
+
+.train-fly-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.9rem;
+}
+
+.train-fly-field {
+  display: grid;
+  gap: 0.4rem;
+  color: #314b55;
+  font-size: 0.9rem;
+  font-weight: 700;
+}
+
+.train-fly-field input {
+  box-sizing: border-box;
+  width: 100%;
+  padding: 0.72rem 0.78rem;
+  border: 1px solid #b8cbd1;
+  border-radius: 6px;
+  color: #18313b;
+  font: inherit;
+}
+
+.train-fly-field input:focus {
+  outline: 3px solid rgba(38, 107, 133, 0.18);
+  border-color: #266b85;
+}
+
+.train-fly-actions,
+.train-fly-controls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.7rem;
+}
+
+.train-fly-actions {
+  margin-top: 1.1rem;
+}
+
+.train-fly-actions button,
+.train-fly-controls button {
+  border: 0;
+  border-radius: 6px;
+  padding: 0.72rem 1rem;
+  background: #266b85;
+  color: #ffffff;
+  cursor: pointer;
+  font: inherit;
+  font-weight: 800;
+}
+
+.train-fly-actions button:hover,
+.train-fly-controls button:hover {
+  background: #1b586f;
+}
+
+.train-fly-actions button.secondary,
+.train-fly-controls button.secondary {
+  background: #e5edef;
+  color: #244650;
+}
+
+.train-fly-feedback {
+  min-height: 1.4em;
+  margin: 1rem 0 0;
+  color: #3d5b64;
+  font-size: 0.92rem;
+}
+
+.train-fly-feedback.is-error {
+  color: #a52f20;
+}
+
+.train-fly-stat-grid {
+  display: grid;
+  gap: 0.7rem;
+  margin-top: 1.1rem;
+}
+
+.train-fly-stat {
+  border-left: 4px solid #e85d3f;
+  background: #f4f8f9;
+  padding: 0.7rem 0.8rem;
+}
+
+.train-fly-stat span,
+.train-fly-stat strong {
+  display: block;
+}
+
+.train-fly-stat span {
+  color: #4b6169;
+  font-size: 0.85rem;
+}
+
+.train-fly-stat strong {
+  margin-top: 0.16rem;
+  color: #18313b;
+  font-size: 1.35rem;
+}
+
+.train-fly-explanation {
+  color: #4b6169;
+  line-height: 1.55;
+}
+
+.train-fly-simulation,
+.train-fly-solution {
+  margin-top: 1.2rem;
+}
+
+.train-fly-simulation-header {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+#train-fly-canvas {
+  display: block;
+  box-sizing: border-box;
+  width: 100%;
+  height: auto;
+  border: 1px solid #cddce1;
+  border-radius: 6px;
+}
+
+.train-fly-caption {
+  margin: 0.75rem 0 0;
+  font-size: 0.9rem;
+}
+
+.train-fly-solution h2 {
+  font-size: 1.3rem;
+}
+
+@media (max-width: 760px) {
+  .train-fly-workspace {
+    grid-template-columns: 1fr;
+  }
+
+  .train-fly-simulation-header {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+}
+
+@media (max-width: 480px) {
+  .train-fly-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .train-fly-form,
+  .train-fly-results,
+  .train-fly-simulation,
+  .train-fly-solution {
+    padding: 1rem;
+  }
+}
+
 
 /* On smaller screens, where height is less than 450px, change the style of the sidebar (less padding and a smaller font size) */
 @media screen and (max-height: 450px) {
