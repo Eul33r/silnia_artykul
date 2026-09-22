@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+
+<html lang="pl">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="description" content="Chińskie twierdzenie o resztach, układy kongruencji liniowych">
+        <meta name="keywords" content="Chińskie twierdzenie o resztach, układy kongruencji liniowych">
+        <link rel="stylesheet" type="text/css" href="style.css">
+        <title>Chińskie twierdzenie o resztach, układy kongruencji liniowych</title>
+        <script>
+       MathJax = {
+        // Zmieniono input/asciimath na input/tex
+        loader: {load: ["input/tex", "output/chtml", "ui/menu"]},
+        output: {font: "mathjax-newcm"}
+    }
+        </script>
+        <script defer src="https://cdn.jsdelivr.net/npm/mathjax@4/startup.js">
+        </script>
+    </head>
+    <body>
+        <div id="container" class="container">
+            <header class="site-header">
+                <nav class="navbar" aria-label="Główna nawigacja">
+                    <div class="brand">∑ eul33r</div>
+
+                    <div class="nav-links">
+                        <a class="nav-link" href="#">Artykuły</a>
+                        <a class="nav-link" href="#">Zadania</a>
+                        <a class="nav-link" href="#">O mnie</a>
+                    </div>
+
+                    <button class="search-button" type="button" aria-label="Szukaj">🔍</button>
+                </nav>
+            </header>
+
+        <div class="sidenav">
+        <button class="sidenav-toggle" type="button" aria-label="Zwiń menu"><</button>
+        <a href="index.html">About</a>
+        <a href="Silnia.html">Silnia</a>
+        <a href="Dwusilnia.html">Dwusilnia</a>
+        <a href="Wielosilnia.html">Wielosilnia</a>
+        <a href="Podsilnia.html">Podsilnia</a>
+        <a href="Pierwsznia.html">Pierwsznia</a>
+        <a href="Supersilnia.html">Supersilnia</a>
+        <a href="Hipersilnia.html">Hipersilnia</a>
+        <a href="Exposilnia.html">Silnia eksponencjalna (Eksposilnia)</a>
+        <a href="Binomials.html">Symbol Newtona</a>
+        <a href="venna-diagrams.html">Diagramy Venna</a>
+        <a href="nwd-i-nww.html">NWD i NWW</a>
+        <a href="Girard_Newton.html">Wzory Girarda - Newtona</a>
+        <a href="krany.html">Krany</a>
+        <a href="jednorodnosc.html">Jednorodność</a>
+        <a href="wielomiany_palindromiczne.html">Wielomiany palindromiczne i antypalindromiczne</a>
+        <a href="chinskie-twierdzenie-o-resztach.html">Kongruencje i Chiństkie Twierdzenie o Resztach</a>
+        </div>
+        <div class="main">
+        <h1>Chińskie Twierdzenie o Resztach (CTR)</h1>
+        <p>Rozważmy następujący problem: znajdź liczbę całkowitą, która przy dzieleniu przez 5 daje resztę 3, przy dzieleniu przez 6 daje resztę 4, zaś przy dzieleniu przez 7 daje resztę 5.</p>
+        <p>Nasuwa się pytanie: czy taka liczba w ogóle istnieje? Owszem, istnieje. Spróbujemy ją w tym artykule znaleźć.</p>
+        <h2>Arytmetyka modularna: kongruencje</h2>
+        <p>Proszę o spokój. Choć sformułowanie "arytmetyka modularna" brzmi groźnie, to jest to stosunkowo łatwa do zrozumienia rzecz w porównaniu do "chemii molekularnej" czy "fizyki kwantowej".</p>
+        <p>Tak naprawdę każdy z Was spotkał się już prawdopodobnie z arytmetyką modularną i nawet o tym nie wie, a przynajmniej każdy, kto kiedykolwiek posługiwał się analogowym (czyli niecyfrowym) zegarkiem.</p>
+        <p>O co chodzi z tym zegarkiem? Mówimy potocznie, że "jest godzina druga popołudniu", gdy mamy na myśli godzinę 14:00, mówimy także, że jest "ósma wieczorem", gdy jest godzina 20:00.</p>
+        <p>Dlaczego? 14 daje resztę 2 przy dzieleniu przez 12, dlatego czternasta to "druga". 20 daje resztę 8 przy dzieleniu przez 12, dlatego dwudziesta to "ósma".</p>
+        <p>Ogólnie sprowadzamy liczbę naturalną \(h \in \{0, 1, 2, \cdots, 23\}\) do <b>mniejszego</b> zbioru \(\{0, 1, 2, \cdots 11\}\).</p>
+        <p>Czyli zastępujemy jakąś liczbę jej resztą z dzielenia, w tym przypadku dzielenia przez 12.</p>
+        <p><u>Definicja</u></p>
+        <p>Niech \(a, b, m \in \mathbb{Z}\), przy czym \(m \neq 0\). Mówimy, że <i>a przystaje do b modulo m</i>, i piszemy \(a \equiv b \pmod{m}\), gdy \(m\) jest dzielnikiem różnicy \(a-b\). Liczbę \(m\) nazywamy wtedy <i>modułem</i>.</p>
+        <p>Uważny Czytelnik z pewnością zauważył, że do zapisu relacji przystawania używa się w matematyce tego samego symbolu, co w geometrii do oznaczania przystawania trójkątów. Nie powoduje to jednak nieporozumień — nie widziałem jeszcze, by w jednym i tym samym zadaniu występowała jednocześnie potrzeba zapisu przystawania modulo i przystawania trójkątów.</p>
+        <p>Równoważnie można powiedzieć, że dwie liczby przystają do siebie modulo \(m\), gdy dają tę samą resztę przy dzieleniu przez \(m\).</p>
+        <p>No właśnie, reszty! Przy dzieleniu przez 2 mamy dwie możliwe reszty: 0 i 1. Przy dzieleniu przez 3 mamy 3 możliwe reszty: 0, 1, 2. Itd. Ogólnie przy dzieleniu przez jakieś \(m\) istnieje dokładnie \(m\) możliwych reszt.</p>
+        <p>Są nimi \(0, 1, 2, \cdots, m-1\). Czyli reszta z dzielenia jest nieujemną liczbą całkowitą, mniejszą niż dzielnik, przez który dzielimy.</p>
+        <p>Zapis \(a \equiv b \pmod{m}\) nazywamy <i>kongruencją</i>, dokładniej: kongruencją <i>liniową</i>. Liniową, bo nie występują wyższe potęgi niż pierwsza (podobnie jak mówi się, że układ równań jest liniowy).</p>
+        <p>Od tej chwili zamiast pisać/mówić rozwlekle, że liczba \(x\) daje resztę 3 przy dzieleniu przez 5, możemy zapisać krótko: \(x \equiv 3 \pmod{5}\).</p>
+        <p>Kongruencje, podobnie jak równania, można dodawać stronami, odejmować stronami, mnożyć stronami i potęgować stronami.</p>
+        <p>Natomiast <b>UWAGA(!)</b> — na ogół kongruencji NIE MOŻNA dzielić stronami. To znaczy można, jeżeli dysponujemy pewnym dodatkowym założeniem, ale to temat na osobny artykuł.</p>
+        <p>Wróćmy do postawionego na początku artykułu problemu. Możemy go wyrazić w języku arytmetyki modularnej. Szukamy takiej liczby całkowitej \(x\), dla której zachodzi jednocześnie: \(x \equiv 3 \pmod{5}, x \equiv 4 \pmod{6}, x \equiv 5 \pmod{7}\).</p>
+        <p>Zadanie sprowadza się zatem do rozwiązania układu kongruencji:</p>
+        <p>\[       
+            \begin{cases}
+                x \equiv 3 \pmod{5} \\
+                x \equiv 4 \pmod{6} \\ 
+                x \equiv 5 \pmod{7}
+            \end{cases}\]
+        </p>
+        <p>Będziemy potrzebować jeszcze jednej definicji.</p>
+        <p><u>Definicja 2</u></p>
+        <p>Mówimy, że liczby całkowite \(a, b\) są względnie pierwsze, jeżeli \(NWD(a, b) = 1\).</p>
+        <p>Tytułowe <i>Chińskie Twierdzenie o Resztach (CTR)</i>,które odkrył w I wieku n.e. chiński matematyk Sun Zi (nie mylić z Sun Tzu :P) pozwala stwierdzić, czy układ kongruencji ma rozwiązanie. Pozwala też znaleźć to rozwiązanie, jeżeli istnieje (czyli gdy układ jest niesprzeczny).</p>
+        <p>W naszym układzie kongruencji moduły \(5, 6, 7\) są <i>parami względnie pierwsze</i>. Zwrot ten należy rozumieć następująco: każde dwa moduły są względnie pierwsze.</p>
+        <p>Istotnie, mamy przecież \(NWD(5, 6) = 1, NWD(6, 7) = 1, NWD(5, 7) = 1\). Swoją drogą, na blogu pojawi się wkrótce artykuł o Największym Wspólnym Dzielniku (NWD) i Najmniejszej Wspólnej Wielokrotności (NWW). Jest już w przygotowaniu ;)</p>
+        <p>Ponieważ moduły są — co przed chwilą sprawdziliśmy — <i>parami względnie pierwsze</i>, CTR gwarantuje nam, że rozwiązanie tego układu kongruencji istnieje. Jak je teraz znaleźć?</p>
+        <p>Po pierwsze, wymnażamy moduły. Niech \(M = 5\cdot 6 \cdot 7 = 210\). Znajdujemy jeszcze trzy liczby (trzy, bo mamy układ trzech kongruencji) \(M_1, M_2, M_3\) — każda z nich to iloczyn dwóch różnych modułów, ale wygodnie jest myśleć: \(M_i\) to \(M\) (iloczyn wszystkich trzech) podzielony przez \(i\)-ty moduł.</p>
+        <p>\(M_1 = \frac{M}{5} = \frac{210}{5} = 42, \quad M_2 = \frac{M}{6} = \frac{210}{6} = 35, \quad M_3 = \frac{M}{7} = \frac{210}{7} = 30\)</p>
+        <p>Rozwiązaniem naszego układu kongruencji jest liczba \(x = (3\cdot M_1 \cdot M_1^{-1} + 4 \cdot M_2\cdot M_2^{-1} + 5\cdot M_3 \cdot M_3^{-1}) \pmod{M}\).</p>
+        <p>Czym są \(M_1^{-1}, M_2^{-1}, M_3^{-1}\)? To <i>odwrotności modularne</i> liczb \(M_1, M_2, M_3\) modulo odpowiedni moduł.</p>
+        <p>A czym jest odwrotność modularna? Na przykład \(M_1^{-1}\) to taka liczba, że \(M_1 \cdot M_1^{-1} \equiv 1 \pmod{5}\), podobnie \(M_2 \cdot M_2^{-1} \equiv 1 \pmod{6}\) oraz \(M_3 \cdot M_3^{-1} \equiv 1 \pmod{7}\).</p>
+        <p>Liczby \(M_1^{-1}, M_2^{-1}, M_3^{-1}\) znajdujemy "metodą prób i błędów", podstawiając po kolei liczby całkowite, aż znajdziemy taką, dla której będzie się zgadzało. W kolejnym artykule opiszę efektywną (i efektowną!) metodę znajdowania odwrotności modularnej z użyciem <i>rozszerzonego algorytmu Euklidesa</i>.</p>
+        <p>Żeby troszeczkę przyspieszyć, podam wyniki od razu:</p>
+        <p>\(M_1^{-1} = 3\), bo \(42 \cdot 3 = 126 = 25\cdot 5 + 1 \equiv 1 \pmod{5}\)</p>
+        <p>\(M_2^{-1} = 5\), bo \(35 \cdot 5 = 175 = 29\cdot 6 + 1 \equiv 1 \pmod{6}\)</p>
+        <p>\(M_3^{-1} = 4\), bo \(30 \cdot 4 = 120 = 17\cdot 7 + 1 \equiv 1 \pmod{7}\)</p>
+        <p>Podstawiając wszystko do wzoru, otrzymujemy:</p>
+        <p>\(x = (3\cdot 42 \cdot 3 + 4 \cdot 35\cdot 5 + 5\cdot 30 \cdot 4) \pmod{210} = (378 + 700 + 600)\pmod{210} = 1678 \pmod{210} = 208\)</p>
+        <p>Sprawdźmy: \(208 = 41\cdot 5 + 3\), \(208 = 34\cdot 6 + 4\), \(208 = 29\cdot 7 + 5\) — wszystkie trzy warunki są spełnione, więc \(x = 208\) jest szukanym rozwiązaniem.</p>
+        <p>Warto dodać, że rozwiązanie nie jest jedyne — każda liczba postaci \(208 + 210k\), gdzie \(k \in \mathbb{Z}\), również spełnia nasz układ kongruencji. Mówimy, że rozwiązanie jest wyznaczone jednoznacznie modulo \(M\).</p>
+        <h2>Kalkulator: rozwiązywanie układu kongruencji liniowych</h2>
+        <p>Poniższy kalkulator pozwala rozwiązać dowolny układ kongruencji postaci \(x \equiv r_i \pmod{m_i}\), o ile podane moduły są parami względnie pierwsze. Wybierz liczbę kongruencji w układzie, a następnie wypełnij resztę \(r_i\) i moduł \(m_i\) dla każdej z nich.</p>
+        <form id="crtForm">
+            <label for="crt-count">Liczba kongruencji w układzie (n)</label>
+            <input id="crt-count" type="number" min="2" max="20" step="1" value="3" required>
+            <div id="crt-rows"></div>
+            <input type="submit" value="Oblicz">
+        </form>
+        <p id="wynik_crt"></p>
+        <script src="src/chinskie-twierdzenie-o-resztach.js"></script>
+        <h2>Co dalej?</h2>
+        <p>Byćmoże jeszcze w tym roku szkolnym napiszę artykuł o kongruencjach nieliniowych, w sensie wielomianowych.</p>
+        <p>Uważny Czytelnik dostrzega wadę kalkulatora na tej stronie, mianowicie co jeśli chcielibyśmy rozwiązać kongruencje w stylu</p>
+        <p>\(ax \equiv b \pmod{m}\), gdzie \(a \neq 1 \land a \neq 0\)? W tym artykule skupiliśmy się tylko na takich kongruencjach w których \(a = 1\)</p>
+        <p>Jeśli czas pozwoli, to zaprogramuje bardziej ogólny kalkulator do rozwiązywania kongruencji tego typu.</p>
+        <p>Tymczasem zapraszam do sekcji zadań związanych z kongruencjami</p>
+        <h2>Zadania</h2>
+        <p>Zadanie 1</p>
+        <p>Udowodnić, że liczba \(93^{93} - 33^{33}\) dzieli się przez \(10\)</p>
+        <p>Zadanie 2</p>
+        <p>Wycznacz dwie ostatnie cyfry (cyfrę jedności i cyfrę dziesiątek) liczby \(2026^{2026}\)</p>
+        <p>Zadanie 3</p>
+        <p>Wyznacz trzy ostatnie cyfry (cyfrę jedności, dziesiątek i setek) liczby \(5^{2026}\)</p>
+        <p>Zadanie 4</p>
+        <p>Znajdź resztę z dzielenia liczby \(2026^{2026}\) przez 11</p>
+        <p>Zadanie 5</p>
+        <p>Znajdź liczbę, która: przy dzieleniu przez 2 daje resztę 1, przy dzieleniu przez 3 daje resztę 2, przy dzieleniu przez 4 daje resztę 3, przy dzieleniu przez 5 daje resztę 4, przy dzieleniu przez 6 daje resztę 5, przy dzieleniu przez 7 daje resztę 6, przy dzieleniu przez 8 daje resztę 7.</p>
+
+
+            </div>
+        <script src="src/sidebar.js"></script>
+    
+
+            <footer class="site-footer">
+                © 2026 eul33r · Matematyczny blog
+            </footer>
+
+        </div>
+    </body>
+</html>
