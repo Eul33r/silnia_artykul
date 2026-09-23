@@ -72,7 +72,9 @@
 
         async function pobierzRanking() {
             try {
-                const odpowiedz = await fetch(URL_RANKINGU);
+                const odpowiedz = await fetch(
+                    URL_RANKINGU + "?t=" + Date.now()
+                );
 
                 if (!odpowiedz.ok) {
                     throw new Error(
