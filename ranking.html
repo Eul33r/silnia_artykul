@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Ranking</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 900px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            padding: 12px;
+            border-bottom: 1px solid #ddd;
+            text-align: left;
+        }
+
+        th {
+            background: #f2f2f2;
+        }
+
+        .podium-1 {
+            background: #ffd700;
+        }
+
+        .podium-2 {
+            background: #c0c0c0;
+        }
+
+        .podium-3 {
+            background: #cd7f32;
+        }
+
+        #status {
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <h1>🏆 Ranking</h1>
+
+    <div id="status">Ładowanie rankingu...</div>
+
+    <table id="rankingTable">
+        <thead>
+            <tr>
+                <th>Miejsce</th>
+                <th>Nick Discord</th>
+                <th>Punkty</th>
+            </tr>
+        </thead>
+
+        <tbody>
+        </tbody>
+    </table>
+
+    <script>
+        const URL_RANKINGU =
+            "https://raw.githubusercontent.com/eul33r/silnia_artykul/main/data/ranking.json";
+
+        async function pobierzRanking() {
+            try {
+                const odpowiedz = await fetch(URL_RANKINGU);
+
+                if (!odpowiedz.ok) {
+                    throw new Error(
+                        "HTTP " + odpowiedz.status
+                    );
+                }
+
+                const dane = await odpowiedz.json();
+
+                wyswietlRanking(dane);
+
+            } catch (blad) {
+                document.getElementById("status").textContent =
+                    "Nie udało się pobrać rankingu.";
+
+                console.error(blad);
+            }
+        }
+
+        function wyswietlRanking(dane) {
+            const tabela = document.querySelector("#rankingTable tbody");
+
+            tabela.innerHTML = "";
+
+            dane.ranking.forEach(uczen => {
+
+                const wiersz = document.createElement("tr");
+
+                if (uczen.miejsce === 1) {
+                    wiersz.classList.add("podium-1");
+                }
+
+                if (uczen.miejsce === 2) {
+                    wiersz.classList.add("podium-2");
+                }
+
+                if (uczen.miejsce === 3) {
+                    wiersz.classList.add("podium-3");
+                }
+
+                wiersz.innerHTML = `
+                    <td>${uczen.miejsce}</td>
+                    <td>${uczen.nick}</td>
+                    <td>${uczen.punkty}</td>
+                `;
+
+                tabela.appendChild(wiersz);
+            });
+
+            document.getElementById("status").textContent =
+                "Sezon: " + dane.sezon +
+                " | Ostatnia aktualizacja: " +
+                new Date(dane.ostatniaAktualizacja).toLocaleString("pl-PL");
+        }
+
+        pobierzRanking();
+    </script>
+
+</body>
+</html>
