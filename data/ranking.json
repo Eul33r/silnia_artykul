@@ -1,6 +1,6 @@
 {
   "sezon": "2026/2027",
-  "ostatniaAktualizacja": "2026-09-27T19:09:31.661Z",
+  "ostatniaAktualizacja": "2026-09-27T19:09:37.196Z",
   "ranking": [
     {
       "miejsce": 1,
@@ -9,22 +9,22 @@
     },
     {
       "miejsce": 2,
+      "nick": "michal",
+      "punkty": 2
+    },
+    {
+      "miejsce": 3,
       "nick": "_Loki23_",
       "punkty": 0
     },
     {
-      "miejsce": 3,
+      "miejsce": 4,
       "nick": "Kaja",
       "punkty": 0
     },
     {
-      "miejsce": 4,
-      "nick": "KamilMnc",
-      "punkty": 0
-    },
-    {
       "miejsce": 5,
-      "nick": "michal",
+      "nick": "KamilMnc",
       "punkty": 0
     },
     {
