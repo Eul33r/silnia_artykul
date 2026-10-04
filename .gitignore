@@ -12,4 +12,10 @@ rozklad.js
 rownia-pochyla/*
 rownia-pochyla.*
 dog-on-the-walk.*
+triangle-solver.*
+.vscode/
+*.cpp
+*.py
+*.csv
+quotes.json
 *.sh

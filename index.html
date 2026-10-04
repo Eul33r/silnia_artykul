@@ -4,6 +4,7 @@
     <head>
         <meta charset="UTF-8">
         <link rel="stylesheet" type="text/css" href="style.css">
+        <link rel="stylesheet" type="text/css" href="css/quote-of-the-day.css">
     </head>
     <body>
         <div id="container" class="container">
@@ -46,9 +47,32 @@
 
         <!-- Page content -->
         <div class="main">
-        ...
+            <section class="quote-of-the-day" aria-labelledby="quote-title">
+                <h1 id="quote-title" class="quote-label">CYTAT DNIA</h1>
+
+                <blockquote class="quote-card">
+                    <p id="quote-en" class="quote-en">Ładowanie cytatu...</p>
+
+                    <button
+                        id="quote-translation-toggle"
+                        class="quote-translation-toggle"
+                        type="button"
+                        aria-expanded="false"
+                    >
+                        🇵🇱 Pokaż tłumaczenie
+                    </button>
+
+                    <p id="quote-pl" class="quote-pl" hidden></p>
+
+                    <footer class="quote-author">
+                        <span>~ </span>
+                        <cite id="quote-author"></cite>
+                    </footer>
+                </blockquote>
+            </section>
         </div> 
         <script src="src/sidebar.js"></script>
+        <script src="src/quote-of-the-day.js"></script>
     
 
             <footer class="site-footer">

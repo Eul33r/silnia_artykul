@@ -1,0 +1,87 @@
+.quote-of-the-day {
+    width: min(100%, 850px);
+    margin: 3rem auto;
+}
+
+.quote-label {
+    margin-bottom: 0.8rem;
+    font-size: 0.8rem;
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    opacity: 0.65;
+}
+
+.quote-card {
+    position: relative;
+    margin: 0;
+    padding: 2.5rem;
+    border-radius: 24px;
+    background: var(--quote-background, #f5f5f5);
+    border: 1px solid var(--quote-border, #e2e2e2);
+    box-shadow: 0 12px 35px rgba(0, 0, 0, 0.06);
+}
+
+.quote-card::before {
+    content: "“";
+    position: absolute;
+    top: 0.3rem;
+    left: 1.4rem;
+    font-size: 5rem;
+    line-height: 1;
+    opacity: 0.12;
+    font-family: Georgia, serif;
+}
+
+.quote-en {
+    margin: 0 0 1.5rem;
+    font-size: clamp(1.2rem, 2vw, 1.65rem);
+    line-height: 1.6;
+    font-weight: 500;
+}
+
+.quote-translation-toggle {
+    padding: 0;
+    border: 0;
+    background: none;
+    cursor: pointer;
+    font: inherit;
+    font-size: 0.9rem;
+    text-decoration: underline;
+    opacity: 0.7;
+}
+
+.quote-translation-toggle:hover {
+    opacity: 1;
+}
+
+.quote-pl {
+    margin: 1rem 0 0;
+    padding: 1rem 0 0;
+    border-top: 1px solid var(--quote-border, #e2e2e2);
+    font-size: 1rem;
+    line-height: 1.6;
+    opacity: 0.8;
+}
+
+.quote-author {
+    margin-top: 1.5rem;
+    text-align: right;
+    font-size: 0.95rem;
+    font-weight: 600;
+    opacity: 0.75;
+}
+
+.quote-author cite {
+    font-style: normal;
+}
+
+@media (max-width: 600px) {
+    .quote-card {
+        padding: 2rem 1.4rem;
+    }
+
+    .quote-en {
+        font-size: 1.15rem;
+    }
+}
