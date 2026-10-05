@@ -1,0 +1,85 @@
+.abs-solver {
+    margin: 1.5em 0;
+    padding: 1em 1.25em;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    background: #f9f9fb;
+}
+
+.abs-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75em;
+    align-items: flex-end;
+}
+
+.abs-solver label {
+    display: flex;
+    flex-direction: column;
+    font-size: 0.9em;
+    gap: 0.25em;
+}
+
+.abs-solver input {
+    padding: 0.4em 0.6em;
+    border: 1px solid #aaa;
+    border-radius: 4px;
+    font-size: 1em;
+    width: 6em;
+    box-sizing: border-box;
+}
+
+.abs-fields {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75em;
+    margin: 1em 0;
+}
+
+.abs-solver button {
+    padding: 0.45em 1em;
+    border: none;
+    border-radius: 4px;
+    background: #2f6fed;
+    color: #fff;
+    font-size: 1em;
+    cursor: pointer;
+}
+
+.abs-solver button:hover {
+    background: #1f58c8;
+}
+
+.abs-result {
+    margin-top: 1em;
+    word-break: break-word;
+}
+
+.abs-count {
+    font-weight: bold;
+}
+
+.abs-error {
+    color: #b00020;
+}
+
+.abs-tree, .abs-tree ul {
+    list-style: none;
+    padding-left: 1.4em;
+    border-left: 2px solid #c9d4f0;
+    margin: 0.3em 0;
+}
+
+.abs-tree li {
+    margin: 0.3em 0;
+    font-family: monospace;
+}
+
+.abs-dead {
+    color: #b00020;
+}
+
+.abs-solution {
+    color: #1b7a2e;
+    font-weight: bold;
+}
