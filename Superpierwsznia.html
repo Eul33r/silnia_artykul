@@ -4,9 +4,9 @@
     <head>
         <meta charset="UTF-8">
         <meta name="description" content="Uogólnienia pojęcia silni">
-        <meta name="keywords" content="Silnia, Podsilnia, Dwusilnia, Pierwsznia">
+        <meta name="keywords" content="Superpierwsznia, Silnia, Podsilnia, Dwusilnia, Pierwsznia">
         <link rel="stylesheet" type="text/css" href="style.css">
-        <title>Exposilnia</title>
+        <title>Superpierwsznia</title>
         <script>
        MathJax = {
         // Zmieniono input/asciimath na input/tex
@@ -24,9 +24,9 @@
                     <div class="brand">∑ eul33r</div>
 
                     <div class="nav-links">
-                        <a class="nav-link" href="#">Artykuły</a>
-                        <a class="nav-link" href="#">Zadania</a>
-                        <a class="nav-link" href="#">O mnie</a>
+                        <a class="nav-link" href="\#">Artykuły</a>
+                        <a class="nav-link" href="\#">Zadania</a>
+                        <a class="nav-link" href="\#">O mnie</a>
                     </div>
 
                     <button class="search-button" type="button" aria-label="Szukaj">🔍</button>
@@ -55,14 +55,13 @@
         <a href="Superpierwsznia.html">Superpierwsznia</a>
         </div>
         <div class="main">
-        <h1>Exposilnia</h1>
-        <p>Dla liczby \(n \in \mathbb{N}, n \neq 0 \) definiujemy silnie eksponencjalną E(n) (eksposilnie) jako rekurencyjną wieżę potęgową, gdzie każdy kolejny wykładnik jest mniejszy o 1 od poprzedniego.</p>
-        <p>Formalnie: \(E(n) = n^{(n-1)^{(n-2)^{\cdots^{2^1}}}}\)</p>
+        <h1>Superpierwsznia</h1>
+        <p>Dla liczby \(n \in \mathbb{N}\) poprzez \(sp(n)\) definiujemy superpierwsznie <i>(ang. superprimorial)</i> jako iloczyn pierwszni wszystkich liczb całkowitych dodatnich nieprzekraczających \(n\)</p>
+        <p>Formalnie: \(sp(n) = \prod_{k=1}^{n} k\# \)</p>
         <p><b>Przykład:</b></p>
-        \(E(4) = 4^{3^{2^1}} = 4^9 = 2^{18} = 262144\)
-        <!-- <p>Generalnie silnia "dosyć szybko rośnie", bo już 10! przekracza 3,5 miliona</p> -->
-        <p>Możesz skorzystać z poniższego formularza, aby obliczyć eksposilnie z liczby naturalnej, która Cię interesuje:</p>
-        <form id="eksposilniaForm">
+        \(sp(6) = 6\# \cdot 5\# \cdot 4\# \cdot 3\# \cdot 2\# \cdot 1\# = (5\cdot3\cdot2)\cdot(5\cdot3\cdot2)\cdot(3\cdot2)\cdot(3\cdot2)\cdot2\cdot1 = 64800 \)
+        <p>Możesz skorzystać z poniższego formularza, aby obliczyć superpierwsznie z liczby naturalnej, która Cię interesuje:</p>
+        <form id="superprimorialForm">
         <input
             type="number"
             id="liczba"
@@ -77,7 +76,7 @@
 
         <p id="wynik"></p>
 
-        <script src="src/Exposilnia/script.js"></script>
+        <script src="src/Superpierwsznia/Superpierwsznia.js"></script>
 
         </div>
         <script src="src/sidebar.js"></script>

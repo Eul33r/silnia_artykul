@@ -4,7 +4,6 @@ algorytm-euklidesa.*
 liczby-pierwsze.*
 nwd-i-nww.html
 cechy-podzielnosci.*
-Superpierwsznia.*
 rownanie-*
 ulamki.html
 dzielniki.*
@@ -19,3 +18,4 @@ triangle-solver.*
 *.csv
 quotes.json
 *.sh
+aux.*
