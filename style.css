@@ -174,7 +174,8 @@
 #multifactorialForm input[type="submit"],
 #pierwszniaForm input[type="submit"],
 #eksposilniaForm input[type="submit"],
-#hipersilniaForm input[type="submit"] {
+#hipersilniaForm input[type="submit"],
+#quadratic-eqForm input[type="submit"] {
   padding: 0.8rem 1.2rem;
   border: none;
   border-radius: 10px;
@@ -478,7 +479,8 @@
 #multifactorialForm input[type="submit"]:hover,
 #pierwszniaForm input[type="submit"]:hover,
 #eksposilniaForm input[type="submit"]:hover,
-#hipersilniaForm input[type="submit"]:hover {
+#hipersilniaForm input[type="submit"]:hover,
+#quadratic-eqForm input[type="submit"]:hover {
   transform: translateY(-1px);
   box-shadow: 0 12px 22px rgba(37, 99, 235, 0.22);
 }
@@ -498,7 +500,8 @@
 #multifactorialForm input[type="submit"]:active,
 #pierwszniaForm input[type="submit"]:active,
 #eksposilniaForm input[type="submit"]:active,
-#hipersilniaForm input[type="submit"]:active {
+#hipersilniaForm input[type="submit"]:active,
+#quadratic-eqForm input[type="submit"]:active {
   transform: translateY(0);
 }
 
