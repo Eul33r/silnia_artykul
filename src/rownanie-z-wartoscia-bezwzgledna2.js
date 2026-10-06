@@ -300,13 +300,55 @@
 	const form = document.getElementById('abs-form');
 	const fields = document.getElementById('abs-fields');
 	const mInput = document.getElementById('abs-m');
+	const equationPreview = document.getElementById('abs-equation-preview');
 	const result = document.getElementById('abs-result');
-	if (!nInput || !buildButton || !form || !fields || !mInput || !result) return;
+	if (!nInput || !buildButton || !form || !fields || !mInput || !equationPreview || !result) return;
+	let previewTimer = null;
+	let previewVersion = 0;
+	let previewQueue = Promise.resolve();
 
 	function showError(message) {
 		if (window.MathJax && window.MathJax.typesetClear) window.MathJax.typesetClear([result]);
 		result.className = 'abs-result abs-error';
 		result.textContent = message;
+	}
+
+	function updateEquationPreview() {
+		const version = ++previewVersion;
+		const parsed = [...fields.querySelectorAll('.abs-a')].map((input) => parseDecimal(input.value));
+		if (parsed.length === 0) return;
+		const parsedM = parseDecimal(mInput.value);
+		const scale = Math.max(0, ...parsed.filter(Boolean).map((value) => value.scale), parsedM ? parsedM.scale : 0);
+		const toScaled = (value) => value.integer * 10n ** BigInt(scale - value.scale);
+		const terms = parsed.map((value, index) => {
+			const coefficient = value === null ? 'a_{' + (index + 1) + '}' : formatScaledLatex(toScaled(value), scale);
+			return '\\left|x - (' + coefficient + ')\\right|';
+		});
+		const rightSide = parsedM === null ? 'm' : formatScaledLatex(toScaled(parsedM), scale);
+		let equation;
+		if (terms.length <= 4) {
+			equation = terms.join(' + ') + ' = ' + rightSide;
+		} else {
+			const lines = [];
+			for (let index = 0; index < terms.length; index += 4) {
+				const line = terms.slice(index, index + 4).join(' + ');
+				lines.push((index === 0 ? '&' : '&+\\quad ') + line);
+			}
+			lines[lines.length - 1] += ' = ' + rightSide;
+			equation = '\\begin{aligned}' + lines.join('\\\\') + '\\end{aligned}';
+		}
+		if (window.MathJax && window.MathJax.typesetClear) window.MathJax.typesetClear([equationPreview]);
+		equationPreview.textContent = '\\[' + equation + '\\]';
+		clearTimeout(previewTimer);
+		previewTimer = setTimeout(() => {
+			previewQueue = previewQueue.catch(() => {}).then(async () => {
+				if (!window.MathJax || !window.MathJax.startup) return;
+				await window.MathJax.startup.promise;
+				if (version !== previewVersion) return;
+				window.MathJax.typesetClear([equationPreview]);
+				await window.MathJax.typesetPromise([equationPreview]);
+			});
+		}, 100);
 	}
 
 	function buildFields() {
@@ -334,6 +376,7 @@
 		result.className = 'abs-result';
 		if (window.MathJax && window.MathJax.typesetClear) window.MathJax.typesetClear([result]);
 		result.replaceChildren();
+		updateEquationPreview();
 	}
 
 	function renderResults(values, target, scale) {
@@ -399,6 +442,8 @@
 	}
 
 	buildButton.addEventListener('click', buildFields);
+	fields.addEventListener('input', updateEquationPreview);
+	mInput.addEventListener('input', updateEquationPreview);
 	nInput.addEventListener('keydown', (event) => {
 		if (event.key === 'Enter') {
 			event.preventDefault();

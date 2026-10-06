@@ -36,6 +36,20 @@
     margin: 1em 0;
 }
 
+.abs-equation-preview {
+    margin: 0.8em 0 1em;
+    padding: 0.65em 0.8em;
+    border-left: 3px solid #36866b;
+    background: #f1f6f3;
+    overflow-x: auto;
+}
+
+.abs-preview-label {
+    display: block;
+    color: #52645d;
+    font-size: 0.82em;
+}
+
 .abs-solver button {
     padding: 0.45em 1em;
     border: none;
