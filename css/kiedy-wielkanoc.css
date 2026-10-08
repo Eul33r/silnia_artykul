@@ -1,0 +1,194 @@
+.easter-calculator {
+    margin: 1.5em 0;
+    padding: 1.1em 1.25em;
+    border: 1px solid #d3ddda;
+    border-top: 4px solid #28745e;
+    border-radius: 4px;
+    background: #fbfcfb;
+}
+
+.easter-form {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-end;
+    gap: 0.75em;
+}
+
+.easter-form label {
+    display: flex;
+    flex: 1 1 12em;
+    flex-direction: column;
+    gap: 0.3em;
+    font-size: 0.9em;
+    font-weight: 600;
+}
+
+.easter-form input {
+    box-sizing: border-box;
+    width: 100%;
+    min-height: 2.75em;
+    padding: 0.45em 0.7em;
+    border: 1px solid #b8c7c1;
+    border-radius: 3px;
+    background: #fff;
+    font-size: 1.05em;
+}
+
+.easter-form button {
+    min-height: 2.75em;
+    padding: 0.45em 1.4em;
+    border: none;
+    border-radius: 3px;
+    background: #28745e;
+    color: #fff;
+    font-size: 1em;
+    cursor: pointer;
+}
+
+.easter-form button:hover {
+    background: #1d5a49;
+}
+
+.easter-form input:focus,
+.easter-form button:focus-visible {
+    outline: 3px solid rgba(40, 116, 94, 0.3);
+    outline-offset: 1px;
+}
+
+.easter-result {
+    margin-top: 1em;
+    overflow-wrap: anywhere;
+}
+
+.easter-result:empty {
+    display: none;
+}
+
+.easter-result.is-error {
+    padding: 0 0.9em;
+    border-left: 4px solid #b00020;
+    color: #b00020;
+}
+
+.easter-result h3 {
+    margin: 1.2em 0 0.5em;
+    font-size: 1em;
+}
+
+.easter-verdict {
+    margin: 0;
+    padding: 0.8em 0.9em;
+    border-left: 4px solid #28745e;
+    background: #eef6f2;
+    font-size: 1.15em;
+    font-weight: 700;
+}
+
+.easter-table-scroll {
+    overflow-x: auto;
+}
+
+.easter-steps {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.92em;
+}
+
+.easter-steps th,
+.easter-steps td {
+    padding: 0.4em 0.7em;
+    border-bottom: 1px solid #d8dfdc;
+    text-align: left;
+    white-space: nowrap;
+}
+
+.easter-steps th {
+    color: #52645d;
+    font-size: 0.85em;
+}
+
+.easter-steps td:first-child {
+    font-style: italic;
+}
+
+.easter-steps td:last-child {
+    font-weight: 700;
+    text-align: right;
+}
+
+.easter-exception {
+    margin: 0.8em 0 0;
+    padding: 0.5em 0.9em;
+    border-left: 4px solid #b9722b;
+    background: #fbf3e8;
+}
+
+.easter-related {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.easter-related li {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 0.2em 1em;
+    padding: 0.4em 0;
+    border-bottom: 1px solid #e3e9e6;
+}
+
+.easter-feast-date {
+    font-weight: 600;
+}
+
+.easter-timeline {
+    margin: 1.2em 0;
+    padding: 0 0 0 1.4em;
+    border-left: 3px solid #8bb29e;
+    list-style: none;
+}
+
+.easter-timeline li {
+    position: relative;
+    margin: 0 0 1.2em;
+}
+
+.easter-timeline li::before {
+    content: "";
+    position: absolute;
+    top: 0.45em;
+    left: -1.95em;
+    width: 0.65em;
+    height: 0.65em;
+    border: 2px solid #28745e;
+    border-radius: 50%;
+    background: #fff;
+}
+
+.easter-year {
+    display: block;
+    color: #28745e;
+    font-weight: 700;
+}
+
+.easter-note {
+    margin: 1.2em 0;
+    padding: 0.7em 1em;
+    border-left: 3px solid #8bb29e;
+    background: #f3f6f1;
+}
+
+@media (max-width: 520px) {
+    .easter-calculator {
+        padding: 0.8em;
+    }
+
+    .easter-form button {
+        flex: 1 1 100%;
+    }
+
+    .easter-related li {
+        flex-direction: column;
+    }
+}

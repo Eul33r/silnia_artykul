@@ -35,8 +35,7 @@
 }
 
 .leap-form input:focus,
-.leap-form button:focus-visible,
-.code-tab:focus-visible {
+.leap-form button:focus-visible {
     outline: 3px solid rgba(40, 116, 94, 0.3);
     outline-offset: 1px;
 }
@@ -100,117 +99,6 @@
     color: #6b5a47;
 }
 
-.pseudocode {
-    margin: 1em 0;
-    padding: 0.4em 1em;
-    border-left: 3px solid #8bb29e;
-    background: #f3f6f1;
-    overflow-x: auto;
-}
-
-.code-tabs {
-    margin: 1.2em 0 2em;
-    border: 1px solid #c9d4cf;
-    border-radius: 4px;
-    background: #1f262b;
-    overflow: hidden;
-    position: relative;
-}
-
-.code-header {
-    display: flex;
-    align-items: stretch;
-    background: #151a1e;
-}
-
-.code-tablist {
-    display: flex;
-    flex: 1 1 auto;
-    min-width: 0;
-    overflow-x: auto;
-}
-
-.code-copy {
-    flex: 0 0 auto;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 3em;
-    border: none;
-    background: transparent;
-    color: #a9b8b1;
-    cursor: pointer;
-}
-
-.code-copy:hover {
-    color: #fff;
-    background: #232b31;
-}
-
-.code-copy:focus-visible {
-    outline: 3px solid rgba(95, 195, 162, 0.6);
-    outline-offset: -3px;
-}
-
-.code-copy .icon-check,
-.code-copy.is-copied .icon-copy {
-    display: none;
-}
-
-.code-copy.is-copied {
-    color: #5fc3a2;
-}
-
-.code-copy.is-copied .icon-check {
-    display: block;
-}
-
-.code-copy-status {
-    position: absolute;
-    width: 1px;
-    height: 1px;
-    overflow: hidden;
-    clip-path: inset(50%);
-}
-
-.code-tab {
-    flex: 0 0 auto;
-    padding: 0.7em 1.1em;
-    border: none;
-    border-bottom: 3px solid transparent;
-    background: transparent;
-    color: #a9b8b1;
-    font: 600 0.9em "Segoe UI", Tahoma, sans-serif;
-    cursor: pointer;
-}
-
-.code-tab:hover {
-    color: #fff;
-}
-
-.code-tab[aria-selected="true"] {
-    border-bottom-color: #5fc3a2;
-    background: #1f262b;
-    color: #fff;
-}
-
-.code-panel {
-    margin: 0;
-}
-
-.code-panel[hidden] {
-    display: none;
-}
-
-.code-panel pre {
-    margin: 0;
-    padding: 1em 1.2em;
-    overflow-x: auto;
-    color: #e4ece8;
-    font: 0.9em/1.55 "Fira Code", "DejaVu Sans Mono", Consolas, monospace;
-    tab-size: 4;
-}
-
 @media (max-width: 520px) {
     .leap-calculator {
         padding: 0.8em;
@@ -218,10 +106,5 @@
 
     .leap-form button {
         flex: 1 1 100%;
-    }
-
-    .code-panel pre {
-        padding: 0.8em;
-        font-size: 0.82em;
     }
 }
