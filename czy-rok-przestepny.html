@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+
+<html lang="pl">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="description" content="Jak sprawdzić, czy rok jest przestępny? Algorytm, kalkulator i implementacje w Pythonie, C++, Javie, JavaScripcie i C.">
+        <meta name="keywords" content="rok przestępny, kalendarz gregoriański, modulo, algorytm">
+        <link rel="stylesheet" type="text/css" href="style.css">
+        <link rel="stylesheet" type="text/css" href="css/czy-rok-przestepny.css">
+        <title>Czy rok jest przestępny?</title>
+        <script>
+        MathJax = {
+            loader: {load: ["input/tex", "output/chtml", "ui/menu"]},
+            output: {font: "mathjax-newcm"}
+        }
+        </script>
+        <script defer src="https://cdn.jsdelivr.net/npm/mathjax@4/startup.js">
+        </script>
+    </head>
+    <body>
+        <div id="container" class="container">
+            <header class="site-header">
+                <nav class="navbar" aria-label="Główna nawigacja">
+                    <div class="brand">∑ eul33r</div>
+
+                    <div class="nav-links">
+                        <a class="nav-link" href="#">Artykuły</a>
+                        <a class="nav-link" href="#">Zadania</a>
+                        <a class="nav-link" href="#">O mnie</a>
+                    </div>
+
+                    <button class="search-button" type="button" aria-label="Szukaj">🔍</button>
+                </nav>
+            </header>
+
+        <div class="sidenav">
+        <button class="sidenav-toggle" type="button" aria-label="Zwiń menu"><</button>
+        <a href="index.html">About</a>
+        <a href="Silnia.html">Silnia</a>
+        <a href="Dwusilnia.html">Dwusilnia</a>
+        <a href="Wielosilnia.html">Wielosilnia</a>
+        <a href="Podsilnia.html">Podsilnia</a>
+        <a href="Pierwsznia.html">Pierwsznia</a>
+        <a href="Supersilnia.html">Supersilnia</a>
+        <a href="Hipersilnia.html">Hipersilnia</a>
+        <a href="Exposilnia.html">Silnia eksponencjalna (Eksposilnia)</a>
+        <a href="Binomials.html">Symbol Newtona</a>
+        <a href="venna-diagrams.html">Diagramy Venna</a>
+        <a href="nwd-i-nww.html">NWD i NWW</a>
+        <a href="Girard_Newton.html">Wzory Girarda - Newtona</a>
+        <a href="krany.html">Krany</a>
+        <a href="jednorodnosc.html">Jednorodność</a>
+        <a href="wielomiany_palindromiczne.html">Wielomiany palindromiczne i antypalindromiczne</a>
+        <a href="chinskie-twierdzenie-o-resztach.html">Kongruencje i Chiństkie Twierdzenie o Resztach</a>
+        <a href="Superpierwsznia.html">Superpierwsznia</a>
+        <a href="uklady-rownan-liniowych.html">Układy równań liniowych</a>
+        <a href="rownanie-kwadratowe.html">Równanie kwadratowe</a>
+        <a href="rownanie-z-wartoscia-bezwzgledna-trudne-1.html">Równanie z wartością bezwzględną 1</a>
+        <a href="czy-rok-przestepny.html">Czy rok jest przestępny?</a>
+        </div>
+        <div class="main">
+        <h1>Czy rok jest przestępny?</h1>
+        <p>Rok zwykły w kalendarzu gregoriańskim ma 365 dni, a rok przestępny 366 &ndash; dodatkowy dzień to 29 lutego. Dzięki temu kalendarz nie rozjeżdża się z rokiem tropikalnym, który trwa około \(365{,}2422\) doby.</p>
+
+        <h2>Reguła</h2>
+        <p>Rok \(r\) jest przestępny, gdy spełniony jest jeden z warunków:</p>
+        <ul>
+            <li>\(r\) dzieli się przez \(4\) i jednocześnie nie dzieli się przez \(100\), albo</li>
+            <li>\(r\) dzieli się przez \(400\).</li>
+        </ul>
+        <p>Zapisując to symbolicznie:</p>
+        <p>\[ \bigl( 4 \mid r \ \wedge \ 100 \nmid r \bigr) \ \vee \ 400 \mid r. \]</p>
+        <p>Zatem lata \(1900\) i \(2100\) nie są przestępne, natomiast \(2000\) i \(2024\) są.</p>
+
+        <h2>Kalkulator</h2>
+        <div class="leap-calculator">
+            <form id="leap-form" class="leap-form">
+                <label>Rok
+                    <input type="text" id="leap-year" inputmode="numeric" autocomplete="off" value="2026" required>
+                </label>
+                <button type="submit">Sprawdź</button>
+            </form>
+            <div id="leap-result" class="leap-result" aria-live="polite"></div>
+        </div>
+
+        <h2>Algorytm</h2>
+        <p>Warunki sprawdzamy od najbardziej szczegółowego, dzięki czemu wystarczą trzy proste instrukcje warunkowe i operacja reszty z dzielenia:</p>
+        <div class="pseudocode">
+            \[
+            \begin{aligned}
+            &\textbf{funkcja } \operatorname{CzyPrzestępny}(r): \\
+            &\quad \textbf{jeżeli } r \bmod 400 = 0 \textbf{ to zwróć } \text{prawda} \\
+            &\quad \textbf{jeżeli } r \bmod 100 = 0 \textbf{ to zwróć } \text{fałsz} \\
+            &\quad \textbf{jeżeli } r \bmod 4 = 0 \textbf{ to zwróć } \text{prawda} \\
+            &\quad \textbf{zwróć } \text{fałsz}
+            \end{aligned}
+            \]
+        </div>
+
+        <h2>Implementacje</h2>
+        <div class="code-tabs">
+            <div class="code-header">
+            <div class="code-tablist" role="tablist" aria-label="Język programowania">
+                <button class="code-tab" type="button" role="tab" id="tab-python" aria-controls="panel-python" aria-selected="true">Python</button>
+                <button class="code-tab" type="button" role="tab" id="tab-cpp" aria-controls="panel-cpp" aria-selected="false" tabindex="-1">C++</button>
+                <button class="code-tab" type="button" role="tab" id="tab-java" aria-controls="panel-java" aria-selected="false" tabindex="-1">Java</button>
+                <button class="code-tab" type="button" role="tab" id="tab-js" aria-controls="panel-js" aria-selected="false" tabindex="-1">JavaScript</button>
+                <button class="code-tab" type="button" role="tab" id="tab-c" aria-controls="panel-c" aria-selected="false" tabindex="-1">C</button>
+            </div>
+            <button class="code-copy" type="button" aria-label="Kopiuj kod" title="Kopiuj kod">
+                <svg class="icon-copy" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="12" height="12" rx="2"></rect><path d="M5 15H4a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v1"></path></svg>
+                <svg class="icon-check" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"></path></svg>
+            </button>
+            </div>
+            <span class="code-copy-status" role="status" aria-live="polite"></span>
+            <div class="code-panel" role="tabpanel" id="panel-python" aria-labelledby="tab-python"><pre><code>def is_leap_year(year):
+    if year % 400 == 0:
+        return True
+    if year % 100 == 0:
+        return False
+    if year % 4 == 0:
+        return True
+    return False
+
+
+print(is_leap_year(2024))  # True</code></pre></div>
+            <div class="code-panel" role="tabpanel" id="panel-cpp" aria-labelledby="tab-cpp" hidden><pre><code>#include &lt;iostream&gt;
+
+bool isLeapYear(int year) {
+    if (year % 400 == 0) {
+        return true;
+    }
+    if (year % 100 == 0) {
+        return false;
+    }
+    if (year % 4 == 0) {
+        return true;
+    }
+    return false;
+}
+
+int main() {
+    std::cout &lt;&lt; std::boolalpha &lt;&lt; isLeapYear(2024) &lt;&lt; '\n';
+    return 0;
+}</code></pre></div>
+            <div class="code-panel" role="tabpanel" id="panel-java" aria-labelledby="tab-java" hidden><pre><code>public class LeapYear {
+    static boolean isLeapYear(int year) {
+        if (year % 400 == 0) {
+            return true;
+        }
+        if (year % 100 == 0) {
+            return false;
+        }
+        if (year % 4 == 0) {
+            return true;
+        }
+        return false;
+    }
+
+    public static void main(String[] args) {
+        System.out.println(isLeapYear(2024));
+    }
+}</code></pre></div>
+            <div class="code-panel" role="tabpanel" id="panel-js" aria-labelledby="tab-js" hidden><pre><code>function isLeapYear(year) {
+    if (year % 400 === 0) {
+        return true;
+    }
+    if (year % 100 === 0) {
+        return false;
+    }
+    if (year % 4 === 0) {
+        return true;
+    }
+    return false;
+}
+
+console.log(isLeapYear(2024)); // true</code></pre></div>
+            <div class="code-panel" role="tabpanel" id="panel-c" aria-labelledby="tab-c" hidden><pre><code>#include &lt;stdbool.h&gt;
+#include &lt;stdio.h&gt;
+
+bool is_leap_year(int year) {
+    if (year % 400 == 0) {
+        return true;
+    }
+    if (year % 100 == 0) {
+        return false;
+    }
+    if (year % 4 == 0) {
+        return true;
+    }
+    return false;
+}
+
+int main(void) {
+    printf("%s\n", is_leap_year(2024) ? "true" : "false");
+    return 0;
+}</code></pre></div>
+        </div>
+        </div>
+        <script src="src/calendar/czy-rok-przestepny.js"></script>
+        <script src="src/sidebar.js"></script>
+
+            <footer class="site-footer">
+                © 2026 eul33r · Matematyczny blog
+            </footer>
+
+        </div>
+    </body>
+</html>
