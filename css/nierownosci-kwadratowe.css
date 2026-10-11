@@ -1,0 +1,72 @@
+#quadratic-ineqForm {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.6em 0.8em;
+    padding: 1em 1.2em;
+    margin: 1em 0;
+    max-width: 720px;
+    background: #f4f7fd;
+    border: 1px solid #c9d6ee;
+    border-radius: 10px;
+    box-shadow: 0 2px 6px rgba(40, 60, 120, 0.08);
+}
+
+#quadratic-ineqForm span {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3em;
+}
+
+#quadratic-ineqForm input[type="text"],
+#quadratic-ineqForm select {
+    font: inherit;
+    padding: 0.4em 0.6em;
+    border: 1px solid #9fb2d6;
+    border-radius: 6px;
+    background: #fff;
+    color: #123;
+    transition: border-color 0.15s, box-shadow 0.15s;
+}
+
+#quadratic-ineqForm input[type="text"] {
+    width: 4.5em;
+    text-align: center;
+}
+
+#quadratic-ineqForm input[type="text"]::placeholder {
+    color: #99a5bf;
+    font-style: italic;
+}
+
+#quadratic-ineqForm input[type="text"]:focus,
+#quadratic-ineqForm select:focus {
+    outline: none;
+    border-color: #3b6fd8;
+    box-shadow: 0 0 0 3px rgba(59, 111, 216, 0.25);
+}
+
+#quadratic-ineqForm select {
+    cursor: pointer;
+    font-weight: bold;
+}
+
+#quadratic-ineqForm input[type="submit"] {
+    font: inherit;
+    font-weight: bold;
+    padding: 0.45em 1.2em;
+    margin-left: auto;
+    color: #fff;
+    background: linear-gradient(#4f86ee, #2f5fc4);
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: filter 0.15s, transform 0.05s;
+}
+
+#quadratic-ineqForm input[type="submit"]:hover { filter: brightness(1.1); }
+#quadratic-ineqForm input[type="submit"]:active { transform: translateY(1px); }
+
+#flowchart, #graph { max-width: 720px; margin: 1em 0; }
+#flowchart svg, #graph svg { background: #fff; border: 1px solid #ccd; border-radius: 6px; }
+#wynik .solution { font-weight: bold; }
