@@ -44,7 +44,32 @@
         #status {
             margin-bottom: 20px;
         }
+        .solution {
+            margin: 1em 0;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            padding: 0.8em 1em;
+        }
+
+        .solution summary {
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        .centered-image {
+            display: block;
+            margin: 0 auto;
+        }
     </style>
+    <script>
+       MathJax = {
+        // Zmieniono input/asciimath na input/tex
+        loader: {load: ["input/tex", "output/chtml", "ui/menu"]},
+        output: {font: "mathjax-newcm"}
+    }
+        </script>
+        <script defer src="https://cdn.jsdelivr.net/npm/mathjax@4/startup.js">
+    </script>
 </head>
 
 <body>
@@ -132,6 +157,329 @@
 
         pobierzRanking();
     </script>
+    <h2>Regulamin Konkursu</h2>
+    <p><b>§ 1. Organizator</b><br>
+        Organizatorem konkursu jest założyciel bloga.</p>
+    <p><b>§ 2. Uczestnicy</b><br>
+        Konkurs jest skierowany przede wszystkim do tegorocznych maturzystów. Mogą w nim również brać udział uczniowie młodszych klas. Uczestnikiem może zostać każda osoba, która odbyła z organizatorem co najmniej jedną lekcję.</p>
+    <p><b>§ 3. Dobrowolność udziału</b><br>
+        Udział w konkursie jest dobrowolny.</p>
+    <p><b>§ 4. Punktacja</b><br>
+        Każde zadanie konkursowe jest warte 5 punktów.</p>
+    <p><b>§ 5. Samodzielne rozwiązywanie zadań</b><br>
+        Obowiązuje całkowity zakaz korzystania ze sztucznej inteligencji (AI) oraz wyszukiwania rozwiązań w Google i innych wyszukiwarkach internetowych, chyba że organizator wyraźnie postanowi inaczej.</p>
+    <p><b>§ 6. Przesyłanie rozwiązań i terminy</b><br>
+        Rozwiązania należy przesyłać organizatorowi w prywatnej wiadomości na Discordzie. Nowe zadania są publikowane w każdą niedzielę po godzinie 21:00. Czas na rozwiązanie każdego zadania wynosi 7 dni (tydzień) od jego publikacji, chyba że organizator poinformuje o innym terminie.</p>
+    <p><b>§ 7. Nagrody</b><br>
+        W okolicach czerwca przewidziane są nagrody rzeczowe dla trzech uczestników z najwyższą liczbą punktów.</p>
+    <p><b>§ 8. Zmiany regulaminu</b><br>
+        Organizator zastrzega sobie prawo do zmiany regulaminu w trakcie trwania konkursu z dowolnego powodu.</p>
+
+    <h2>Zadania i rozwiązania</h2>
+    <h3>Zadanie 0</h3>
+    <p>Jaki jest stopień wielomianu \(P(x) = (x-a)(x-b)(x-c)\cdots(x-z)\)</p>
+        <details class="hint">
+        <summary>💡 Pokaż wskazówkę 1</summary>
+        <p>Wskazówka dla zmyły: alfabet angielski liczy 26 liter</p>
+        </details>
+        <details>
+        <summary>💡 Pokaż wskazówkę 2</summary>
+        <p>Przechodzimy przez <b>WSZYSTKIE</b> litery alfabetu angielskiego...</p>
+        </details>
+        <details class="solution">
+            <summary>🔎 Pokaż rozwiązanie</summary>
+                        <p>Kluczowa jest tu obserwacja, że litera \(x\) też występuje w alfabecie. Wobec tego, w pewnym nawiasie (konkretnie to w przed, przed, przedostatnim :D) pojawi się \((x - x) = 0\). A skoro wielomian jest w postaci iloczynowej i jeden z czynników jest zerem, to cały wielomian jest tożsamościowo równy \(0\).</p>
+
+                        <p>Jaki jest jego stopień? No najlepszą odpowiedzią jest właśnie, że stopień jest <b>nieokreślony/niezdefiniowany.</b> Dlaczego?</p>
+
+                        <p>No gdy mamy \(f(x) = a = const \neq 0\), to stopień wiel. \(f\) jest równy \(0\), bo to wielomian stały. \(P(x) = 0\) także jest wielomianem stałym, ale z jego stopniem jest problem.</p>
+
+                        <p>Na pewno słyszeliście, że wielomian stopnia \(n\) może mieć co najwyżej \(n\) pierwiastków, czyli \(n\) miejsc zerowych. A \(P(x) = 0\) ma ich tak z grubsza nieskończenie wiele, bo każda liczba rzeczywista jest jego pierwiastkiem. Czyli co w takim razie?</p>
+
+                        <p>Stopień wielomianu \(P(x)\) powinien w takim razie wynosić \(+\infty\)? No teoretycznie tak, ale z tym jest mały problem... Przy takiej umowie własność, że stopień iloczynu dwóch wielomianów jest równy sumie ich stopni, przestaje działać. Można to uratować, przyjmując, że jednak jego stopień to \(-\infty\), ale wtedy psuje się argument z liczbą miejsc zerowych.</p>
+
+                        <p>Na maturę musicie wiedzieć, że liczba pierwiatków wielomianu stopnia \(n\) jest \(\leq n\). Natomiast jak się wybierzecie na jakieś studia matematyczne, czy coś, czego ogromnie Wam życzę, to się dowiecie, że istnieją struktury algebraiczne, w których NIE JEST to prawda i np. wielomian stopnia 3ciego może mieć w pewnej strukturze algebraicznej 4 pierwiastki, ot: taka ciekawostka.</p>
+        </details>
+    <h3>Zadanie 1</h3>
+    <p>
+        Liczby \(a, b, c, d \in \mathbb{R}\) spełniają warunki:
+        \[
+            \begin{cases}
+            a + b + c + d > 0, \\
+            ab + ac + ad + bc + bd +cd > 0, \\
+            abc + abd + acd + bcd > 0, \\
+            abcd > 0,
+            \end{cases}
+        \]
+
+        Udowodnij, że każda z liczb \(a, b, c, d\) jest dodatnia, tzn.  udowodnij, że \(a > 0, b> 0, c > 0, d > 0\)
+    </p>
+    <details class="hint">
+        <summary>💡 Pokaż wskazówkę 1</summary>
+        <p>Rozważ wielomian, którego pierwiastkami są liczby \(a, b, c, d\).</p>
+        </details>
+        <details>
+        <summary>💡 Pokaż wskazówkę 2</summary>
+        <p>Skorzystaj ze wzorów Viete'a. Wzory Viete'a są słuszne nie tylko dla równań/funkcji kwadratowych. Ładnie uogólniają się na wielomiany wyższych stopni</p>
+        </details>
+        <details class="solution">
+            <summary>🔎 Pokaż rozwiązanie</summary>
+            <p>Wiele zadań w istocie rzeczy sprowadza się do znalezienia pierwiastka pewnego równania algebraicznego. Ale zdarza się, że podstępowanie odwrotne, czyli skonstruowanie wielomianu o z góry zadanych pierwiastkach jest równie efektywne...</p>
+            <p>Jak znaleźć wielomian, którego pierwiastkami są \(a, b, c, d\)? Najprostszym rozwiązaniem jest oczywiście wielomian unormowany:</p>
+            <p>\[W(x) = (x-a)(x-b)(x-c)(x-d) = x^4 -px^3 + qx^2 -rx + s\]</p>
+            <p>Współczynniki są powiązane z lewymi stronami nierówności w naszym układzie. Natychmiastowym wnioskiem jest, że musi być:</p>
+            <p>\(p, q, r, s > 0\). W takim razie gdyby \(x \leq 0\), to \(P(x) > 0\), czyli w szczególności \(P(x) \neq 0\). (Liczba dodatnia nie może być zerem). Zatem pierwiastki wielomianu muszą być dodatnie, bo nie mogą być niedodatnie :P</p>
+        </details>
+    <h3>Zadanie 2</h3>
+    <p>Liczby \(x, y, z\) spełniają układ równań:</p>
+        <p>
+            \begin{cases}
+            x + y + z = 1 \\
+            x^2 + y^2 + z^2 = 2 \\
+            x^3 + y^3 + z^3 = 3
+            \end{cases}
+        </p>
+    <b><i>Problem:</i></b> <p>Ile wynosi suma \(x^4 + y^4 + z^4\) ?</p>
+    <p>Wskazówki do tego zadania i jego rozwiązanie znajduje się w moim artykule na temat wzorów Girarda - Newtona, link: <a href="Girard_Newton.html">Kliknij tutaj</a></p>
+    <h3>Zadanie 3</h3>
+    <p>Rozwiąż równanie \((x+1)(x+2)(x+3)(x+4) = 8\)</p>
+            <details class="hint">
+            <summary>💡 Pokaż wskazówkę 1</summary>
+            <p> Nie wymnażajcie tego wszystkiego, bo powstanie wielomian 4 stopnia, którego wyraz wolny to 16. (zbyt dużo ma dzielników)</p>
+        </details>
+        <details class="hint">
+            <summary>💡 Pokaż wskazówkę 2</summary>
+            <p> Mnożenie liczb jest działaniem łącznym (i przemiennym(!)), więc możecie sobie zgrupować: \([(x+1)(x+4)]\cdot[(x+2)(x+3)]\)</p>
+        </details>
+        <details class="hint">
+            <summary>💡 Pokaż wskazówkę 3</summary>
+            <p>Jak otworzycie te dwa duże nawiasy, to będą podobne rzeczy w obydwu nawiasach</p>
+        </details>
+        <details class="hint">
+            <summary>💡 Pokaż wskazówkę 4</summary>
+            <p> Sprowadźcie problem do prostszego problemu: przecież umiecie już rozwiązywać równania kwadratowe, umiecie?</p>
+        </details>
+        <details class="hint">
+            <summary>💡 Pokaż wskazówkę 5</summary>
+            <p> Zastosujcie podstawienie (użyjcie zmiennej pomocniczej)</p>
+        </details>
+        <details class="hint">
+            <summary>💡 UWAGA</summary>
+            <p>  To równanie NIE MA pierwiastków wymiernych, więc nie stosujcie tw. o pierwiastkach wymiernych. Ono po prostu NIE ZADZIAŁA (tutaj akurat nie zadziała)</p>
+        </details>
+        <details class="solution">
+            <summary>🔎 Pokaż rozwiązanie</summary>
+            <p>Przekształcamy równanie do postaci</p>
+            <p>\([(x+1)(x+4)] \cdot [(x+2)(x+3)] = 8 \iff (x^2 + 5x + 4)\cdot (x^2 + 5x + 6) = 8\)</p>
+            <p>Widzimy, że drugi nawias jest wyrażeniem o 2 większym niż wyrażenie w pierwszym nawiasie.</p>
+            <p>Niech \(t = x^2 + 5x + 4\). Wówczas równanie przybiera postać:</p>
+            <p>\(t(t+2) = 8 \iff t^2 + 2t - 8 = 0\)</p>
+            <p>Liczymy deltę: \(\Delta = 2^2 - 4\cdot1\cdot(-8) = 36 \implies \sqrt{\Delta} = 6\)</p>
+            <p>Pierwiastki: \(t_1 = \frac{-2-6}{2} = -4, t_2 = \frac{-2+6}{2} = 2\)</p>
+            <p>Wracamy do "oryginalnej" zmiennej, przypominamy sobie czym było \(t\)</p>
+            <p>\(t = x^2 + 5x + 4\)</p>
+            <p>\((x^2 + 5x + 4 = -4 \lor x^2 + 5x + 4 = 2) \iff x^2 + 5x + 8 = 0 \lor x^2 + 5x + 2 = 0\)</p>
+            <p>\(\Delta_1 = 5^2 - 4\cdot1\cdot 8 < 0 \implies x \in \emptyset\)</p>
+            <p>\(\Delta_2 = 25 - 4\cdot 1 \cdot 2 = 17 \implies \sqrt{\Delta_2} = \sqrt{17}\)</p>
+            <p>\(x_1 = \frac{-5-\sqrt{17}}{2} \lor x_2 = \frac{-5+\sqrt{17}}{2}\)</p>
+            <p>Ostatecznie, zbiorem rozwiązań wyjściowego równania jest \(x \in \{\frac{-5-\sqrt{17}}{2}, \frac{-5+\sqrt{17}}{2}\}\)</p>
+        </details>
+    
+
+
+    <h3>Zadanie 4</h3>
+    <p>Liczby \(a, b, c \in \mathbb{R}\) spełniają warunek \(a + b + c = 0\). Udowodnij, że \(a^3 + b^3 + c^3 = 3abc\)</p>
+
+    <p><b>Rozwiązanie</b></p>
+    <p>Sposób I (łatwiejszy)</p>
+     <details class="hint">
+            <summary>💡 Pokaż wskazówkę 1</summary>
+            <p>Każdy kto zna wzór skróconego mnożenia na sześcian sumy lub potrafi znaleźć go w Karcie Wzorów i użyć jest w stanie rozwiązać to zadanie.</p>
+        </details>
+        <details class="hint">
+            <summary>💡 Pokaż wskazówkę 2</summary>
+            <p> Z założenia wyliczcie sobie którąś literkę, np. \(a + b = -c\) i działajcie na tym.</p>
+        </details>
+        <details class="solution">
+            <summary>🔎 Pokaż rozwiązanie 1</summary>
+            <p>Z założenia \(a + b = -c\), podnosimy to stronami do potęgi trzeciej i korzystamy ze wzoru skróconego mnożenia.</p>
+            <p>\((a+b)^3 = (-c)^3 = -c^3\)</p>
+            <p>\(a^3 + 3a^2b + 3ab^2 + b^3 = -c^3 \iff a^3 + b^3 + c^3 = -3ab(a+b)\) Ale znowu, przecież \(a + b = -c \)</p>
+            <p>Zatem \(a^3 + b^3 + c^3 = -3ab\cdot(-c) = 3abc \ \blacksquare\) Q.E.D</p>
+        </details>
+    <p>Sposób II (trudniejszy)</p>
+    <details class="hint">
+        <summary>💡 Pokaż wskazówkę 1</summary>
+        <p>Kto czytał mój wpis na blogu o wzorach Girarda - Newtona, ten widzi że można je tu użyć (dlaczego?)</p>
+    </details>
+    <details class="hint">
+        <summary>💡 Pokaż wskazówkę 2</summary>
+        <p>Możecie też, tak jak to pokazywałem skonstruować sobie wielomian, którego pierwiastkami są \(a, b, c\) i pobawić się nim </p>
+    </details>
+
+    <h3>Zadanie 5</h3>
+    <p>Wiedząc, że \(\log_{a}p = 2, \log_b{p} = 3, log_{c}p = 6\) oraz \(abc \neq 1\), oblicz \(\log_{abc}p\)</p>
+         <details class="hint">
+            <summary>💡 Pokaż wskazówkę 1</summary>
+            <p>Trzeba skorzystać z definicji logarytmu i ewentualnie wysilić się na tyle, by otworzyć kartę wzorów i znaleźć w niej wzór na zamianę podstaw logarytmu można też wygooglować sobie ten wzór.</p>
+        </details>
+        <details class="solution">
+            <summary>🔎 Pokaż rozwiązanie</summary>
+            <p>Z definicji logarytmu wynikają równości: \(a^2 = p, b^3 = p, c^6 = p\), skąd: \(a = \sqrt{p} = p^{\frac{1}{2}}, b = \sqrt[3]{p} = p^{\frac{1}{3}}, c = \sqrt[6]{p} = p^{\frac{1}{6}}\)</p>
+            <p>W takim razie \(\log_{abc}p = \log_{{p^{\frac{1}{2}}\cdot p^{\frac{1}{3}}}\cdot p^{\frac{1}{6}}}p = \log_{p^{\frac{1}{2} + \frac{1}{3} +\frac{1}{6}}}p = \log_pp = 1\)</p>
+        </details>
+    <h3>Zadanie 6</h3>
+    Rozważmy dowolny trójkąt \(\Delta ABC\). Niech \(R\) będzie promieniem okręgu opisanego na tym trójkącie, zaś \(r\) promieniem okręgu wpisanego w ten trójkąt.
+    Udowodnij, że promień okręgu opisanego jest ZAWSZE nie krótszy niż średnica okręgu wpisanego, tzn. udowodnij nierówność
+    \(R \geq 2r\). W jakiej sytuacji w tej nierówności zachodzi równość?
+    
+    <p><b>Rozwiązanie</b></p>
+    <p>Sposób I (metoda "szkolna", czysto obliczeniowo)</p>
+             <details class="hint">
+            <summary>💡 Pokaż wskazówkę 1</summary>
+            <p>Potrzebne będzie tzw. <i>podstawienie Raviego (ang. Ravi substitution)</i> - wygooglujcie sobie. Poza nim, wszystkie narzędzia, których potrzebujecie by rozwiązać to zadanie są w Karcie Wzorów. Trzeba tylko połączyć fakty...</p>
+        </details>
+        <details class="solution">
+            <summary>🔎 Pokaż rozwiązanie 1</summary>
+            <p>Niech \(S\) oznacza pole trójkąta \(\Delta ABC\). Zachodzą wzory (z karty wzorów):</p>
+            <p>\(S = \frac{abc}{4R} \implies R = \frac{abc}{4S}\) oraz \(S = r\cdot p \implies r = \frac{S}{p} = \frac{2S}{a+b+c}\)</p>
+            <p>Gdzie \(p\) jest połową obwodu, tzn. \(p = \frac{1}{2} \cdot (a+b+c)\)</p>
+            <p>Mamy udowodnić nierówność \(R \geq 2r \iff \frac{abc}{4S} \geq \frac{4S}{a+b+c} \iff abc(a+b+c) \geq 16S^2\)</p>
+            <p>Znowu otwieramy Kartę Wzorów i znajdujemy w niej tzw. <i>wzór Herona</i> na pole trójkąta: \(S = \sqrt{p(p-a)(p-b)(p-c)}\)</p>
+            <p>Potrzebne nam będzie tzw. <u>podstawienie Raviego</u>.</p>
+            <p><b>LEMAT</b></p>
+            <p>Jeżeli \(a, b, c\) są długościami boków trojkąta, to istnieją takie dodatnie liczby rzeczyswiste \(x, y, z\), że zachodzi:</p>
+            <p>\(a = x + y, b = x + z, c = z + y\)</p>
+            <p><b>Dowód lematu:</b></p>
+            <p>W każdy trójkąt można wpisać okrąg, bo w każdym trójkącie dwusieczne kątów przecinają się w jednym punkcie - istnieje środek okręgu wpisanego, punkt \(I\). Jest to prosty wniosek z tzw. <i>trygonometrycznego twierdzenia Cevy</i>, które to twierdzenie omówię w którymś z kolejnych artykułów.</p>
+            <p>Możemy zaznaczyć punkty styczności okręgu z bokami trójkąta. Wówczas na podstawie twierdzenia o odcinkach stycznych, albo w nomenklaturze olimpijskiej: najmocniejszego twierdzenia geometrii mamy:</p>
+            <p>
+                <img class="centered-image" src="img/circle-inscribed-in-triangle.png">
+            </p>
+            <p>\(a = |AB| = |AP| + |PB| = x + y\). Podobnie wyznaczamy \(b\) i \(c\)</p>
+            <p>Dzięki podstawieniu Raviego mamy: \(p = \frac{a+b+c}{2} = x + y + z, p - a = z, p - b = y, p - c = x\) i tym samym wzór Herona przybiera postać:</p>
+            <p>\[S = \sqrt{(x+y+z)xyz}\]</p>
+            <p>Dowodzona nierówność wygląda zatem tak:</p>
+            <p>\[(x+y)(x+z)(z+y)\cdot 2(x+y+z) \geq 16(x+y+z)xyz\]</p>
+            <p>Czyli równoważnie:</p>
+            <p>\[\tag{*} (x + y)(x + z)(z + y) \geq 8xyz\]. A ta nierówność jest bardzo łatwa do udowodnienia.</p>
+            <p>Przecież na mocy nierówności między średnimi: arytmetyczną i geometryczną zachodzi:</p>
+            <p>\(x + y \geq 2\sqrt{xy}, x + z \geq 2\sqrt{xz}, z + y \geq 2\sqrt{zy}\)</p>
+            <p>Wymnażając je stronami dostajemy nierówność (*), czyli tezę. \(\blacksquare\) Q.E.D</p>
+            <p>Zastanówmy, się kiedy w rozważanej nierówności zachodzi równość...</p>
+            <p>Wtedy, gdy w nierównościach między średnimi jest równość, czyli wtedy i tylko wtedy, gdy \(x = y, x = z, z = y\), co implikuje równość boków \(a = b = c\) czyli równoboczność trójąta.</p>
+        </details>
+    <p>Sposób II (metoda olimpijska)</p>
+    <details class="solution">
+            <summary>🔎 Pokaż rozwiązanie 2</summary>
+            <p>Zachodzi twierdzenie Eulera o okręgach, które mówi że kwadrat odległości między środkiem okręgu opisanego i wpisanego jest równy iloczynowi promienia \(R\) okręgu opisanego i róznicy między tym promieniem a średnicą \(2r\) okręgu wpisanego.</p>
+            <p>Formalnie: Niech \(O\) oznacza środek okręgu opisanego, zaś \(I\) środek okręgu wpisanego. Wówczas:</p>
+            <p>\[|OI|^2 = R\cdot (R-2r)\]</p>
+            <p>Lewa strona powyższej nierówności jest nieujemna (\(\geq 0\)). Zatem prawa strona też taka musi być. Ale \(R > 0\) jako długość odcinka. Zatem drugi czynnik musi być nieujemny, czyli \(R - 2r \geq 0 \iff R \geq 2r\), skąd teza. \(\blacksquare\) Q.E.D</p>
+            <p>Zastanówmy się jeszcze, kiedy zachodzi równość? No... Jeżeli \(R = 2r\) to prawa strona równania się zeruje, czyli lewa też zatem \(|OI|^2 = 0 \implies O = I\), czyli w takiej sytuacji środek okręgu opisanego i wpisanego się pokrywają (to ten sam punkt). </p>
+            <p>Takie coś jest możliwe w trójkacie równobocznym (i jedynie w trójkącie równobocznym, żadnym innym :D) </p>
+    </details>
+    <h3>Zadanie 7</h3>
+        <p>To zadanie należy zrobić, mając do dyspozycji jedynie kartkę, głowę i coś do pisania. Obowiązuje ZAKAZ używania AI, kalkulatorów, stron internetowych zdolnych do przeprowadzania obliczeń symbolicznych itp.</p>
+
+        <h4>1)</h4>
+        <p>Oblicz:
+        \[
+        \frac{1}{1\cdot2\cdot3} + \frac{1}{2\cdot3\cdot4} + \frac{1}{3\cdot4\cdot5} + \cdots + \frac{1}{1000\cdot1001\cdot1002}
+        \]</p>
+        <details class="hint">
+            <summary>💡 Pokaż wskazówkę 1</summary>
+            <p>Każdy składnik jest postaci \(\frac{1}{k(k+1)(k+2)}\). Rozłóż to wyrażenie na tzw. <i>ułamki proste</i>. Patrz wsk. nr 2</p>
+        </details>
+        <details class="hint">
+            <summary>💡 Pokaż wskazówkę 2</summary>
+            <p>Znajdź jakie liczby \(A, B, C\) dla których \(\frac{1}{k(k+1)(k+2)} = \frac{A}{k} + \frac{B}{k+1} + \frac{C}{k+2}\). W tym celu sprowadź to równanie do równania wielomianowego przemnażając stronami przez \(k(k+1)(k+2)\)</p>
+        </details>
+        <details class="hint">
+            <summary>💡 Pokaż wskazówkę 3</summary>
+            <p>Skorzystaj z tzw. <i>równości wielomianów</i>, która pozwala przyrównać do siebie współczynniki. Powstanie układ 3 równań z 3ema niewiadomymi: \(A, B, C\). Rozwiąż go i teleskopuj sumę.</p>
+        </details>
+        <details>
+            <summary>UWAGA!!!</summary>
+            <p>EDIT: Jednak nie trzeba tego rozkładać na sumę 3 ułamków prostych, to zadziała niby ale da się prościej... Ale ja bym nie wpadł na to...</p>
+        </details>
+        <details class="solution">
+            <summary>🔎 Pokaż rozwiązanie</summary>
+            <p>Rozwiązanie zostanie opublikowane w najbliższą niedzielę po 21:00</p>
+        </details>
+        <h4>2)</h4>
+        <p>Uprość sumę:
+        \[
+        \frac{1}{\sqrt{1 + \sqrt{1^2 - 1}}} + \frac{1}{\sqrt{2 + \sqrt{2^2 - 1}}} + \frac{1}{\sqrt{3 + \sqrt{3^2 - 1}}} + \cdots + \frac{1}{\sqrt{100 + \sqrt{100^2 - 1}}}
+        \]</p>
+
+        <h4>3)</h4>
+        <p>Uprość iloczyn:
+        \[
+        \left(1 - \frac{1}{2^2}\right)\cdot\left(1 - \frac{1}{3^2}\right)\cdot\left(1 - \frac{1}{3^2}\right)\cdots\left(1 - \frac{1}{100^2}\right)
+        \]</p>
+
+        <h4>4)</h4>
+        <p>Uprość sumę:
+        \[
+        \frac{6^1}{(3^1 - 2^1)(3^2 - 2^2)} + \frac{6^2}{(3^2 - 2^2)(3^3 - 2^3)} + \frac{6^3}{(3^3 - 2^3)(3^4 - 2^4)} + \cdots + \frac{6^{100}}{(3^{100} - 2^{100})(3^{101} - 2^{101})}
+        \]</p>
+
+        <h4>5)</h4>
+        <p>Uprość sumę:
+        \[
+        -\frac{1^2 + 1 + 1}{1!} + \frac{2^2 + 2 + 1}{2!} - \frac{3^2 + 3 + 1}{3!} + \cdots + (-1)^{2026}\frac{2026^2 + 2026 + 1}{2026!}
+        \]</p>
+        <details class="hint">
+            <summary>💡 Pokaż wskazówkę 1</summary>
+            <p>Licznik Każdego składnika jest postaci \(k^2 + k + 1 = (k+1)^2 - k\)</p>
+        </details>
+        <details class="solution">
+            <summary>🔎 Pokaż rozwiązanie</summary>
+            <p>Rozwiązanie zostanie opublikowane w najbliższą niedzielę po 21:00</p>
+        </details>
+        <h4>6)</h4>
+        <p>Uprość iloczyn:
+        \[
+        (1^1\cdot1!)(2^2\cdot2!)(3^3\cdot3!)\cdots(100^{100}\cdot100!)
+        \]</p>
+
+        <h4>7)</h4>
+        <p>Uprość sumę:
+        \[
+        \frac{1}{2\sqrt{1} + 1\sqrt{2}} + \frac{1}{3\sqrt{2} + 2\sqrt{3}} + \cdots + \frac{1}{101\sqrt{100} + 100\sqrt{101}}
+        \]</p>
+
+        <h4>8)</h4>
+        <p>Dla dowolnego \(x\in\mathbb{R}\) definiujemy:
+        \[
+        f(x) = \frac{1}{\sqrt[3]{x^2 - 2x + 1} + \sqrt[3]{x^2 - 1} + \sqrt[3]{x^2 + 2x + 1}}
+        \]
+        Uprość sumę \(f(1) + f(3) + f(5) + \cdots + f(999\,999)\).</p>
+
+        <h4>9)</h4>
+        <p>Uprość sumę:
+        \[
+        \sqrt{1 + \frac{1}{1^2} + \frac{1}{2^2}} + \sqrt{1 + \frac{1}{2^2} + \frac{1}{3^2}} + \sqrt{1 + \frac{1}{3^2} + \frac{1}{4^2}} + \cdots + \sqrt{1 + \frac{1}{2026^2} + \frac{1}{2027^2}}
+        \]</p>
+        <details class="hint">
+            <summary>💡 Pokaż wskazówkę 1</summary>
+            <p>Każdy składnik jest postaci \(\sqrt{1+\frac{1}{k^2} + \frac{1}{(k+1)^2}} = \sqrt{\frac{(k^2 + k + 1)^2}{(k(k+1))^2}} = \frac{k^2 + k + 1}{k^2 + k} = 1 + \frac{1}{k(k+1)} = 1 + \frac{1}{k} - \frac{1}{k+1}\)</p>
+        </details>
+        <details class="solution">
+            <summary>🔎 Pokaż rozwiązanie</summary>
+            <p>Rozwiązanie zostanie opublikowane w najbliższą niedzielę po 21:00</p>
+        </details>
+        <h4>10)</h4>
+        <p>Uprość iloczyn:
+        \[
+        \frac{2^3-1}{2^3+1}\cdot\frac{3^3-1}{3^3+1}\cdot\frac{4^3-1}{4^3+1}\cdots\frac{n^3-1}{n^3+1}
+        \]</p>
+
+
+    <h3>Zadanie 8</h3>
+    <p>Udodownij, że dla dowolnej liczby \(n \in \mathbb{N}\) zachodzi nierówność:</p>
+    <p>\[1+\frac{1}{2^2} +\frac{1}{3^2} +\frac{1}{4^2} + \cdots + +\frac{1}{n^2} < 2 \]</p>
 
 </body>
 </html>
