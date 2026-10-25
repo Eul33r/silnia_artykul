@@ -1,6 +1,6 @@
 {
   "sezon": "2026/2027",
-  "ostatniaAktualizacja": "2026-10-25T20:04:58.106Z",
+  "ostatniaAktualizacja": "2026-10-25T20:05:00.385Z",
   "ranking": [
     {
       "miejsce": 1,
@@ -34,6 +34,11 @@
     },
     {
       "miejsce": 7,
+      "nick": "Amelia",
+      "punkty": 0
+    },
+    {
+      "miejsce": 8,
       "nick": "Nazalath",
       "punkty": 0
     }
