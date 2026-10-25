@@ -1,6 +1,6 @@
 {
   "sezon": "2026/2027",
-  "ostatniaAktualizacja": "2026-10-25T20:03:40.652Z",
+  "ostatniaAktualizacja": "2026-10-25T20:03:42.733Z",
   "ranking": [
     {
       "miejsce": 1,
@@ -26,6 +26,11 @@
       "miejsce": 5,
       "nick": "michal",
       "punkty": 2
+    },
+    {
+      "miejsce": 6,
+      "nick": "Nazalath",
+      "punkty": 0
     }
   ]
 }
