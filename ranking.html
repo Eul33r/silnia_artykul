@@ -480,6 +480,283 @@
     <h3>Zadanie 8</h3>
     <p>Udodownij, że dla dowolnej liczby \(n \in \mathbb{N}\) zachodzi nierówność:</p>
     <p>\[1+\frac{1}{2^2} +\frac{1}{3^2} +\frac{1}{4^2} + \cdots + +\frac{1}{n^2} < 2 \]</p>
+        <details class="hint">
+            <summary>💡 Pokaż wskazówkę 1</summary>
+            <p>2 jest naprawdę słabym oszacowaniem tej sumy. Można udowodnić, że dla dowolnego \(n\)  ta suma jest mniejsza niż \(1,65\)
+Użyjcie indukcji matematycznej. Musicie wzmocnić tezę zadania. Udowodnijcie, że dla dowolnego \(n\) ta suma jest \(< 2 - 1/n\) jasne, że to dowodzi docelową tezę, bo \(2 - 1/n < 2\). 
+Szacujcie mianowniki tych ułamków... każdy składnik jest  ułamkiem  postaci \(1/(k^2)\) Zobaczcie, że \(k^2 = k*k > k(k-1)\)
 
+        </details>
+        <details>
+            <summary>💡 Pokaż wskazówkę 2</summary>
+            <p>Alternatywnie możecie sobie wygooglać czym jest tzw. <b>problem bazylejski</b> oraz powiązana z tym problemem <b>funkcja dzeta Riemanna</b>, ale to alternatywne rozwiązanie wymaga bardzo zaawansowanego aparatu matematycznego, jednak jest bardzo piękne i pomysłowe</p></p>
+        </details>
+        <details class="solution">
+            <summary>🔎 Pokaż rozwiązanie</summary>
+            <p>Sposób I:</p>
+            <p>Zauważmy, że \(k^2 = k \cdot k > k(k-1) \implies \frac{1}{k^2} < \frac{1}{k(k-1)}\)</p>
+            <p>Zachodzi rozkład: \(\frac{1}{k(k-1)} = \frac{1}{k-1} - \frac{1}{k}\)</p>
+            <p>Zatem szacując każdy składnik tej sumy, począwszy od drugiego składnika w powyższy sposób mamy:</p>
+            <p>\(1+\frac{1}{2^2} +\frac{1}{3^2} +\frac{1}{4^2} + \cdots + \frac{1}{n^2} < 
+                1 + \frac{1}{2\cdot1} + \frac{1}{3\cdot2} + \frac{1}{4\cdot3} + \cdots + \frac{1}{n\cdot(n-1)} = 
+                1 + \frac{1}{1} - \frac{1}{2} + + \frac{1}{2} - \frac{1}{3} + \frac{1}{3} - \frac{1}{4} + \cdots + \frac{1}{n-1} - \frac{1}{n} =
+                1+1-\frac{1}{n} = 2 - \frac{1}{n} < 2 \ \blacksquare Q.E.D\), bo skoro \(n \geq 1\), to \(\frac{1}{n} > 0\), czyli \(-\frac{1}{n} < 0\)</p>
+
+        </details>
+    <h3>Zadanie 9</h3>
+    <p>
+        Wiedząc, że \(tgx + \frac{1}{tgx} = 3\):</p>
+
+        <p>a) Oblicz \(tg^2x + \frac{1}{tg^2{x}}\)</p>
+        <p>b) Oblicz \(tg^3x + \frac{1}{tg^3{x}}\)</p>
+        <p>c) Oblicz \(tg^{100}x + \frac{1}{tg^{100}{x}}\)</p>
+        <p>d) Oblicz \(tg^{2026}x + \frac{1}{tg^{2026}{x}}\)</p>
+        <p>e) Zdefiniujmy \(T_n = tg^nx +\frac{1}{tg^nx}\)
+        Wyprowadź wzór rekurencyjny na \(T_n\) w zależności od poprzednich wyrazów \(T_{n-1}, T_{n-2}, \cdots T_1, T_0\).
+        Następnie scharakteryzuj tak powstałe równanie rekurencyjne i rozwiąż je, tym samym otrzymując tzw. wzór jawny na \(T_n\).</p>
+        
+    </p>
+            <details class="hint">
+            <summary>💡 Pokaż wskazówkę 1</summary>
+            <p>Licznik Każdego składnika jest postaci \(k^2 + k + 1 = (k+1)^2 - k\)</p>
+        </details>
+        <details class="solution">
+            <summary>🔎 Pokaż rozwiązanie</summary>
+            <p>Rozwiązanie zostanie opublikowane w najbliższą niedzielę po 21:00</p>
+        </details>
+    <h3>Zadanie 10</h3>
+        <p>a) Uzasadnij, że równanie \(3cos(4x) + 4sin(3x) = 8\) jest sprzeczne.</p> 
+        <p>b) Wyznacz zbiór wartości funkcji 
+        \(f_1(x) = sin(x) + cos(x), f_2(x) = 6cos(x) - 4sin(x)\) </p>
+        <p>c) Uzasadnij, że zbiór wartości funkcji \(g(x) = Asin(x) + Bcos(x)\) jest taki sam, jak zbiór wartości funkcji \(h(x) = Bsin(x) + Acos(x)\) i wyznacz ten zbiór wartości. </p>
+        <p>d) Wyprowadź wzór na sinus i cosinus kąta potrojonego w zależności od \(sin(x)\) i \(cos(x)\)</p>
+        <p></p>e) Wyprowadź wzór na \(tg(3x)\) w zależności od \(tg(x)\)</p>
+
+    <details class="hint">
+    <summary>💡 Pokaż wskazówkę 1</summary>
+    <p></p>
+    </details>
+    <details class="solution">
+    <summary>🔎 Pokaż rozwiązanie</summary>
+    <p>a) Funkcje \(y = sin(x)\) i \(y = cos(x)\) dla \(x \in \mathbb{R}\) są ograniczone, zachodzą nierówności:</p>
+    <p>\( sin(x) \leq 1 \land cos(x) \leq 1\). Oczywiście argument może być dowolny, dowolnie duży i dalej sinus i cosinus nie przekroczą jedynki...</p>
+    <p>\(cos(4x) \leq 1 \implies 3cos(4x) \leq 3\cdot1 = 3\)</p>
+    <p>Podobnie \(sin(3x) \leq 1 \implies 4sin(3x) \leq 4\cdot1 = 4\)</p>
+    <p>Dodając te dwie nierówności stronami, dostajemy że  \(3cos(4x) + 4sin(3x) \leq 3 + 4 = 7\)</p>
+    <p>Zatem lewa strona nierówności NIE PRZEKRACZA liczby 7. Nigdy nie może zatem być równa liczbie 8, stąd równanie jest sprzeczne.</p>
+
+    <p>b)</p>
+    <p>c) Znany jest wzór \(\)</p>
+    <p>d) Chcemy wyprowadzić wzór na \(sin(3x)\) oraz \(cos(3x)\)
+        Znany jest wzór \(sin(\alpha + \beta) = sin(\alpha)\cdot cos(\beta) + sin(\beta)\cdot cos(\alpha)\)</p>
+        Wystarczy przyjąć \(\alpha = 2x, \beta = x\):
+        \(sin(3x) = sin(2x + x) = sin(2x)\cdot cos(x) + sin(x)\cdot cos(2x) = 2\cdot sin(x)\cdot cos(x) \cdot cos(x) + sin(x)\cdot [cos^2(x) - sin^2(x)] = 2sin(x)cos^2(x) + sin(x)(1-2sin^2(x) = 2sin(x)(1-sin^2(x)) + sin(x)(1-2sin^2(x) = sin(x)(2 - 2sin^2(x) + 1 - 2sin^2(x)) = sin(x)(3 - 4sin^2(x)) = 3sin(x) - 4sin^3(x) \)
+    <p>Podobnie, znany jest wzór \(cos(\alpha + \beta) = cos(\\)</p>
+
+    <p>e)</p>
+    </details>
+    <h3>Zadanie 11</h3>
+    <p>Rozwiąż nierówność: \(|x-3| + |x-6| < 2\)</p>
+
+    <details class="hint">
+    <summary>💡 Pokaż wskazówkę 1</summary>
+    <p>Sposób I (metoda szkolna)</p>
+    <p>Sposób II (olimpijski)
+    </details>
+    <details class="solution">
+        <summary>🔎 Pokaż rozwiązanie szkolne</summary>
+        <p>Trzeba rozbić to na 3 przypadki, liczbami które "zerują" wyrażenia pod wartościami bezwzględnymi są \(3\) i \(6\).</p>
+        <p>1) \(x < 3\)</p>
+        <p>Nierówność przybiera postać: \(-x + 3 -x +6 < 2 \iff -2x < -7 \iff x > \frac{7}{2}\), co jest sprzeczne z założeniem poczynionym w 1. przypadku. Zatem "na lewo od trójki" ta nierówność NIE ma rozwiązań(!)</p>
+        <p>2) \(3 \leq x < 6\)</p>
+        <p>Nierówność przybiera postać: \(x-3 -x + 6 < 2 \iff 3 < 2\), co jest oczywistą sprzecznością. Oznacza to, że w przedziale \( [3, 6) \) ta nierówność NIE ma rozwiązań.</p>
+        <p>3) \(x \geq 6\)</p>
+        <p>Nierówność przybiera postać: \(x - 3 + x - 6 < 2 \iff 2x < 11 \iff x < \frac{11}{2}\) co jest sprzeczne z założeniem poczynionym w 3. przypadku. "Na prawo od 6" NIE ma rozwiązań.</p>
+
+        <p>1) \(x < 3 \implies x \in \emptyset\) (Nie da się jednocześnie pogodzić warunków \(x < 3 \land x > \frac{7}{2}</3>\)</p>
+        <p>2) \(3 \leq x < 6 \implies x \in \emptyset\)</p>
+        <p>3) \(x \geq 6 \implies x \in \emptyset\) (Nie da się jednocześnie pogodzić warunków \(x \geq 6 \land x < \frac{11}{2}</3>\))</p>
+
+
+        <p>Ostatecznym rozwiżaniem jest suma z rozwiązań z poszczególnych przypadków, czyli \(x \in \emptyset \cup \emptyset \cup \emptyset\)</p>
+        <p>Co można zapisać krócej: \(x \in \emptyset\)</p>
+        <p>Nierówność jest sprzeczna, nie ma rozwiązań...</p>
+        
+    </details>
+    <details class="solution">
+        <summary>🔎 Pokaż rozwiązanie olimpijskie</summary>
+        <p>Dla dowolnych \(a, b \in \mathbb{R}\) zachodzi: \(|a - b| = |b - a|\) Można tę własność udowodnić algebraicznie:</p>
+        <p>\(|a-b| = |-(b-a)| = |-1\cdot(b-a)| = |-1|\cdot||b-a| = 1\cdot|b-a| = |b-a|\) (Bo wartość bezwzględna z iloczynu jest równa iloczynowi wartości bezwzględnych.)</p>
+        <p>Można też skorzystać z interpretacji geometrycznej wartości bezwględnej, otóż: liczba \(|a-b|\) to odległość między liczbą \(a\) i liczbą \(b\) na osi liczbowej...</p>
+        <p>Chyba rozsądnie jest założyć, że odległość między liczbą \(a\) i liczbą \(b\) jest taka sama jak odległość między liczbą \(b\) i liczbą \(a\), prawda?</p>
+        <p>Stąd wynika natychmiast uzasadnienie równości: \(|a-b| = |b-a|\)</p>
+        <p>Przejdźmy do zadania. Na mocy wcześniejszej obserwacji mamy, że \(|x-6| = |6 - x|\)</p>
+        <p>Będziemy korzystać z jeszcze jednej własności wartości bezwględnej, która nazywa się często nierównością trójkąta (nie bez powodu taka nazwa, zbiór \(\mathbb{R}\)) z funkcją \(f(x, y) = |x-y|\) jest nawet przestrzenią metryczną - tego nie musicie wiedzieć na maturę, ale warto wiedzieć. Warto, jak to nazywam: "być świadomym użytkownikiem matematyki" :D</p>
+        <p>Własność ta, mówi że \(|a+b| \leq |a| + |b|\) (Moduł z sumy nie przekracza sumy modułów i uogólnia się to na więcej niż dwie liczby, dwie literki)</p>
+        <p>Dzięki tym własnościom mamy, że \(|x-3| + |x-6| = |x-3| + |6-x| \geq |x-3 + 6 - x| = |3| = 3\)</p>
+        <p>A zatem pokazaliśmy, że lewa strona wyjściowej nierówności jest ZAWSZE przynajmniej równa 3. Nas pytają, kiedy ona będzie mniejsza niż 2. Kiedy tak będzie? Oczywiście NIGDY xD</p>
+        <p>Zatem ta nierówność jest sprzeczna, jej zbiorem rozwiązań jest zbiór pusty.</p>
+
+    </details>
+    <h3>Zadanie 12</h3>
+    <p>Pewien palący matematyk nosi w kieszeniach (lewej i prawej)
+        po jednym pudełku zapałek. Ilekroć chce zapalić papierosa, sięga do
+        losowo wybranej kieszeni. Jaka jest szansa, ze gdy po raz pierwszy
+        wyciągnie puste pudełko, w drugim będzie \(k\) zapałek? \(k \leq m\), gdzie \(m\) jest liczbą zapałek w pełnym pudełku.(Zakładamy, że w chwili początkowej matematyk ma dwa pełne pudełka zapałek)</p>
+
+    
+
+
+
+    <h3>Zadanie 13</h3>
+    <p>Rozwiąż układ równań:</p>
+    <p>\[
+        \begin{cases}
+        x^{\log_{y}z} + z^{\log_{y}x} = 512 \\
+        y^{\log_{z}x} + x^{\log_{z}y} = 8 \\
+        z^{\log_{x}y} + y^{\log_{x}z} = 2\sqrt{2}
+        \end{cases}
+    \]</p>
+
+    <details class="hint">
+    <summary>💡 Pokaż wskazówkę 1</summary>
+        <p>TODO</p>
+    </details>
+    <details class="solution">
+    <summary>🔎 Pokaż rozwiązanie</summary>
+        <p>Rozwiązanie zostanie opublikowane w najbliższą niedzielę po 21:00</p>
+        <p>Na początek udowodnimy następujący</p>
+        <p><b>LEMAT:</b></p>
+        <p>Dla dowolnych \(A,B,C \in \mathbb{R}\) takich, że prawa i lewa strona ma sens (jest określona) zachodzi równość:</p>
+        <p>\[A^{log_{B}C} = C^{log_{B}{A}}\]</p>
+        <p><b>DOWÓD LEMATU:</b></p>
+        <p>TODO</p>
+        <p>Dzięki lematowi, który udowodniliśmy, lewą stronę każdego równania można uprościć:</p>
+        <p>\[
+        \begin{cases}
+        2x^{\log_{y}z} = 512 \\
+        2y^{\log_{z}x} = 8 \\
+        2z^{\log_{x}y} = 2\sqrt{2}
+        \end{cases}
+         \implies
+        \begin{cases}
+        x^{\log_{y}z} = 256 \\
+        y^{\log_{z}x} = 4 \\
+        z^{\log_{x}y} = \sqrt{2}
+        \end{cases}
+        \]
+        </p>
+        <p>W tak uproszczonym układzie widzimy, że żeby z prawej strony trzeciego równania wygenerować prawą stronę drugiego równania trzeba ją podnieść do czwartej potęgi.</p>
+        <p>Istotnie, przecież \(\sqrt{2}^4 = 4\). Zatem tak samo będzie z lewymi stronami, możemy wydedukować zależność:</p>
+        <p>\[(z^{\log_{x}y})^4 = (y^{\log_{z}x})\]</p>
+        <p>Korzystając z praw działań na </p>
+        <p></p>
+    </details>
+    
+    
+    <h3>Zadanie 14</h3>
+    <p>Wyznacz wszystkie pary \((x, y)\) liczb całkowitych spełniające układ równań:</p>
+    <p>\[
+        \begin{cases}
+        x + y = 6 \\
+        2^x + 3^y = 25
+        \end{cases}
+    \]</p>
+
+    <h3>Zadanie 15</h3>
+    <p>Dane są dodatnie liczby rzeczywiste \(x, y, z\). Uzasadnij, że poniższy układ równań nie ma rozwiązań (jest sprzeczny):</p>
+    <p>\[
+        \begin{cases}
+        \frac{\sqrt{z}}{\sqrt{x} + \sqrt{y}} = 1 \\
+        \frac{\sqrt{y}}{\sqrt{z} + \sqrt{x}} = \frac{1}{2} \\
+        \frac{\sqrt{x}}{\sqrt{z} + \sqrt{y}} = \frac{1}{3}
+        \end{cases}
+    \]</p>
+        <details class="hint">
+            <summary>💡 Pokaż wskazówkę 1</summary>
+            <p>TODO</p>
+        </details>
+        <details class="solution">
+            <summary>🔎 Pokaż rozwiązanie (wzorcówka - moje rozwiązanie)</summary>
+            <p>Założenie, że \(x, y, z > 0\) pozwala odwrócić ułamki (podnieść obie strony do -1 potęgi)</p>
+            <p>Otrzymujemy równoważny układ równań:</p>
+            <p>\[
+        \begin{cases}
+        \frac{\sqrt{x} + \sqrt{y}}{\sqrt{z}} = 1 \\
+        \frac{\sqrt{z} + \sqrt{x}}{\sqrt{y}} = 2 \\
+        \frac{\sqrt{z} + \sqrt{y}}{\sqrt{x}} = 3
+        \end{cases}
+            \]</p>
+            <p>Dodajemy teraz wszystkie 3 równania stronami:</p>
+            <p>\(\frac{\sqrt{x} + \sqrt{y}}{\sqrt{z}} + \frac{\sqrt{z} + \sqrt{x}}{\sqrt{y}} + \frac{\sqrt{z} + \sqrt{y}}{\sqrt{x}} = 1 + 2 + 3 = 6\)</p>
+            <p>Grupujemy teraz składniki:</p>
+            <p>\(\frac{\sqrt{x}}{\sqrt{z}} + \frac{\sqrt{y}}{\sqrt{z}} + \frac{\sqrt{z}}{\sqrt{y}} + \frac{\sqrt{x}}{\sqrt{y}} + \frac{\sqrt{z}}{\sqrt{x}} + \frac{\sqrt{y}}{\sqrt{x}} = 6\)</p>
+            <p>\((\frac{\sqrt{x}}{\sqrt{y}} + \frac{\sqrt{y}}{\sqrt{x}}) + (\frac{\sqrt{z}}{\sqrt{y}} + \frac{\sqrt{y}}{\sqrt{z}}) + (\frac{\sqrt{x}}{\sqrt{z}} + \frac{\sqrt{z}}{\sqrt{x}}) = 6\)</p>
+            <p>Zauważmy, że każdy nawias to suma jakiejś liczby i jej odwrotności.</p>
+            <p>Udowodnimy teraz pewien lemat:</p>
+            <p>Dla \(a, b > 0\) zachodzi nierówność: \(\frac{a}{b} + \frac{b}{a} \geq 2\), przy czym równość zachodzi wtedy i tylko wtedy, gdy \(a = b\)</p>
+            <p><b>Dowód lematu:</b></p>
+            <p>To prosta konsekwencja nierówności między średnimi: arytmetyczną i geometryczną. Mamy:</p>
+            <p>\(\frac{\frac{a}{b} + \frac{b}{a}}{2} \geq \sqrt{\frac{a}{b}\cdot\frac{b}{a}} = \sqrt{1} = 1 \implies \frac{a}{b} + \frac{b}{a} \geq 2\)</p>
+            <p>Zatem:</p>
+            <p>\((\frac{\sqrt{x}}{\sqrt{y}} + \frac{\sqrt{y}}{\sqrt{x}}) + (\frac{\sqrt{z}}{\sqrt{y}} + \frac{\sqrt{y}}{\sqrt{z}}) + (\frac{\sqrt{x}}{\sqrt{z}} + \frac{\sqrt{z}}{\sqrt{x}}) \geq 2 + 2 + 2 = 6\)</p>
+            <p>Ale wiemy, że to wyrażenie JEST równe DOKŁADNIE 6. Czyli muszą zachodzić równości: \(x = y, x = z, z = y \implies x = y = z\)</p>
+            <p>No ale wstawiając \(x = y = z\) do wyjściowego układu, np. do pierwszego równania dostajemy:</p>
+            <p>\(\frac{\sqrt{x} + \sqrt{y}}{\sqrt{z}} = \frac{\sqrt{x} + \sqrt{x}}{\sqrt{x}} = \frac{2\sqrt{x}}{\sqrt{x}} = 2\)</p>
+            <p>Z drugiej strony wiemy, z warunków początkowych że to pierwsze równanie jest równe 1.</p>
+            <p>Czyli \(1 = 2\). A to jest oczywista sprzeczność (ang. contradiction). Zatem cały układ jest sprzeczny. \(\blacksquare \ Q.E.D\)</p>
+
+
+        </details>
+    <h3>Zadanie 16</h3>
+    <p>Przez punkt P wewnątrz trójkąta \(\Delta ABC\) poprowadzono proste równoległe do wszystkich boków. Wycięły one trzy trójkąty o polach równych odpowiednio \(Q, R, T\).</p>
+    <p>Udowodnij, że jeśli \(S\) jest polem \(\Delta ABC\), to zachodzi równość: \(\sqrt{S} = \sqrt{Q} + \sqrt{R} + \sqrt{T}\)</p> 
+    <h3>Zadanie 17</h3>
+    <p>Jaki jest współczynnik przy \(x^{10}\) w poniższych wielomianach? (Po przejściu na postać ogólną)</p>
+        <p>a) \(W(x) = (1+x)^{15}\)</p>
+        <p>b) \(P(x) = (2-x)^{50}\)</p>
+        <p>c) \(Q(x) = (2x^2 - 3x)^{100}\)</p>
+    <details class="hint">
+        <summary>💡 Pokaż wskazówkę 1</summary>
+        <p>TODO</p>
+    </details>
+    <details class="solution">
+        <summary>Pokaż rozwiązanie</summary>
+        <p>a) We wzorze ze wskazówki podstawiamy \(a = 1, b = x, n = 15\). Interesuje nas tak naprawdę \(k\)-ty składnik <i>(ang. general term)</i></p>
+        <p>Mamy: \((1+x)^{15} = \sum_{k=0}^{15} \binom{15}{k}1^{15-k}x^k = \sum_{k=0}^{15} \binom{15}{k}x^k\) Bo \(1^{15-k} = 1\) niezależnie od wykładnika.</p>
+        <p>Wystarczy podstawić \(k = 10\), zatem interesujący nas współczynnik jest równy \(\binom{15}{10} = 3003\)</p>
+
+        <p>b) We wzorze ze wskazówki podstawiamy \(a = 2, b = -x, n = 50\).</p>
+        <p>Mamy: \((2-x)^{50} = \sum_{k=0}^{50} \binom{50}{k}2^{50-k}(-x)^k = \sum_{k=0}^{50} \binom{50}{k}2^{50-k}(-1\cdot x)^k = \sum_{k=0}^{50} \binom{50}{k}2^{50-k}(-1)^k \cdot x^k = \sum_{k=0}^{50} (-1)^k\binom{50}{k}2^{50-k}x^k\)</p>
+        <p>Wystarczy podstawić \(k = 10\), szukany współczynnik wynosi \((-1)^{10} \cdot 2^{50-10} \cdot \binom{50}{10} = 2^{40}\cdot \binom{50}{10}\)</p>
+
+        <p>c) We wzorze ze wskazówki podstawiamy: \(a = 2x^2, b = -3x, n = 100\)</p>
+        <p>Mamy: \((2x^2 - 3x)^{100} = \sum_{k=0}^{100} \binom{100}{k}(2x^2)^{100-k}(-3x)^k = \sum_{k=0}^{100} \binom{100}{k}2^{100-k}(x^2)^{100-k}(-3)^kx^k = \sum_{k=0}^{100} \binom{100}{k}2^{100-k}x^{200-2k}(-3)^kx^k = \sum_{k=0}^{100} \binom{100}{k}2^{100-k}(-3)^kx^{200-k}\)</p>
+        <p>Chcemy, żeby wykładnik był równy \(10\), więc przyrównujemy: \(200 - k = 10 \iff k = 190\), no ale \(\binom{100}{190} = 0\), no bo na ile sposobów można wybrać 190 obiektów spośród dostępnych tylko stu? No na zero xD Istnieje 0 190-elementowych podzbiorów zbioru 100-elementowego.</p>
+        <p>Zatem współczynnik przy \(x^{10}\) w wielomianie Q(x) wynosi 0.</p>
+    </details>
+    <h3>Zadanie 18</h3>
+    <p>1) Wykaż, że równanie \(x^4 - 4x - 5 = 0\) ma rozwiązanie w przedziale \([1;2]\).</p>
+    <p>2) Używając tzw. metody bisekcji (połowienia przedziału) - wygooglujcie sobie, na czym polega ta metoda. Spróbuj w miarę dokładnie, powiedzmy z dokładnością do 3 miejsc po przecinku oszacować, ile wynosi to rozwiązanie (pierwiastek, miejsce zerowe).</p> 
+    <p>3) Przybliż rozwiązanie używając metody (algorymtu) Newtona - ponownie, spytajcie wujka Google :) </p>
+    <p>4) Przybliż rozwiązanie metodą iteracji prostej Banacha. Dobierz taką funkcję (ciąg), aby był zgodny z założeniami tej metody i faktycznie można było jej użyć.</p>
+    <p>5) Przybliż rozwiązanie metodą siecznych. Jaką przewagę ma ta metoda w prównaniu z metodą Newtona?? </p>
+    <p>6) Przybliż rozwiązanie regułą falsi.</p>
+    <h3>Zadanie 19</h3>
+    <p>a) Na bokach \(AB, BC\) i \(AC\) trójkąta \(\Delta ABC\) wybrano odpowiednio takie punkty \(K, L, M\), że zachodzą równości: 
+    \[\frac{|AK|}{|KB|} = \frac{|BL|}{|LC|} = \frac{|AM|}{|MC|} = k \in (0, +\infty)\]. 
+    Odcinki \(CK\) i \(AL\) przecinają się w punkcie \(P\), odcinki \(CK\) i \(BM\) przecinają się w punkcie \(Q\), zaś odcinki \(AL\) i \(BM\) przecinają się w punkcie \(R\).
+    Wyznacz, w zależności od \(k\) stosunek pól trójkątów \(\Delta KLM\) i \(\Delta ABC\) oraz stosunek pól trójkątów \(\Delta PQR\) i \(\Delta ABC\). 
+    Wyznacz wartości \(k\), dla których stosunki tych pól są ekstremalne.</p>
+    <p>b) Na bokach \(AB, BC\) i \(AC\) trójkąta \(\Delta ABC\) wybrano odpowiednio takie punkty \(K, L, M\), że zachodzą równości: 
+    \[\frac{|AK|}{|KB|} = \lambda, \frac{|BL|}{|LC|} = \mu,  \frac{|AM|}{|MC|} = v \]
+    Odcinki \(CK\) i \(AL\) przecinają się w punkcie \(P\), odcinki \(CK\) i \(BM\) przecinają się w punkcie \(Q\), zaś odcinki \(AL\) i \(BM\) przecinają się w punkcie \(R\).
+    Wyznacz, w zależności od \(\lambda, \mu, v\) stosunek pól trójkątów \(\Delta KLM\) i \(\Delta ABC\) oraz stosunek pól trójkątów \(\Delta PQR\) i \(\Delta ABC\).</p>
+    <h3>Zadanie 20</h3>
+    <p>a) W magazynie zainstalowano trzy czujniki, z których każdy niezależnie od pozostałych może uruchomić alarm w wypadku pożaru. Prawdopodobieństwo wykrycia pożaru przez pojedynczy czujnik jest równe 0,6. Oblicz prawdopodobieństwo tego, że w wypadku pożaru alarm zostanie uruchomiony.</p>
+    <p>b) W magazynie zainstalowano \(n\) czujników, 
+z których każdy niezależnie od pozostałych może uruchomić alarm w wypadku pożaru. Prawdopodobieństwo wykrycia pożaru przez pojedynczy czujnik jest równe $p$, \(0 < p < 1\) Oblicz prawdopodobieństwo tego, że w wypadku pożaru alarm zostanie uruchomiony. \\
+Dla ustalonego \(n\) oblicz, jaka musi być wartość $p$, aby prawdopodobieństwo uruchomienia alarmu było większe niż \(k\%\). \\
+Dla ustalonego \(p\) oblicz, ile co najmniej musi być zainstalowanych czujników, aby prawdopodobieństwo uruchomienia alarmu było większe niż \(k\%\)</p>
 </body>
 </html>
