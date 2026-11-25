@@ -1,0 +1,53 @@
+
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test get-calendar</title>
+</head>
+<body>
+    <h1>Test funkcji get-calendar</h1>
+
+    <button id="testButton">Pobierz kalendarz</button>
+
+    <pre id="result">Oczekiwanie na test...</pre>
+
+    <script type="module">
+        import { supabase } from './js/supabase.js';
+
+        const button = document.querySelector('#testButton');
+        const result = document.querySelector('#result');
+
+        button.addEventListener('click', async () => {
+            result.textContent = 'Łączenie z backendem...';
+            button.disabled = true;
+
+            try {
+                const { data: sessionData } =
+                    await supabase.auth.getSession();
+
+                if (!sessionData.session) {
+                    result.textContent = 'Brak aktywnej sesji. Zaloguj się najpierw.';
+                    return;
+                }
+
+                const { data, error } =
+                    await supabase.functions.invoke('get-calendar');
+
+                if (error) {
+                    throw error;
+                }
+
+                result.textContent = JSON.stringify(data, null, 2);
+
+            } catch (error) {
+                console.error(error);
+                result.textContent = 'BŁĄD:\n' + error.message;
+            } finally {
+                button.disabled = false;
+            }
+        });
+    </script>
+</body>
+</html>

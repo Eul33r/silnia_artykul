@@ -1,0 +1,419 @@
+/* Wzory skróconego mnożenia - styli */
+:root {
+    --color-primary: #2563eb;
+    --color-secondary: #7c3aed;
+    --color-accent: #dc2626;
+    --color-success: #16a34a;
+    --color-bg: #f8fafc;
+    --color-border: #e2e8f0;
+    --color-text: #1e293b;
+}
+
+.wsm-section {
+    margin: 3rem 0;
+    padding: 2rem;
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.wsm-section h2 {
+    color: var(--color-primary);
+    margin-bottom: 1.5rem;
+    font-size: 1.75rem;
+    border-bottom: 3px solid var(--color-primary);
+    padding-bottom: 0.75rem;
+}
+
+.wsm-section h3 {
+    color: var(--color-secondary);
+    margin-top: 1.5rem;
+    margin-bottom: 1rem;
+    font-size: 1.25rem;
+}
+
+.wsm-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+    margin-bottom: 2rem;
+    align-items: start;
+}
+
+@media (max-width: 1024px) {
+    .wsm-container {
+        grid-template-columns: 1fr;
+    }
+}
+
+.wsm-canvas-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 400px;
+    background: linear-gradient(135deg, var(--color-bg) 0%, #f1f5f9 100%);
+    border-radius: 8px;
+    border: 2px solid var(--color-border);
+    overflow: hidden;
+}
+
+.wsm-canvas-wrapper canvas {
+    max-width: 100%;
+    max-height: 100%;
+}
+
+.wsm-controls {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.wsm-control-group {
+    padding: 1.5rem;
+    background: var(--color-bg);
+    border-radius: 8px;
+    border-left: 4px solid var(--color-primary);
+}
+
+.wsm-control-group label {
+    display: block;
+    font-weight: 600;
+    color: var(--color-text);
+    margin-bottom: 0.5rem;
+}
+
+.wsm-control-group .label-value {
+    display: inline-block;
+    background: white;
+    color: var(--color-primary);
+    padding: 0.25rem 0.75rem;
+    border-radius: 4px;
+    margin-left: 0.5rem;
+    font-weight: 700;
+}
+
+.wsm-slider {
+    width: 100%;
+    height: 8px;
+    border-radius: 5px;
+    background: linear-gradient(to right, var(--color-primary), var(--color-secondary));
+    outline: none;
+    -webkit-appearance: none;
+    appearance: none;
+    cursor: pointer;
+}
+
+.wsm-slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    background: white;
+    border: 3px solid var(--color-primary);
+    cursor: pointer;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+.wsm-slider::-moz-range-thumb {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    background: white;
+    border: 3px solid var(--color-primary);
+    cursor: pointer;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+.wsm-formula {
+    padding: 1.5rem;
+    background: white;
+    border: 2px dashed var(--color-secondary);
+    border-radius: 8px;
+    margin: 1rem 0;
+    font-size: 1.1rem;
+    overflow-x: auto;
+}
+
+.wsm-formula mjx-container {
+    display: flex;
+    justify-content: center;
+}
+
+.wsm-description {
+    padding: 1rem;
+    background: rgba(37, 99, 235, 0.05);
+    border-left: 4px solid var(--color-primary);
+    border-radius: 4px;
+    margin: 1rem 0;
+    line-height: 1.6;
+}
+
+.wsm-description strong {
+    color: var(--color-primary);
+}
+
+.wsm-tabs {
+    display: flex;
+    gap: 0.5rem;
+    margin-bottom: 2rem;
+    border-bottom: 2px solid var(--color-border);
+    flex-wrap: wrap;
+}
+
+.wsm-tab-button {
+    padding: 0.75rem 1.5rem;
+    background: transparent;
+    border: none;
+    border-bottom: 3px solid transparent;
+    cursor: pointer;
+    font-weight: 600;
+    color: #64748b;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+}
+
+.wsm-tab-button:hover {
+    color: var(--color-primary);
+    border-bottom-color: var(--color-primary);
+}
+
+.wsm-tab-button.active {
+    color: var(--color-primary);
+    border-bottom-color: var(--color-primary);
+}
+
+.wsm-tab-content {
+    display: none;
+}
+
+.wsm-tab-content.active {
+    display: block;
+}
+
+.wsm-proof-steps {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.wsm-proof-step {
+    padding: 1.5rem;
+    background: linear-gradient(135deg, #f0f9ff 0%, #f5f3ff 100%);
+    border-radius: 8px;
+    border-left: 4px solid var(--color-secondary);
+}
+
+.wsm-proof-step strong {
+    display: block;
+    color: var(--color-secondary);
+    margin-bottom: 0.5rem;
+    font-size: 1.1rem;
+}
+
+.wsm-proof-step code {
+    background: white;
+    padding: 0.2rem 0.6rem;
+    border-radius: 4px;
+    color: var(--color-accent);
+    font-family: 'Courier New', monospace;
+    font-weight: 600;
+}
+
+.wsm-toggle-3d {
+    display: flex;
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+}
+
+.wsm-toggle-3d button {
+    padding: 0.5rem 1rem;
+    border: 2px solid var(--color-primary);
+    background: white;
+    color: var(--color-primary);
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+.wsm-toggle-3d button.active {
+    background: var(--color-primary);
+    color: white;
+}
+
+.wsm-toggle-3d button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
+}
+
+.wsm-info-box {
+    padding: 1.5rem;
+    background: linear-gradient(135deg, #fef3c7 0%, #fef08a 100%);
+    border-left: 4px solid #f59e0b;
+    border-radius: 8px;
+    margin: 1.5rem 0;
+}
+
+.wsm-info-box strong {
+    color: #92400e;
+}
+
+.wsm-warning-box {
+    padding: 1.5rem;
+    background: linear-gradient(135deg, #fee2e2 0%, #fecaca 100%);
+    border-left: 4px solid var(--color-accent);
+    border-radius: 8px;
+    margin: 1.5rem 0;
+}
+
+.wsm-warning-box strong {
+    color: #7f1d1d;
+}
+
+.wsm-code-block {
+    background: #1e293b;
+    color: #e2e8f0;
+    padding: 1.5rem;
+    border-radius: 8px;
+    overflow-x: auto;
+    margin: 1rem 0;
+    font-family: 'Monaco', 'Courier New', monospace;
+    line-height: 1.5;
+}
+
+.wsm-code-block code {
+    color: #e2e8f0;
+}
+
+.wsm-keyword { color: #81c784; }
+.wsm-string { color: #64b5f6; }
+.wsm-number { color: #ffb74d; }
+
+.wsm-grid-2d {
+    display: inline-block;
+    margin: 1rem 0;
+}
+
+.wsm-comparison-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 1.5rem 0;
+}
+
+.wsm-comparison-table th {
+    background: var(--color-primary);
+    color: white;
+    padding: 1rem;
+    text-align: left;
+    font-weight: 600;
+}
+
+.wsm-comparison-table td {
+    padding: 1rem;
+    border-bottom: 1px solid var(--color-border);
+}
+
+.wsm-comparison-table tr:hover {
+    background: var(--color-bg);
+}
+
+.wsm-comparison-table code {
+    background: var(--color-bg);
+    padding: 0.25rem 0.5rem;
+    border-radius: 3px;
+    color: var(--color-secondary);
+}
+
+.wsm-summary {
+    padding: 2rem;
+    background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-secondary) 100%);
+    color: white;
+    border-radius: 8px;
+    margin-top: 2rem;
+}
+
+.wsm-summary h3 {
+    color: white;
+    margin-top: 0;
+}
+
+.wsm-summary ul {
+    list-style: none;
+    padding-left: 0;
+}
+
+.wsm-summary li {
+    padding-left: 1.5rem;
+    position: relative;
+    margin-bottom: 0.5rem;
+}
+
+.wsm-summary li:before {
+    content: "✓";
+    position: absolute;
+    left: 0;
+    font-weight: bold;
+    color: #fbbf24;
+}
+
+/* Animacje */
+@keyframes slideInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.wsm-section {
+    animation: slideInUp 0.6s ease-out;
+}
+
+@keyframes pulse {
+    0%, 100% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0.7;
+    }
+}
+
+.wsm-canvas-wrapper:hover {
+    box-shadow: 0 8px 24px rgba(37, 99, 235, 0.15);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .wsm-container {
+        gap: 1rem;
+    }
+
+    .wsm-section {
+        padding: 1.5rem;
+        margin: 1.5rem 0;
+    }
+
+    .wsm-tabs {
+        gap: 0.25rem;
+    }
+
+    .wsm-tab-button {
+        padding: 0.5rem 1rem;
+        font-size: 0.9rem;
+    }
+
+    .wsm-formula {
+        font-size: 0.95rem;
+        padding: 1rem;
+    }
+
+    .wsm-comparison-table th,
+    .wsm-comparison-table td {
+        padding: 0.75rem 0.5rem;
+        font-size: 0.9rem;
+    }
+}

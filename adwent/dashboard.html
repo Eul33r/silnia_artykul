@@ -1,0 +1,52 @@
+
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Matematyczny Adwent 2026</title>
+</head>
+<body>
+
+    <main>
+        <h1>Matematyczny Adwent 2026</h1>
+
+        <p id="status">Sprawdzanie sesji...</p>
+
+        <section id="account" hidden>
+            <h2>Witaj, <span id="displayName"></span>!</h2>
+            <p>Twoja rola: <strong id="role"></strong></p>
+            <p>Klasa: <span id="className"></span></p>
+            <button id="logoutButton">Wyloguj się</button>
+        </section>
+    </main>
+
+    <script type="module">
+        import { requireAuth, logout } from './js/auth.js';
+
+        const status = document.querySelector('#status');
+        const accountSection = document.querySelector('#account');
+
+        const account = await requireAuth();
+
+        if (account) {
+            status.textContent = 'Zalogowano pomyślnie!';
+
+            document.querySelector('#displayName').textContent =
+                account.profile.display_name;
+
+            document.querySelector('#role').textContent =
+                account.profile.role;
+
+            document.querySelector('#className').textContent =
+                account.profile.class_name || 'Nie przypisano';
+
+            accountSection.hidden = false;
+        }
+
+        document.querySelector('#logoutButton')
+            .addEventListener('click', logout);
+    </script>
+
+</body>
+</html>

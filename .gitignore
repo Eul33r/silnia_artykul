@@ -17,3 +17,7 @@ triangle-solver.*
 quotes.json
 *.sh
 aux.*
+/adwent/supabase/functions/get-calendar/node_modules/
+.env
+.env.*
+!.env.example

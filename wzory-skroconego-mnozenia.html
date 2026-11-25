@@ -1,0 +1,604 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Interaktywna wizualizacja wzorów skróconego mnożenia z animacjami 2D i 3D">
+    <meta name="keywords" content="Wzory skróconego mnożenia, (a+b)², (a-b)², (a+b)³, geometria, matematyka">
+    <link rel="stylesheet" type="text/css" href="style.css">
+    <link rel="stylesheet" type="text/css" href="css/wzory-skroconego-mnozenia.css">
+    <title>Wzory skróconego mnożenia - Interaktywna wizualizacja</title>
+    <script>
+        MathJax = {
+            loader: {load: ["input/tex", "output/chtml", "ui/menu"]},
+            output: {font: "mathjax-newcm"}
+        }
+    </script>
+    <script defer src="https://cdn.jsdelivr.net/npm/mathjax@4/startup.js"></script>
+</head>
+<body>
+    <div id="container" class="container">
+        <header class="site-header">
+            <nav class="navbar" aria-label="Główna nawigacja">
+                <div class="brand">∑ eul33r</div>
+                <div class="nav-links">
+                    <a class="nav-link" href="#">Artykuły</a>
+                    <a class="nav-link" href="#">Zadania</a>
+                    <a class="nav-link" href="#">O mnie</a>
+                </div>
+                <button class="search-button" type="button" aria-label="Szukaj">🔍</button>
+            </nav>
+        </header>
+
+        <div class="sidenav">
+            <button class="sidenav-toggle" type="button" aria-label="Zwiń menu"><</button>
+            <a href="index.html">About</a>
+            <a href="Silnia.html">Silnia</a>
+            <a href="Dwusilnia.html">Dwusilnia</a>
+            <a href="Wielosilnia.html">Wielosilnia</a>
+            <a href="Podsilnia.html">Podsilnia</a>
+            <a href="Pierwsznia.html">Pierwsznia</a>
+            <a href="Supersilnia.html">Supersilnia</a>
+            <a href="Hipersilnia.html">Hipersilnia</a>
+            <a href="Exposilnia.html">Silnia eksponencjalna (Eksposilnia)</a>
+            <a href="Binomials.html">Symbol Newtona</a>
+            <a href="venna-diagrams.html">Diagramy Venna</a>
+            <a href="nwd-i-nww.html">NWD i NWW</a>
+            <a href="Girard_Newton.html">Wzory Girarda - Newtona</a>
+            <a href="krany.html">Krany</a>
+            <a href="jednorodnosc.html">Jednorodność</a>
+            <a href="wielomiany_palindromiczne.html">Wielomiany palindromiczne i antypalindromiczne</a>
+            <a href="chinskie-twierdzenie-o-resztach.html">Kongruencje i Chiństkie Twierdzenie o Resztach</a>
+            <a href="Superpierwsznia.html">Superpierwsznia</a>
+            <a href="uklady-rownan-liniowych.html">Układy równań liniowych</a>
+            <a href="rownanie-kwadratowe.html">Równanie kwadratowe</a>
+            <a href="rownanie-z-wartoscia-bezwzgledna-trudne-1.html">Równanie z wartością bezwzględną 1</a>
+            <a href="rownanie-z-wartoscia-bezwzgledna-trudne-2.html">Równanie z wartością bezwzględną 2</a>
+            <a href="czy-rok-przestepny.html">Czy rok jest przestępny?</a>
+            <a href="kiedy-wielkanoc.html">Kiedy będzie Wielkanoc?</a>
+            <a href="nierownosci-kwadratowe-kalkulator.html">Nierówności kwadratowe - kalkulator</a>
+        </div>
+
+        <div class="main">
+            <h1>Wzory skróconego mnożenia</h1>
+            
+            <div class="wsm-info-box">
+                <strong>🎯 Cel artykułu:</strong> Interaktywna wizualizacja pokazująca geometryczne pochodzenie wzorów skróconego mnożenia. Zmieniaj suwaki aby zobaczyć, jak zmienia się rozkład pola/objętości!
+            </div>
+
+            <!-- Nawigacja tabulacji -->
+            <div class="wsm-tabs">
+                <button class="wsm-tab-button active" data-tab="sum-square">(a+b)²</button>
+                <button class="wsm-tab-button" data-tab="diff-square">(a-b)²</button>
+                <button class="wsm-tab-button" data-tab="diff-squares">a² - b²</button>
+                <button class="wsm-tab-button" data-tab="sum-cube">(a+b)³</button>
+                <button class="wsm-tab-button" data-tab="diff-cube">(a-b)³</button>
+                <button class="wsm-tab-button" data-tab="triple-square">(a+b+c)²</button>
+                <button class="wsm-tab-button" data-tab="summary">Podsumowanie</button>
+            </div>
+
+            <!-- KARTA 1: (a+b)² -->
+            <div id="tab-sum-square" class="wsm-tab-content active">
+                <div class="wsm-section">
+                    <h2>Kwadrat sumy: (a+b)²</h2>
+                    
+                    <div class="wsm-container">
+                        <div>
+                            <div class="wsm-canvas-wrapper">
+                                <canvas id="canvas-sum-square"></canvas>
+                            </div>
+                        </div>
+                        <div class="wsm-controls">
+                            <div class="wsm-control-group">
+                                <label>Długość a: <span class="label-value" id="value-a-sum">60</span></label>
+                                <input type="range" id="slider-a-sum" class="wsm-slider" min="20" max="100" value="60">
+                            </div>
+                            <div class="wsm-control-group">
+                                <label>Długość b: <span class="label-value" id="value-b-sum">40</span></label>
+                                <input type="range" id="slider-b-sum" class="wsm-slider" min="20" max="100" value="40">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="wsm-formula">
+                        $$(a+b)^2 = a^2 + 2ab + b^2$$
+                    </div>
+
+                    <div class="wsm-description">
+                        <strong>Interpretacja geometryczna:</strong><br>
+                        Kwadrat o boku <strong>(a+b)</strong> można podzielić na cztery części:
+                        <ul>
+                            <li><span style="color: #FF6B6B;">■</span> <strong>Czerwony kwadrat:</strong> a² (pole kwadratu o boku a)</li>
+                            <li><span style="color: #FFE66D;">■</span> <strong>Żółte prostokąty (2×):</strong> ab (każdy ma wymiary a × b)</li>
+                            <li><span style="color: #4ECDC4;">■</span> <strong>Niebieski kwadrat:</strong> b² (pole kwadratu o boku b)</li>
+                        </ul>
+                        Sumując wszystkie pola: <code>a² + ab + ab + b² = a² + 2ab + b²</code>
+                    </div>
+
+                    <h3>Dowód algebraiczny</h3>
+                    <div class="wsm-proof-steps">
+                        <div class="wsm-proof-step">
+                            <strong>Krok 1: Zapisanie iloczynu</strong><br>
+                            $$(a+b)^2 = (a+b) \cdot (a+b)$$
+                        </div>
+                        <div class="wsm-proof-step">
+                            <strong>Krok 2: Rozwinięcie nawiasów (dystrybutywność)</strong><br>
+                            $$(a+b)(a+b) = a \cdot (a+b) + b \cdot (a+b)$$
+                        </div>
+                        <div class="wsm-proof-step">
+                            <strong>Krok 3: Mnożenie w każdej części</strong><br>
+                            $$= a^2 + ab + ab + b^2$$
+                        </div>
+                        <div class="wsm-proof-step">
+                            <strong>Krok 4: Łączenie wyrazów podobnych</strong><br>
+                            $$= a^2 + 2ab + b^2$$
+                        </div>
+                    </div>
+
+                    <div class="wsm-info-box">
+                        <strong>💡 Uwaga:</strong> Zmieniając suwaki, możesz obserwować jak zmienia się rozkład pola. Niezależnie od wartości a i b, zawsze <code>pole całego kwadratu = a² + 2ab + b²</code>
+                    </div>
+                </div>
+            </div>
+
+            <!-- KARTA 2: (a-b)² -->
+            <div id="tab-diff-square" class="wsm-tab-content">
+                <div class="wsm-section">
+                    <h2>Kwadrat różnicy: (a-b)²</h2>
+                    
+                    <div class="wsm-container">
+                        <div>
+                            <div class="wsm-canvas-wrapper">
+                                <canvas id="canvas-diff-square"></canvas>
+                            </div>
+                        </div>
+                        <div class="wsm-controls">
+                            <div class="wsm-control-group">
+                                <label>Długość a: <span class="label-value" id="value-a-diff">70</span></label>
+                                <input type="range" id="slider-a-diff" class="wsm-slider" min="40" max="100" value="70">
+                            </div>
+                            <div class="wsm-control-group">
+                                <label>Długość b: <span class="label-value" id="value-b-diff">30</span></label>
+                                <input type="range" id="slider-b-diff" class="wsm-slider" min="10" max="60" value="30">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="wsm-formula">
+                        $$(a-b)^2 = a^2 - 2ab + b^2$$
+                    </div>
+
+                    <div class="wsm-description">
+                        <strong>Interpretacja geometryczna:</strong><br>
+                        Zaczynamy od kwadratu o boku <strong>a</strong>. Obcinamy dwa prostokąty o wymiarach a × b,
+                        ale przy tym odcinamy dwa razy kwadrat b² (w rogu). Musimy go dodać z powrotem.
+                        <br><br>
+                        Pole obszaru po usunięciu: <code>a² - ab - ab + b² = a² - 2ab + b²</code>
+                    </div>
+
+                    <h3>Dowód algebraiczny</h3>
+                    <div class="wsm-proof-steps">
+                        <div class="wsm-proof-step">
+                            <strong>Krok 1: Zapisanie iloczynu</strong><br>
+                            $$(a-b)^2 = (a-b)(a-b)$$
+                        </div>
+                        <div class="wsm-proof-step">
+                            <strong>Krok 2: Rozwinięcie nawiasów</strong><br>
+                            $$= a(a-b) - b(a-b)$$
+                        </div>
+                        <div class="wsm-proof-step">
+                            <strong>Krok 3: Mnożenie w każdej części</strong><br>
+                            $$= a^2 - ab - ab + b^2$$
+                        </div>
+                        <div class="wsm-proof-step">
+                            <strong>Krok 4: Łączenie wyrazów podobnych</strong><br>
+                            $$= a^2 - 2ab + b^2$$
+                        </div>
+                    </div>
+
+                    <div class="wsm-info-box">
+                        <strong>🔗 Połączenie z pierwszym wzorem:</strong><br>
+                        Zauważ, że jedyną różnicą między <code>(a+b)²</code> a <code>(a-b)²</code> jest znak przy wyrazie <code>2ab</code>!<br>
+                        <code>(a+b)² = a² + 2ab + b²</code> vs <code>(a-b)² = a² - 2ab + b²</code>
+                    </div>
+                </div>
+            </div>
+
+            <!-- KARTA 3: a² - b² -->
+            <div id="tab-diff-squares" class="wsm-tab-content">
+                <div class="wsm-section">
+                    <h2>Różnica kwadratów: a² - b²</h2>
+                    
+                    <div class="wsm-container">
+                        <div>
+                            <div class="wsm-canvas-wrapper">
+                                <canvas id="canvas-diff-squares"></canvas>
+                            </div>
+                        </div>
+                        <div class="wsm-controls">
+                            <div class="wsm-control-group">
+                                <label>Długość a: <span class="label-value" id="value-a-squares">70</span></label>
+                                <input type="range" id="slider-a-squares" class="wsm-slider" min="40" max="100" value="70">
+                            </div>
+                            <div class="wsm-control-group">
+                                <label>Długość b: <span class="label-value" id="value-b-squares">30</span></label>
+                                <input type="range" id="slider-b-squares" class="wsm-slider" min="10" max="60" value="30">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="wsm-formula">
+                        $$a^2 - b^2 = (a+b)(a-b)$$
+                    </div>
+
+                    <div class="wsm-description">
+                        <strong>Interpretacja geometryczna:</strong><br>
+                        Mamy duży kwadrat (a²) i wycinamy mały kwadrat (b²) z rogu. 
+                        Pozostały obszar można przeobrazić w prostokąt o wymiarach (a+b) × (a-b).
+                        <br><br>
+                        Ta wizualizacja pokazuje, dlaczego <code>a² - b² = (a+b)(a-b)</code>
+                    </div>
+
+                    <h3>Dowód algebraiczny</h3>
+                    <div class="wsm-proof-steps">
+                        <div class="wsm-proof-step">
+                            <strong>Krok 1: Skorzystanie ze wzoru (a+b)(a-b)</strong><br>
+                            $$(a+b)(a-b) = a \cdot a - a \cdot b + b \cdot a - b \cdot b$$
+                        </div>
+                        <div class="wsm-proof-step">
+                            <strong>Krok 2: Skrócenie wyrazów przeciwnych</strong><br>
+                            $$= a^2 - ab + ab - b^2 = a^2 - b^2$$
+                        </div>
+                        <div class="wsm-proof-step">
+                            <strong>Uwaga o łączności dodawania:</strong><br>
+                            Możemy zmieniać kolejność dodawania i odejmowania: <code>-ab + ab = 0</code>
+                        </div>
+                    </div>
+
+                    <div class="wsm-info-box">
+                        <strong>🌟 Praktyczne zastosowanie:</strong><br>
+                        Ten wzór jest niezwykle przydatny do szybkiego mnożenia liczb!<br>
+                        Np. <code>52 × 48 = (50+2)(50-2) = 50² - 2² = 2500 - 4 = 2496</code>
+                    </div>
+                </div>
+            </div>
+
+            <!-- KARTA 4: (a+b)³ -->
+            <div id="tab-sum-cube" class="wsm-tab-content">
+                <div class="wsm-section">
+                    <h2>Sześcian sumy: (a+b)³</h2>
+                    
+                    <div class="wsm-container">
+                        <div>
+                            <div class="wsm-canvas-wrapper">
+                                <canvas id="canvas-sum-cube"></canvas>
+                            </div>
+                        </div>
+                        <div class="wsm-controls">
+                            <div class="wsm-control-group">
+                                <label>Długość a: <span class="label-value" id="value-a-cube">60</span></label>
+                                <input type="range" id="slider-a-cube" class="wsm-slider" min="20" max="80" value="60">
+                            </div>
+                            <div class="wsm-control-group">
+                                <label>Długość b: <span class="label-value" id="value-b-cube">40</span></label>
+                                <input type="range" id="slider-b-cube" class="wsm-slider" min="20" max="80" value="40">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="wsm-formula">
+                        $$(a+b)^3 = a^3 + 3a^2b + 3ab^2 + b^3$$
+                    </div>
+
+                    <div class="wsm-description">
+                        <strong>Interpretacja geometryczna:</strong><br>
+                        Sześcian o krawędzi (a+b) można podzielić na 8 mniejszych brył:
+                        <ul>
+                            <li><strong>1 sześcian:</strong> a³</li>
+                            <li><strong>3 prostopadłościany:</strong> a² × b (razem 3a²b)</li>
+                            <li><strong>3 prostopadłościany:</strong> a × b² (razem 3ab²)</li>
+                            <li><strong>1 sześcian:</strong> b³</li>
+                        </ul>
+                    </div>
+
+                    <h3>Dowód algebraiczny</h3>
+                    <div class="wsm-proof-steps">
+                        <div class="wsm-proof-step">
+                            <strong>Krok 1: Zapisanie jako iloczyn</strong><br>
+                            $$(a+b)^3 = (a+b)^2 \cdot (a+b)$$
+                        </div>
+                        <div class="wsm-proof-step">
+                            <strong>Krok 2: Zastosowanie poprzedniego wzoru</strong><br>
+                            $$= (a^2 + 2ab + b^2)(a+b)$$
+                        </div>
+                        <div class="wsm-proof-step">
+                            <strong>Krok 3: Mnożenie każdego wyrazu z pierwszego nawiasu przez zawartość drugiego</strong><br>
+                            $$= a^2 \cdot a + a^2 \cdot b + 2ab \cdot a + 2ab \cdot b + b^2 \cdot a + b^2 \cdot b$$
+                        </div>
+                        <div class="wsm-proof-step">
+                            <strong>Krok 4: Uproszczenie</strong><br>
+                            $$= a^3 + a^2b + 2a^2b + 2ab^2 + ab^2 + b^3$$
+                        </div>
+                        <div class="wsm-proof-step">
+                            <strong>Krok 5: Łączenie wyrazów podobnych</strong><br>
+                            $$= a^3 + 3a^2b + 3ab^2 + b^3$$
+                        </div>
+                    </div>
+
+                    <div class="wsm-warning-box">
+                        <strong>⚠️ Częsty błąd:</strong> Nie można po prostu podnieść każdy wyraz do potęgi trzeciej!<br>
+                        <code style="color: #dc2626;">BŁĘDNIE: (a+b)³ = a³ + b³</code><br>
+                        <code>POPRAWNIE: (a+b)³ = a³ + 3a²b + 3ab² + b³</code>
+                    </div>
+                </div>
+            </div>
+
+            <!-- KARTA 5: (a-b)³ -->
+            <div id="tab-diff-cube" class="wsm-tab-content">
+                <div class="wsm-section">
+                    <h2>Sześcian różnicy: (a-b)³</h2>
+
+                    <div class="wsm-formula">
+                        $$(a-b)^3 = a^3 - 3a^2b + 3ab^2 - b^3$$
+                    </div>
+
+                    <div class="wsm-description">
+                        <strong>Interpretacja geometryczna:</strong><br>
+                        Zaczynamy od sześcianu o krawędzi a i odcinamy części o krawędziach zawierających b.
+                        Procedura jest analogiczna do (a-b)², ale w trzech wymiarach.
+                    </div>
+
+                    <h3>Dowód algebraiczny</h3>
+                    <div class="wsm-proof-steps">
+                        <div class="wsm-proof-step">
+                            <strong>Krok 1: Zapisanie jako iloczyn</strong><br>
+                            $$(a-b)^3 = (a-b)^2 \cdot (a-b)$$
+                        </div>
+                        <div class="wsm-proof-step">
+                            <strong>Krok 2: Zastosowanie poprzedniego wzoru</strong><br>
+                            $$= (a^2 - 2ab + b^2)(a-b)$$
+                        </div>
+                        <div class="wsm-proof-step">
+                            <strong>Krok 3: Mnożenie każdego wyrazu</strong><br>
+                            $$= a^2 \cdot a - a^2 \cdot b - 2ab \cdot a + 2ab \cdot b + b^2 \cdot a - b^2 \cdot b$$
+                        </div>
+                        <div class="wsm-proof-step">
+                            <strong>Krok 4: Uproszczenie</strong><br>
+                            $$= a^3 - a^2b - 2a^2b + 2ab^2 + ab^2 - b^3$$
+                        </div>
+                        <div class="wsm-proof-step">
+                            <strong>Krok 5: Łączenie wyrazów podobnych</strong><br>
+                            $$= a^3 - 3a^2b + 3ab^2 - b^3$$
+                        </div>
+                    </div>
+
+                    <div class="wsm-info-box">
+                        <strong>🔗 Porównanie z (a+b)³:</strong><br>
+                        Jedyną różnicę stanowią znaki!<br>
+                        <code>(a+b)³ = a³ + 3a²b + 3ab² + b³</code><br>
+                        <code>(a-b)³ = a³ - 3a²b + 3ab² - b³</code><br>
+                        Wyrazy z nieparzystymi potęgami b zmieniają znak.
+                    </div>
+                </div>
+            </div>
+
+            <!-- KARTA 6: (a+b+c)² -->
+            <div id="tab-triple-square" class="wsm-tab-content">
+                <div class="wsm-section">
+                    <h2>Kwadrat sumy trzech zmiennych: (a+b+c)²</h2>
+                    
+                    <div class="wsm-container">
+                        <div>
+                            <div class="wsm-canvas-wrapper">
+                                <canvas id="canvas-triple-square"></canvas>
+                            </div>
+                        </div>
+                        <div class="wsm-controls">
+                            <div class="wsm-control-group">
+                                <label>Długość a: <span class="label-value" id="value-a-triple">60</span></label>
+                                <input type="range" id="slider-a-triple" class="wsm-slider" min="20" max="80" value="60">
+                            </div>
+                            <div class="wsm-control-group">
+                                <label>Długość b: <span class="label-value" id="value-b-triple">40</span></label>
+                                <input type="range" id="slider-b-triple" class="wsm-slider" min="20" max="80" value="40">
+                            </div>
+                            <div class="wsm-control-group">
+                                <label>Długość c: <span class="label-value" id="value-c-triple">30</span></label>
+                                <input type="range" id="slider-c-triple" class="wsm-slider" min="20" max="80" value="30">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="wsm-formula">
+                        $$(a+b+c)^2 = a^2 + b^2 + c^2 + 2ab + 2bc + 2ca$$
+                    </div>
+
+                    <div class="wsm-description">
+                        <strong>Interpretacja geometryczna:</strong><br>
+                        Kwadrat o boku (a+b+c) dzielimy na 9 części:
+                        <ul>
+                            <li><strong>3 kwadraty:</strong> a², b², c²</li>
+                            <li><strong>6 prostokątów:</strong> ab, ab, bc, bc, ca, ca (każdy iloczyn pojawia się 2 razy)</li>
+                        </ul>
+                    </div>
+
+                    <h3>Dowód algebraiczny - Metoda 1 (Mnożenie bezpośrednie)</h3>
+                    <div class="wsm-proof-steps">
+                        <div class="wsm-proof-step">
+                            <strong>Krok 1: Zapisanie jako iloczyn</strong><br>
+                            $$(a+b+c)^2 = (a+b+c)(a+b+c)$$
+                        </div>
+                        <div class="wsm-proof-step">
+                            <strong>Krok 2: Rozwinięcie nawiasów (każdy element pierwszego nawiasu mnożymy przez każdy element drugiego)</strong><br>
+                            $$= a(a+b+c) + b(a+b+c) + c(a+b+c)$$
+                        </div>
+                        <div class="wsm-proof-step">
+                            <strong>Krok 3: Mnożenie w każdej części</strong><br>
+                            $$= a^2 + ab + ac + ab + b^2 + bc + ac + bc + c^2$$
+                        </div>
+                        <div class="wsm-proof-step">
+                            <strong>Krok 4: Łączenie wyrazów podobnych (dzięki łączności dodawania)</strong><br>
+                            $$= a^2 + b^2 + c^2 + 2ab + 2bc + 2ca$$
+                        </div>
+                    </div>
+
+                    <h3>Dowód algebraiczny - Metoda 2 (Zastosowanie znanego wzoru)</h3>
+                    <div class="wsm-proof-steps">
+                        <div class="wsm-proof-step">
+                            <strong>Krok 1: Traktujemy (a+b) jako jedną zmienną</strong><br>
+                            $$[(a+b)+c]^2 = (a+b)^2 + 2(a+b)c + c^2$$
+                        </div>
+                        <div class="wsm-proof-step">
+                            <strong>Krok 2: Rozwijamy (a+b)² używając znanego wzoru</strong><br>
+                            $$= a^2 + 2ab + b^2 + 2(a+b)c + c^2$$
+                        </div>
+                        <div class="wsm-proof-step">
+                            <strong>Krok 3: Rozwijamy 2(a+b)c</strong><br>
+                            $$= a^2 + 2ab + b^2 + 2ac + 2bc + c^2$$
+                        </div>
+                        <div class="wsm-proof-step">
+                            <strong>Krok 4: Porządkujemy wyrazy</strong><br>
+                            $$= a^2 + b^2 + c^2 + 2ab + 2bc + 2ca$$
+                        </div>
+                    </div>
+
+                    <div class="wsm-info-box">
+                        <strong>💡 Uogólnienie:</strong> Ten wzór łatwo uogólnia się na więcej zmiennych!<br>
+                        Dla dowolnych zmiennych x₁, x₂, ..., xₙ:<br>
+                        $$(x_1 + x_2 + \cdots + x_n)^2 = \sum_{i=1}^{n} x_i^2 + 2\sum_{i < j} x_i x_j$$
+                        Tzn. sum kwadratów wszystkich zmiennych plus dwa razy suma wszystkich możliwych iloczynów par.
+                    </div>
+
+                    <h3>Praktyczne zastosowanie</h3>
+                    <div class="wsm-code-block">
+                        (3 + 4 + 5)² = 3² + 4² + 5² + 2(3·4) + 2(4·5) + 2(5·3)
+                                   = 9 + 16 + 25 + 24 + 40 + 30
+                                   = 144
+                        
+                        Sprawdzenie: 12² = 144 ✓
+                    </div>
+                </div>
+            </div>
+
+            <!-- KARTA 7: Podsumowanie -->
+            <div id="tab-summary" class="wsm-tab-content">
+                <div class="wsm-section">
+                    <h2>Podsumowanie wszystkich wzorów</h2>
+
+                    <table class="wsm-comparison-table">
+                        <thead>
+                            <tr>
+                                <th>Wzór</th>
+                                <th>Rozwinięcie</th>
+                                <th>Liczba wyrazów</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><code>(a+b)²</code></td>
+                                <td><code>a² + 2ab + b²</code></td>
+                                <td>3</td>
+                            </tr>
+                            <tr>
+                                <td><code>(a-b)²</code></td>
+                                <td><code>a² - 2ab + b²</code></td>
+                                <td>3</td>
+                            </tr>
+                            <tr>
+                                <td><code>a² - b²</code></td>
+                                <td><code>(a+b)(a-b)</code></td>
+                                <td>Iloczyn</td>
+                            </tr>
+                            <tr>
+                                <td><code>(a+b)³</code></td>
+                                <td><code>a³ + 3a²b + 3ab² + b³</code></td>
+                                <td>4</td>
+                            </tr>
+                            <tr>
+                                <td><code>(a-b)³</code></td>
+                                <td><code>a³ - 3a²b + 3ab² - b³</code></td>
+                                <td>4</td>
+                            </tr>
+                            <tr>
+                                <td><code>(a+b+c)²</code></td>
+                                <td><code>a² + b² + c² + 2ab + 2bc + 2ca</code></td>
+                                <td>6</td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <h3>Znaczenie wzorów skróconego mnożenia</h3>
+                    <div class="wsm-summary">
+                        <h3>Dlaczego są ważne?</h3>
+                        <ul>
+                            <li><strong>Szybkie obliczenia:</strong> Zamiast mnożyć nawias przez nawias, stosujemy wzór</li>
+                            <li><strong>Upraszczanie wyrażeń:</strong> Wzory pomagają zmienić formę algebraiczną na bardziej użyteczną</li>
+                            <li><strong>Rozkład na czynniki:</strong> Możemy pisać wielomiany w postaci iloczynów (faktoryzacja)</li>
+                            <li><strong>Geometria:</strong> Interpretacja geometryczna pomaga zrozumieć strukturę matematyczną</li>
+                            <li><strong>Zaawansowana matematyka:</strong> Podstawa dla mnogowymiarowego rozszerzenia (wielomiany, macierze)</li>
+                        </ul>
+                    </div>
+
+                    <h3>Schemat Hornera i wydajne obliczanie</h3>
+                    <div class="wsm-info-box">
+                        <strong>Praktyka:</strong> Zamiast bezpośrednio stosować wzór, możemy używać metody szybkich operacji:
+                        <div class="wsm-code-block">
+                            Obliczanie (a+b)² za pomocą schematu Hornera:
+                            (a+b)² = ((a+b) · (a+b)) 
+                            
+                            Ale możemy też: (a+b)² = a² + b(2a + b)
+                            
+                            To znaczy najpierw obliczamy 2a, dodajemy b, mnożymy przez b,
+                            a następnie dodajemy a².
+                        </div>
+                    </div>
+
+                    <h3>Łączność i przemienność operacji</h3>
+                    <div class="wsm-description">
+                        <strong>Kluczowe własności algebra, które pozwalają nam udowodnić wzory:</strong>
+                        <ul>
+                            <li><strong>Łączność dodawania:</strong> (a + b) + c = a + (b + c)</li>
+                            <li><strong>Łączność mnożenia:</strong> (a · b) · c = a · (b · c)</li>
+                            <li><strong>Przemienność dodawania:</strong> a + b = b + a</li>
+                            <li><strong>Przemienność mnożenia:</strong> a · b = b · a</li>
+                            <li><strong>Rozdzielność mnożenia względem dodawania:</strong> a(b + c) = ab + ac</li>
+                        </ul>
+                    </div>
+
+                    <div class="wsm-warning-box">
+                        <strong>⚠️ Częste błędy uczniów:</strong>
+                        <ul>
+                            <li><code style="color: #dc2626;">BŁĄD:</code> (a+b)² = a² + b² (BRAKUJE 2ab!)</li>
+                            <li><code style="color: #dc2626;">BŁĄD:</code> (a-b)² = a² - b² (BRAKUJE -2ab!)</li>
+                            <li><code style="color: #dc2626;">BŁĄD:</code> (a+b)³ = a³ + b³ (TO SĄ WYŁĄCZNIE SKRAJNE WYRAZY!)</li>
+                            <li><code style="color: #dc2626;">BŁĄD:</code> a² - b² = (a-b)² (TO ZUPEŁNIE INNY WZÓR!)</li>
+                        </ul>
+                    </div>
+
+                    <h3>Zadania do ćwiczenia</h3>
+                    <div class="wsm-info-box">
+                        Spróbuj używając poznanych wzorów obliczyć:
+                        <ol>
+                            <li>13² = (10+3)² = ?</li>
+                            <li>19² = (20-1)² = ?</li>
+                            <li>101 × 99 = (100+1)(100-1) = ?</li>
+                            <li>(2x+3y)² = ?</li>
+                            <li>(x-2)³ = ?</li>
+                            <li>(p+q+r)² gdzie p=1, q=2, r=3 = ?</li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <script src="src/sidebar.js"></script>
+        <script src="src/wzory-skroconego-mnozenia.js"></script>
+
+        <footer class="site-footer">
+            © 2026 eul33r · Matematyczny blog · Interaktywna wizualizacja wzorów skróconego mnożenia
+        </footer>
+
+    </div>
+</body>
+</html>
