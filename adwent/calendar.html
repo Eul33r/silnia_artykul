@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="pl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#101a32">
+  <meta name="description" content="Matematyczny Kalendarz Adwentowy 2026">
+  <title>Matematyczny Adwent 2026</title>
+  <link rel="stylesheet" href="./calendar.css">
+  <script type="module" src="./calendar.js"></script>
+</head>
+<body>
+  <div class="snow-glow snow-glow--one" aria-hidden="true"></div>
+  <div class="snow-glow snow-glow--two" aria-hidden="true"></div>
+
+  <header class="topbar">
+    <a class="brand" href="./dashboard.html" aria-label="Powrót do panelu">
+      <span class="brand__mark" aria-hidden="true">∑</span>
+      <span class="brand__text">MATEMATYCZNY<span>ADWENT</span></span>
+    </a>
+    <div class="topbar__right">
+      <span class="user-chip" id="userName">Ładowanie profilu…</span>
+      <button class="button button--quiet" id="logoutButton" type="button">Wyloguj</button>
+    </div>
+  </header>
+
+  <main class="page">
+    <section class="intro">
+      <p class="eyebrow"><span class="eyebrow__star">✦</span> EDYCJA 2026 <span class="eyebrow__star">✦</span></p>
+      <h1>Matematyczny <span>Adwent</span></h1>
+      <p class="intro__lead">24 dni, 24 matematyczne wyzwania. Odkrywaj kolejne okienka i sprawdź, dokąd zaprowadzi Cię ciekawość.</p>
+      <div class="progress-panel" aria-live="polite">
+        <div class="progress-panel__top">
+          <span>Twój adwentowy postęp</span>
+          <strong id="progressLabel">0 / 24 ukończone</strong>
+        </div>
+        <div class="progress-track" role="progressbar" aria-label="Postęp kalendarza" aria-valuemin="0" aria-valuemax="24" aria-valuenow="0" id="progressBar">
+          <span id="progressFill"></span>
+        </div>
+        <div class="progress-panel__bottom">
+          <span id="pointsLabel">⭐ 0 punktów</span>
+          <span id="editionLabel">Grudzień 2026</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="calendar-section" aria-labelledby="calendarHeading">
+      <div class="section-heading">
+        <div>
+          <p class="eyebrow">OTWIERAJ. MYŚL. ODKRYWAJ.</p>
+          <h2 id="calendarHeading">Twoje 24 okienka</h2>
+        </div>
+        <div class="legend" aria-label="Legenda">
+          <span><i class="legend__dot legend__dot--locked"></i> Zamknięte</span>
+          <span><i class="legend__dot legend__dot--open"></i> Otwarte</span>
+          <span><i class="legend__dot legend__dot--done"></i> Ukończone</span>
+        </div>
+      </div>
+
+      <div class="status-message" id="statusMessage" role="status">Pobieranie kalendarza…</div>
+      <div class="calendar-grid" id="calendarGrid" aria-label="Kalendarz adwentowy"></div>
+      <p class="calendar-note">Każde okienko skrywa matematyczną przygodę. Kolejne wyzwania pojawiają się zgodnie z harmonogramem.</p>
+    </section>
+
+    <footer class="footer">
+      <span>✦ Matematyka jest wszędzie — wystarczy otworzyć właściwe okienko. ✦</span>
+    </footer>
+  </main>
+
+  <dialog class="day-dialog" id="dayDialog" aria-labelledby="dialogTitle">
+    <button class="dialog-close" id="dialogClose" type="button" aria-label="Zamknij">×</button>
+    <div class="dialog-sparkle" aria-hidden="true">✧</div>
+    <p class="eyebrow" id="dialogEyebrow">MATEMATYCZNE WYZWANIE</p>
+    <h2 id="dialogTitle">Dzień 1</h2>
+    <p id="dialogDescription">To okienko jest już odblokowane.</p>
+    <div class="dialog-meta" id="dialogMeta"></div>
+    <p class="dialog-footnote">Widok treści zadania przygotujemy w kolejnym etapie.</p>
+  </dialog>
+</body>
+</html>
