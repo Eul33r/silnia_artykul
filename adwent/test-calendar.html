@@ -33,7 +33,7 @@
                 }
 
                 const { data, error } =
-                    await supabase.functions.invoke('get-calendar');
+                    await supabase.functions.invoke('get-calendar-ts');
 
                 if (error) {
                     throw error;
