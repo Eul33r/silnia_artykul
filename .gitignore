@@ -17,6 +17,8 @@ triangle-solver.*
 quotes.json
 *.sh
 aux.*
+# Allow .md files in adwent/ for documentation, but ignore top-level markdown
+/*.md
 /adwent/supabase/functions/get-calendar/node_modules/
 .env
 .env.*

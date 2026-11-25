@@ -1,0 +1,446 @@
+<!doctype html>
+<html lang="pl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#101a32">
+  <meta name="description" content="Panel nauczyciela - Matematyczny Adwent 2026">
+  <title>Panel Nauczyciela - Matematyczny Adwent 2026</title>
+  <link rel="stylesheet" href="./calendar.css">
+  <link rel="stylesheet" href="./teacher.css">
+  <script type="module" src="./teacher.js"></script>
+</head>
+<body>
+  <div class="snow-glow snow-glow--one" aria-hidden="true"></div>
+  <div class="snow-glow snow-glow--two" aria-hidden="true"></div>
+
+  <header class="topbar">
+    <a class="brand" href="./teacher.html" aria-label="Panel nauczyciela">
+      <span class="brand__mark" aria-hidden="true">∑</span>
+      <span class="brand__text">NAUCZYCIEL<span>PANEL</span></span>
+    </a>
+    <nav class="nav-tabs" role="tablist">
+      <button 
+        class="nav-tab" 
+        role="tab" 
+        aria-selected="true" 
+        aria-controls="dashboard-panel"
+        data-tab="dashboard">
+        📊 Pulpit
+      </button>
+      <button 
+        class="nav-tab" 
+        role="tab" 
+        aria-selected="false" 
+        aria-controls="tasks-panel"
+        data-tab="tasks">
+        📝 Zadania
+      </button>
+      <button 
+        class="nav-tab" 
+        role="tab" 
+        aria-selected="false" 
+        aria-controls="solutions-panel"
+        data-tab="solutions">
+        ✓ Odpowiedzi
+      </button>
+      <button 
+        class="nav-tab" 
+        role="tab" 
+        aria-selected="false" 
+        aria-controls="students-panel"
+        data-tab="students">
+        👥 Uczniowie
+      </button>
+    </nav>
+    <div class="topbar__right">
+      <span class="user-chip" id="userName">Ładowanie profilu…</span>
+      <button class="button button--quiet" id="logoutButton" type="button">Wyloguj</button>
+    </div>
+  </header>
+
+  <main class="page teacher-page">
+
+    <!-- PULPIT (Dashboard) -->
+    <section id="dashboard-panel" class="panel panel--active" role="tabpanel" aria-labelledby="dashboard-tab">
+      <div class="panel-header">
+        <h1>Pulpit Nauczyciela</h1>
+        <p class="panel-subtitle">Przegląd aktywności i statystyk</p>
+      </div>
+
+      <div class="dashboard-grid">
+        <div class="stat-card">
+          <div class="stat-card__icon">📋</div>
+          <div class="stat-card__content">
+            <div class="stat-card__label">Utworzone zadania</div>
+            <div class="stat-card__value" id="stat-tasks-created">0</div>
+            <div class="stat-card__subtext">w obecnej edycji</div>
+          </div>
+        </div>
+
+        <div class="stat-card">
+          <div class="stat-card__icon">🚀</div>
+          <div class="stat-card__content">
+            <div class="stat-card__label">Opublikowane zadania</div>
+            <div class="stat-card__value" id="stat-tasks-published">0</div>
+            <div class="stat-card__subtext">dostępne dla uczniów</div>
+          </div>
+        </div>
+
+        <div class="stat-card">
+          <div class="stat-card__icon">👤</div>
+          <div class="stat-card__content">
+            <div class="stat-card__label">Aktywni uczniowie</div>
+            <div class="stat-card__value" id="stat-active-students">0</div>
+            <div class="stat-card__subtext">w ostatnich 7 dniach</div>
+          </div>
+        </div>
+
+        <div class="stat-card">
+          <div class="stat-card__icon">⏱️</div>
+          <div class="stat-card__content">
+            <div class="stat-card__label">Ostatnia aktywność</div>
+            <div class="stat-card__value" id="stat-last-activity">-</div>
+            <div class="stat-card__subtext">najnowsza odpowiedź</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="dashboard-section">
+        <h2>Statystyki rozwiązań</h2>
+        <div class="chart-placeholder" id="solutions-chart">
+          <p>Ładowanie wykresu…</p>
+        </div>
+      </div>
+
+      <div class="dashboard-section">
+        <h2>Ostatnie odpowiedzi uczniów</h2>
+        <div class="recent-attempts" id="recent-attempts">
+          <p class="loading-text">Ładowanie…</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ZADANIA (Tasks) -->
+    <section id="tasks-panel" class="panel" role="tabpanel" aria-labelledby="tasks-tab">
+      <div class="panel-header">
+        <div>
+          <h1>Zarządzanie Zadaniami</h1>
+          <p class="panel-subtitle">24 dni, 24 wyzwania</p>
+        </div>
+        <button class="button button--primary" id="add-task-btn">+ Dodaj zadanie</button>
+      </div>
+
+      <div class="tasks-container">
+        <div class="tasks-calendar" id="tasks-calendar">
+          <!-- Tasks grid will be inserted here -->
+        </div>
+      </div>
+
+      <!-- Modal dla edycji/dodawania zadania -->
+      <dialog class="modal" id="task-modal">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h2 id="modal-title">Nowe zadanie</h2>
+            <button class="modal-close" aria-label="Zamknij">✕</button>
+          </div>
+
+          <form id="task-form" class="task-form">
+            <fieldset class="form-group">
+              <label for="task-day">Dzień (1-24)</label>
+              <input 
+                type="number" 
+                id="task-day" 
+                name="day_number" 
+                min="1" 
+                max="24" 
+                required>
+            </fieldset>
+
+            <fieldset class="form-group">
+              <label for="task-title">Tytuł zadania</label>
+              <input 
+                type="text" 
+                id="task-title" 
+                name="title" 
+                placeholder="np. Równanie kwadratowe" 
+                required>
+            </fieldset>
+
+            <div class="form-row">
+              <fieldset class="form-group">
+                <label for="task-category">Kategoria</label>
+                <select id="task-category" name="category" required>
+                  <option value="">-- Wybierz kategorię --</option>
+                  <option value="algebra">Algebra</option>
+                  <option value="geometry">Geometria</option>
+                  <option value="combinatorics">Kombinatoryka</option>
+                  <option value="number-theory">Teoria liczb</option>
+                  <option value="logic">Logika</option>
+                </select>
+              </fieldset>
+
+              <fieldset class="form-group">
+                <label for="task-difficulty">Trudność (1-5)</label>
+                <input 
+                  type="number" 
+                  id="task-difficulty" 
+                  name="difficulty" 
+                  min="1" 
+                  max="5" 
+                  value="3" 
+                  required>
+              </fieldset>
+            </div>
+
+            <fieldset class="form-group">
+              <label for="task-answer-type">Typ odpowiedzi</label>
+              <select id="task-answer-type" name="answer_type" required>
+                <option value="">-- Wybierz typ --</option>
+                <option value="single_choice">Wybór jednokrotny</option>
+                <option value="multiple_choice">Wybór wielokrotny</option>
+                <option value="numeric">Odpowiedź liczbowa</option>
+                <option value="text">Odpowiedź tekstowa</option>
+              </select>
+            </fieldset>
+
+            <fieldset class="form-group">
+              <label for="task-points">Punkty</label>
+              <input 
+                type="number" 
+                id="task-points" 
+                name="points" 
+                min="1" 
+                value="1" 
+                required>
+            </fieldset>
+
+            <fieldset class="form-group">
+              <label for="task-content">Treść zadania (HTML)</label>
+              <textarea 
+                id="task-content" 
+                name="content" 
+                placeholder="Wpisz treść zadania..." 
+                rows="8"
+                required></textarea>
+            </fieldset>
+
+            <div class="form-actions">
+              <button type="submit" class="button button--primary">Zapisz zadanie</button>
+              <button type="button" class="button" id="close-modal-btn">Anuluj</button>
+            </div>
+          </form>
+        </div>
+      </dialog>
+    </section>
+
+    <!-- ODPOWIEDZI I ROZWIĄZANIA (Solutions) -->
+    <section id="solutions-panel" class="panel" role="tabpanel" aria-labelledby="solutions-tab">
+      <div class="panel-header">
+        <div>
+          <h1>Odpowiedzi i Rozwiązania</h1>
+          <p class="panel-subtitle">Zarządzaj poprawnymi odpowiedziami i wyjaśnieniami</p>
+        </div>
+      </div>
+
+      <div class="solutions-container">
+        <div class="solutions-selector">
+          <label for="solution-task-select">Wybierz zadanie:</label>
+          <select id="solution-task-select">
+            <option value="">-- Ładowanie zadań --</option>
+          </select>
+        </div>
+
+        <div class="solution-editor" id="solution-editor" hidden>
+          <form id="solution-form" class="solution-form">
+            <input type="hidden" id="solution-task-id" name="task_id">
+
+            <fieldset class="form-group">
+              <label for="solution-answer">Poprawna odpowiedź</label>
+              <input 
+                type="text" 
+                id="solution-answer" 
+                name="correct_answer" 
+                placeholder="Poprawna odpowiedź" 
+                required>
+            </fieldset>
+
+            <fieldset class="form-group">
+              <label for="solution-tolerance">Tolerancja (dla liczb)</label>
+              <input 
+                type="number" 
+                id="solution-tolerance" 
+                name="tolerance" 
+                placeholder="np. 0.01" 
+                step="0.01">
+              <small>Pozostaw puste dla odpowiedzi tekstowych</small>
+            </fieldset>
+
+            <fieldset class="form-group">
+              <label for="solution-explanation">Wyjaśnienie rozwiązania</label>
+              <textarea 
+                id="solution-explanation" 
+                name="explanation" 
+                placeholder="Wyjaśnij krok po kroku, jak rozwiązać to zadanie..." 
+                rows="8"></textarea>
+            </fieldset>
+
+            <fieldset class="form-group">
+              <label for="solution-hint">Podpowiedź</label>
+              <textarea 
+                id="solution-hint" 
+                name="hint" 
+                placeholder="Opcjonalna podpowiedź dla uczniów..." 
+                rows="4"></textarea>
+            </fieldset>
+
+            <div class="form-actions">
+              <button type="submit" class="button button--primary">Zapisz rozwiązanie</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </section>
+
+    <!-- UCZNIOWIE (Students) -->
+    <section id="students-panel" class="panel" role="tabpanel" aria-labelledby="students-tab">
+      <div class="panel-header">
+        <div>
+          <h1>Zarządzanie Uczniami</h1>
+          <p class="panel-subtitle">Tworzenie kont, przypisywanie do klas, monitoring postępów</p>
+        </div>
+        <button class="button button--primary" id="add-student-btn">+ Nowy uczeń</button>
+      </div>
+
+      <div class="students-tabs" role="tablist">
+        <button 
+          class="students-tab" 
+          role="tab" 
+          aria-selected="true" 
+          data-student-tab="list">
+          Lista uczniów
+        </button>
+        <button 
+          class="students-tab" 
+          role="tab" 
+          aria-selected="false" 
+          data-student-tab="bulk">
+          Import zbiorczy
+        </button>
+      </div>
+
+      <!-- Lista uczniów -->
+      <div id="students-list-panel" class="student-panel" role="tabpanel">
+        <div class="students-filter">
+          <input 
+            type="text" 
+            id="student-search" 
+            placeholder="Szukaj po nazwie lub klasie…"
+            class="input">
+          <select id="student-class-filter" class="input">
+            <option value="">Wszystkie klasy</option>
+          </select>
+        </div>
+
+        <div class="students-table-wrapper">
+          <table class="students-table" id="students-table">
+            <thead>
+              <tr>
+                <th>Imię i nazwisko</th>
+                <th>Klasa</th>
+                <th>Aktywność</th>
+                <th>Postęp</th>
+                <th>Akcje</th>
+              </tr>
+            </thead>
+            <tbody id="students-tbody">
+              <tr class="loading-row">
+                <td colspan="5" class="loading-text">Ładowanie uczniów…</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Import zbiorczy -->
+      <div id="students-bulk-panel" class="student-panel" hidden role="tabpanel">
+        <div class="bulk-import-form">
+          <p>Importuj uczniów z pliku CSV. Kolumny: imię, nazwisko, klasa</p>
+          <textarea 
+            id="bulk-csv" 
+            placeholder="Wklej dane w formacie CSV&#10;Przykład:&#10;Jan,Kowalski,1A&#10;Maria,Nowak,1A"
+            rows="10"
+            class="textarea"></textarea>
+          <button class="button button--primary" id="import-bulk-btn">Importuj uczniów</button>
+        </div>
+      </div>
+
+      <!-- Modal dla edycji ucznia -->
+      <dialog class="modal" id="student-modal">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h2 id="student-modal-title">Nowy uczeń</h2>
+            <button class="modal-close" aria-label="Zamknij">✕</button>
+          </div>
+
+          <form id="student-form" class="student-form">
+            <input type="hidden" id="student-edit-id" name="user_id">
+
+            <fieldset class="form-group">
+              <label for="student-name">Imię i nazwisko</label>
+              <input 
+                type="text" 
+                id="student-name" 
+                name="display_name" 
+                placeholder="Jan Kowalski" 
+                required>
+            </fieldset>
+
+            <fieldset class="form-group">
+              <label for="student-email">Email</label>
+              <input 
+                type="email" 
+                id="student-email" 
+                name="email" 
+                placeholder="jan.kowalski@example.com" 
+                required>
+            </fieldset>
+
+            <fieldset class="form-group">
+              <label for="student-class">Klasa</label>
+              <input 
+                type="text" 
+                id="student-class" 
+                name="class_name" 
+                placeholder="1A" 
+                required>
+            </fieldset>
+
+            <fieldset class="form-group" id="password-group">
+              <label for="student-password">Hasło (tymczasowe)</label>
+              <input 
+                type="text" 
+                id="student-password" 
+                name="password" 
+                placeholder="Zostanie wygenerowane" 
+                readonly>
+              <button type="button" class="button button--small" id="generate-password-btn">
+                Wygeneruj
+              </button>
+            </fieldset>
+
+            <div class="form-actions">
+              <button type="submit" class="button button--primary">Zapisz ucznia</button>
+              <button type="button" class="button" id="close-student-modal-btn">Anuluj</button>
+            </div>
+          </form>
+        </div>
+      </dialog>
+    </section>
+
+  </main>
+
+  <!-- Toast notifications -->
+  <div id="toast-container" class="toast-container"></div>
+</body>
+</html>

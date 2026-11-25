@@ -4,34 +4,79 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#101a32">
     <title>Matematyczny Adwent 2026</title>
+    <link rel="stylesheet" href="./calendar.css">
+    <style>
+        .dashboard-container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 40px 20px;
+            text-align: center;
+        }
+        .dashboard-container h1 {
+            margin: 0 0 20px;
+            font-size: 36px;
+        }
+        .dashboard-buttons {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+            margin-top: 30px;
+        }
+        .dashboard-buttons .button {
+            padding: 16px 20px;
+            font-size: 16px;
+            height: auto;
+        }
+        @media (max-width: 480px) {
+            .dashboard-buttons {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
 </head>
 <body>
+    <header class="topbar">
+        <a class="brand" href="./index.html" aria-label="Powrót do panelu">
+            <span class="brand__mark" aria-hidden="true">∑</span>
+            <span class="brand__text">MATEMATYCZNY<span>ADWENT</span></span>
+        </a>
+        <div class="topbar__right">
+            <span class="user-chip" id="userName">Ładowanie profilu…</span>
+            <button class="button button--quiet" id="logoutButton" type="button">Wyloguj</button>
+        </div>
+    </header>
 
-    <main>
-        <h1>Matematyczny Adwent 2026</h1>
+    <main class="page">
+        <div class="dashboard-container">
+            <section id="account" hidden>
+                <h1>Witaj, <span id="displayName"></span>!</h1>
+                <p>Twoja rola: <strong id="role"></strong></p>
+                <p>Klasa: <span id="className"></span></p>
 
-        <p id="status">Sprawdzanie sesji...</p>
+                <div class="dashboard-buttons">
+                    <a href="./calendar.html" class="button button--primary">📅 Kalendarz</a>
+                    <a href="./teacher.html" class="button button--primary" id="teacher-link" hidden>🎓 Panel Nauczyciela</a>
+                </div>
+            </section>
 
-        <section id="account" hidden>
-            <h2>Witaj, <span id="displayName"></span>!</h2>
-            <p>Twoja rola: <strong id="role"></strong></p>
-            <p>Klasa: <span id="className"></span></p>
-            <button id="logoutButton">Wyloguj się</button>
-        </section>
+            <section id="login-prompt" hidden>
+                <p style="color: var(--muted); margin: 20px 0;">Zaloguj się, aby rozpocząć.</p>
+                <a href="./login.html" class="button button--primary">Zaloguj się</a>
+            </section>
+        </div>
     </main>
 
     <script type="module">
-        import { requireAuth, logout } from './js/auth.js';
+        import { getCurrentUser, logout } from './js/auth.js';
 
-        const status = document.querySelector('#status');
         const accountSection = document.querySelector('#account');
+        const loginPrompt = document.querySelector('#login-prompt');
 
-        const account = await requireAuth();
+        const account = await getCurrentUser();
 
         if (account) {
-            status.textContent = 'Zalogowano pomyślnie!';
-
             document.querySelector('#displayName').textContent =
                 account.profile.display_name;
 
@@ -41,7 +86,14 @@
             document.querySelector('#className').textContent =
                 account.profile.class_name || 'Nie przypisano';
 
+            // Show teacher link only for teachers
+            if (account.profile.role === 'teacher') {
+                document.querySelector('#teacher-link').hidden = false;
+            }
+
             accountSection.hidden = false;
+        } else {
+            loginPrompt.hidden = false;
         }
 
         document.querySelector('#logoutButton')
