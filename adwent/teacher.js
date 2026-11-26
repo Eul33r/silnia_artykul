@@ -385,13 +385,13 @@ async function openTaskModal(task = null, day = null) {
 async function saveTask(form) {
   const taskId = form.dataset.taskId;
   const data = {
-    day_number: parseInt(form.task_day.value),
-    title: form.task_title.value,
-    category: form.task_category.value,
-    difficulty: parseInt(form.task_difficulty.value),
-    answer_type: form.task_answer_type.value,
-    points: parseInt(form.task_points.value),
-    content: { text: form.task_content.value },
+    day_number: parseInt(form.elements['day_number'].value),
+    title: form.elements['title'].value,
+    category: form.elements['category'].value,
+    difficulty: parseInt(form.elements['difficulty'].value),
+    answer_type: form.elements['answer_type'].value,
+    points: parseInt(form.elements['points'].value),
+    content: { text: form.elements['content'].value },
     edition_id: currentEdition.id,
   };
 
@@ -484,10 +484,10 @@ async function saveSolution(form) {
 
   const data = {
     task_id: taskId,
-    correct_answer: form.solution_answer.value,
-    tolerance: form.solution_tolerance.value ? parseFloat(form.solution_tolerance.value) : null,
-    explanation: form.solution_explanation.value || null,
-    hint: form.solution_hint.value || null,
+    correct_answer: form.elements['correct_answer'].value,
+    tolerance: form.elements['tolerance'].value ? parseFloat(form.elements['tolerance'].value) : null,
+    explanation: form.elements['explanation'].value || null,
+    hint: form.elements['hint'].value || null,
   };
 
   try {
@@ -640,14 +640,14 @@ async function saveStudent(form) {
   try {
     const isNew = !form.dataset.studentId;
     const data = {
-      display_name: form.student_name.value,
-      class_name: form.student_class.value,
+      display_name: form.elements['display_name'].value,
+      class_name: form.elements['class_name'].value,
     };
 
     if (isNew) {
-      const password = form.student_password.value;
+      const password = form.elements['password'].value;
       const { data: authData, error: authError } = await supabase.auth.signUp({
-        email: form.student_email.value,
+        email: form.elements['email'].value,
         password: password,
         options: {
           data: {
@@ -658,7 +658,7 @@ async function saveStudent(form) {
       });
 
       if (authError) throw authError;
-      showToast('Uczeń dodany - email: ' + form.student_email.value, 'success');
+      showToast('Uczeń dodany - email: ' + form.elements['email'].value, 'success');
     } else {
       const { error } = await supabase
         .from('profiles')
