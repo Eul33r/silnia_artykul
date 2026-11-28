@@ -496,6 +496,10 @@ async function saveTask(form) {
         action: 'save',
         payload: payload,
       },
+      headers: {
+        apikey: 'sb_publishable_yF7BPmrr3fx4HR9jjD6yLw_vvTWxpuD',
+        Authorization: `Bearer ${session.access_token}`,
+      }
     });
 
     if (error) {
