@@ -129,6 +129,14 @@ Deno.serve(async (req: Request) => {
       return await handleSaveTask(supabase, payload as SaveTaskPayload);
     }
 
+    if (action === 'dashboard') {
+      return await handleDashboard(supabase);
+    }
+
+    if (action === 'students') {
+      return await handleStudents(supabase);
+    }
+
     return jsonResponse(
       { error: 'Unknown action' },
       400
@@ -167,45 +175,15 @@ async function handleListTasks(supabase: any) {
       });
     }
 
-    // 2. Get all tasks (not just published, since teacher sees all)
+    // 2. Zadania wraz z rozwiązaniami (private.task_solutions) przez funkcję SQL
     const { data: tasks, error: tasksError } =
-      await supabase
-        .from('advent_tasks')
-        .select(`
-          id,
-          day_number,
-          title,
-          category,
-          difficulty,
-          points,
-          unlock_at,
-          is_published,
-          content,
-          answer_type
-        `)
-        .eq('edition_id', edition.id)
-        .order('day_number', { ascending: true });
+      await supabase.rpc('admin_list_advent_tasks', {
+        p_edition_id: edition.id,
+      });
 
     if (tasksError) {
       throw tasksError;
     }
-
-    // 3. For each task, get solution if exists
-    const enrichedTasks = await Promise.all(
-      (tasks ?? []).map(async (task: any) => {
-        const { data: solution } =
-          await supabase
-            .from('task_solutions')
-            .select('correct_answer, tolerance, hint, explanation')
-            .eq('task_id', task.id)
-            .maybeSingle();
-
-        return {
-          ...task,
-          solution: solution || null,
-        };
-      })
-    );
 
     return jsonResponse({
       edition: {
@@ -213,7 +191,7 @@ async function handleListTasks(supabase: any) {
         year: edition.year,
         timezone: edition.timezone,
       },
-      tasks: enrichedTasks,
+      tasks: tasks ?? [],
     });
 
   } catch (error) {
@@ -228,18 +206,33 @@ async function handleListTasks(supabase: any) {
 // Handle save action: create or update task and solution
 async function handleSaveTask(supabase: any, payload: SaveTaskPayload) {
   try {
-    if (!payload.edition_id || !payload.day_number || !payload.title) {
-      return jsonResponse(
-        { error: 'Missing required fields' },
-        400
-      );
+    if (!payload?.edition_id || !payload.day_number || !payload.title?.trim()) {
+      return jsonResponse({ error: 'Missing required fields' }, 400);
     }
 
-    // Generate task_id if creating new task
-    const task_id = payload.task_id || crypto.randomUUID();
+    if (
+      !Number.isInteger(payload.day_number) ||
+      payload.day_number < 1 || payload.day_number > 24
+    ) {
+      return jsonResponse({ error: 'day_number must be 1-24' }, 400);
+    }
 
-    // Call admin_save_advent_task SQL function
-    const { data: result, error: functionError } =
+    if (!payload.unlock_at || isNaN(Date.parse(payload.unlock_at))) {
+      return jsonResponse({ error: 'Invalid unlock_at' }, 400);
+    }
+
+    if (typeof payload.correct_answer !== 'number' || !isFinite(payload.correct_answer)) {
+      return jsonResponse({ error: 'correct_answer must be a number' }, 400);
+    }
+
+    if (payload.tolerance != null && (typeof payload.tolerance !== 'number' || payload.tolerance < 0)) {
+      return jsonResponse({ error: 'tolerance must be a non-negative number' }, 400);
+    }
+
+    // Dla nowego zadania p_task_id musi być NULL (SQL robi wtedy INSERT)
+    const task_id = payload.task_id || null;
+
+    const { data: savedId, error: functionError } =
       await supabase
         .rpc('admin_save_advent_task', {
           p_task_id: task_id,
@@ -252,23 +245,23 @@ async function handleSaveTask(supabase: any, payload: SaveTaskPayload) {
           p_points: payload.points,
           p_is_published: payload.is_published,
           p_content: payload.content,
-          p_correct_answer: payload.correct_answer, // Will be passed as numeric value
-          p_tolerance: payload.tolerance || null,
-          p_hint: payload.hint || null,
-          p_explanation: payload.explanation || null,
+          p_correct_answer: payload.correct_answer,
+          p_tolerance: payload.tolerance ?? null,
+          p_hint: payload.hint ?? null,
+          p_explanation: payload.explanation ?? null,
         });
 
     if (functionError) {
       console.error('Function error:', functionError);
       return jsonResponse(
-        { error: 'Failed to save task', details: String(functionError) },
+        { error: functionError.message || 'Failed to save task' },
         400
       );
     }
 
     return jsonResponse({
       success: true,
-      task_id: task_id,
+      task_id: savedId,
     });
 
   } catch (error) {
@@ -277,5 +270,99 @@ async function handleSaveTask(supabase: any, payload: SaveTaskPayload) {
       { error: 'Failed to save task', details: String(error) },
       500
     );
+  }
+}
+
+// Statystyki pulpitu (task_attempts nie jest dostępne dla nauczyciela przez REST/RLS)
+async function handleDashboard(supabase: any) {
+  try {
+    const since = new Date(Date.now() - 7 * 86400000).toISOString();
+
+    const { data: recent, error: recentError } = await supabase
+      .from('task_attempts')
+      .select('user_id')
+      .gte('attempted_at', since);
+    if (recentError) throw recentError;
+
+    const { data: last, error: lastError } = await supabase
+      .from('task_attempts')
+      .select('id, attempted_at, is_correct, user_id, task_id')
+      .order('attempted_at', { ascending: false })
+      .limit(10);
+    if (lastError) throw lastError;
+
+    const userIds = [...new Set((last ?? []).map((a: any) => a.user_id))];
+    const taskIds = [...new Set((last ?? []).map((a: any) => a.task_id))];
+
+    const { data: users } = userIds.length
+      ? await supabase.from('profiles').select('id, display_name').in('id', userIds)
+      : { data: [] };
+    const { data: tasks } = taskIds.length
+      ? await supabase.from('advent_tasks').select('id, title').in('id', taskIds)
+      : { data: [] };
+
+    const userMap = new Map((users ?? []).map((u: any) => [u.id, u.display_name]));
+    const taskMap = new Map((tasks ?? []).map((t: any) => [t.id, t.title]));
+
+    return jsonResponse({
+      active_students: new Set((recent ?? []).map((a: any) => a.user_id)).size,
+      last_attempt_at: last?.[0]?.attempted_at ?? null,
+      recent_attempts: (last ?? []).map((a: any) => ({
+        id: a.id,
+        attempted_at: a.attempted_at,
+        is_correct: a.is_correct,
+        student_name: userMap.get(a.user_id) ?? '?',
+        task_title: taskMap.get(a.task_id) ?? '?',
+      })),
+    });
+  } catch (error) {
+    console.error('handleDashboard error:', error);
+    return jsonResponse({ error: 'Failed to load dashboard', details: String(error) }, 500);
+  }
+}
+
+// Lista uczniów z postępem i ostatnią aktywnością
+async function handleStudents(supabase: any) {
+  try {
+    const { data: students, error: studentsError } = await supabase
+      .from('profiles')
+      .select('id, display_name, class_name, created_at')
+      .eq('role', 'student')
+      .order('display_name', { ascending: true });
+    if (studentsError) throw studentsError;
+
+    const { data: progress, error: progressError } = await supabase
+      .from('task_progress')
+      .select('user_id')
+      .eq('is_completed', true);
+    if (progressError) throw progressError;
+
+    const { data: attempts, error: attemptsError } = await supabase
+      .from('task_attempts')
+      .select('user_id, attempted_at')
+      .order('attempted_at', { ascending: false })
+      .limit(5000);
+    if (attemptsError) throw attemptsError;
+
+    const completed = new Map<string, number>();
+    for (const p of progress ?? []) {
+      completed.set(p.user_id, (completed.get(p.user_id) ?? 0) + 1);
+    }
+
+    const lastActivity = new Map<string, string>();
+    for (const a of attempts ?? []) {
+      if (!lastActivity.has(a.user_id)) lastActivity.set(a.user_id, a.attempted_at);
+    }
+
+    return jsonResponse({
+      students: (students ?? []).map((s: any) => ({
+        ...s,
+        completed_count: completed.get(s.id) ?? 0,
+        last_activity: lastActivity.get(s.id) ?? null,
+      })),
+    });
+  } catch (error) {
+    console.error('handleStudents error:', error);
+    return jsonResponse({ error: 'Failed to load students', details: String(error) }, 500);
   }
 }

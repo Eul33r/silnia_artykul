@@ -193,16 +193,19 @@
               </fieldset>
             </div>
 
-            <fieldset class="form-group">
-              <label for="task-answer-type">Typ odpowiedzi</label>
-              <select id="task-answer-type" name="answer_type" required>
-                <option value="">-- Wybierz typ --</option>
-                <option value="single_choice">Wybór jednokrotny</option>
-                <option value="multiple_choice">Wybór wielokrotny</option>
-                <option value="numeric">Odpowiedź liczbowa</option>
-                <option value="text">Odpowiedź tekstowa</option>
-              </select>
-            </fieldset>
+            <input type="hidden" id="task-answer-type" name="answer_type" value="numeric">
+
+            <div class="form-row">
+              <fieldset class="form-group">
+                <label for="task-correct-answer">Poprawna odpowiedź (liczba)</label>
+                <input type="number" id="task-correct-answer" name="correct_answer" step="any" required>
+              </fieldset>
+
+              <fieldset class="form-group">
+                <label for="task-tolerance">Tolerancja (opcjonalnie)</label>
+                <input type="number" id="task-tolerance" name="tolerance" step="any" min="0">
+              </fieldset>
+            </div>
 
             <fieldset class="form-group">
               <label for="task-points">Punkty</label>
@@ -232,6 +235,23 @@
                 placeholder="Wpisz treść zadania..." 
                 rows="8"
                 required></textarea>
+            </fieldset>
+
+            <fieldset class="form-group">
+              <label for="task-hint">Podpowiedź (opcjonalnie)</label>
+              <textarea id="task-hint" name="hint" rows="2"></textarea>
+            </fieldset>
+
+            <fieldset class="form-group">
+              <label for="task-explanation">Wyjaśnienie rozwiązania (opcjonalnie)</label>
+              <textarea id="task-explanation" name="explanation" rows="3"></textarea>
+            </fieldset>
+
+            <fieldset class="form-group">
+              <label>
+                <input type="checkbox" id="task-published" name="is_published">
+                Opublikowane
+              </label>
             </fieldset>
 
             <div class="form-actions">

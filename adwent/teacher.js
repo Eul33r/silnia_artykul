@@ -3,7 +3,29 @@ import { requireTeacher, logout } from './js/auth.js';
 
 let currentAccount = null;
 let currentEdition = null;
-let currentSession = null;
+let allTasks = [];
+
+// Wywołanie Edge Function z czytelnym komunikatem błędu z backendu
+async function callFunction(name, body) {
+  const { data, error } = await supabase.functions.invoke(name, { body });
+
+  if (error) {
+    let message = error.message;
+    try {
+      const details = await error.context?.json();
+      if (details?.error) message = details.error;
+    } catch (_) { /* brak JSON w odpowiedzi */ }
+    throw new Error(message);
+  }
+
+  return data;
+}
+
+async function fetchTasks() {
+  const data = await callFunction('manage-tasks-ts', { action: 'list' });
+  currentEdition = data?.edition || null;
+  allTasks = data?.tasks || [];
+}
 
 // ============================================================
 // INITIALIZATION
@@ -13,17 +35,17 @@ async function init() {
   currentAccount = await requireTeacher();
   if (!currentAccount) return;
 
-  // Get the current session for invoking Edge Functions
-  const { data: { session }, error: sessionError } = await supabase.auth.getSession();
-  if (session) {
-    currentSession = session;
-  }
-
   updateUserInfo();
-  await loadEdition();
   setupTabNavigation();
   setupFormHandlers();
-  
+
+  try {
+    await fetchTasks();
+  } catch (error) {
+    console.error('Błąd ładowania zadań:', error);
+    showToast('Błąd ładowania zadań: ' + error.message, 'error');
+  }
+
   await loadDashboard();
   await loadTasks();
   await loadStudents();
@@ -35,28 +57,6 @@ function updateUserInfo() {
   userName.textContent = currentAccount.profile.display_name;
   
   document.getElementById('logoutButton').addEventListener('click', logout);
-}
-
-async function loadEdition() {
-  try {
-    // Use Edge Function to list tasks and get edition
-    const { data, error } = await supabase.functions.invoke('manage-tasks-ts', {
-      body: {
-        action: 'list',
-      },
-    });
-
-    if (error) {
-      console.error('Błąd ładowania edycji:', error);
-      return;
-    }
-
-    if (data?.edition) {
-      currentEdition = data.edition;
-    }
-  } catch (error) {
-    console.error('Błąd ładowania edycji:', error);
-  }
 }
 
 // ============================================================
@@ -100,99 +100,45 @@ async function loadDashboard() {
   if (!currentEdition) return;
 
   try {
-    // Load data using Edge Function
-    const { data, error } = await supabase.functions.invoke('manage-tasks-ts', {
-      body: {
-        action: 'list',
-      },
-    });
+    document.getElementById('stat-tasks-created').textContent = allTasks.length;
+    document.getElementById('stat-tasks-published').textContent =
+      allTasks.filter(t => t.is_published).length;
 
-    if (error) {
-      console.error('Błąd ładowania pulpitu:', error);
-      return;
-    }
+    const stats = await callFunction('manage-tasks-ts', { action: 'dashboard' });
 
-    const tasks = data?.tasks || [];
-    const tasksCreated = tasks.length;
-    const tasksPublished = tasks.filter(t => t.is_published).length;
+    document.getElementById('stat-active-students').textContent = stats.active_students;
+    document.getElementById('stat-last-activity').textContent = stats.last_attempt_at
+      ? formatTime(new Date(stats.last_attempt_at))
+      : 'Brak aktywności';
 
-    document.getElementById('stat-tasks-created').textContent = tasksCreated;
-    document.getElementById('stat-tasks-published').textContent = tasksPublished;
-
-    // Active students in last 7 days
-    const sevenDaysAgo = new Date();
-    sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 7);
-
-    const { data: recentAttempts } = await supabase
-      .from('task_attempts')
-      .select('user_id', { distinct: true })
-      .gte('attempted_at', sevenDaysAgo.toISOString());
-
-    const activeStudents = new Set(recentAttempts?.map(a => a.user_id) || []).size;
-    document.getElementById('stat-active-students').textContent = activeStudents;
-
-    // Last activity
-    const { data: lastAttempt } = await supabase
-      .from('task_attempts')
-      .select('attempted_at, user_id, task_id, submitted_answer, is_correct')
-      .order('attempted_at', { ascending: false })
-      .limit(1)
-      .single();
-
-    if (lastAttempt) {
-      const time = new Date(lastAttempt.attempted_at);
-      document.getElementById('stat-last-activity').textContent = formatTime(time);
-
-      await loadRecentAttempts();
-    } else {
-      document.getElementById('stat-last-activity').textContent = 'Brak aktywności';
-    }
-
+    renderRecentAttempts(stats.recent_attempts || []);
     loadSolutionsChart();
   } catch (error) {
     console.error('Błąd ładowania pulpitu:', error);
   }
 }
 
-async function loadRecentAttempts() {
-  try {
-    const { data: attempts } = await supabase
-      .from('task_attempts')
-      .select(`
-        id,
-        attempted_at,
-        is_correct,
-        profiles!inner(display_name),
-        advent_tasks!inner(title)
-      `)
-      .order('attempted_at', { ascending: false })
-      .limit(10);
+function renderRecentAttempts(attempts) {
+  const container = document.getElementById('recent-attempts');
+  container.innerHTML = '';
 
-    const container = document.getElementById('recent-attempts');
-    container.innerHTML = '';
-
-    if (!attempts || attempts.length === 0) {
-      container.innerHTML = '<p class="loading-text">Brak odpowiedzi</p>';
-      return;
-    }
-
-    attempts.forEach(attempt => {
-      const time = new Date(attempt.attempted_at);
-      const status = attempt.is_correct ? '✓' : '✗';
-      const statusClass = attempt.is_correct ? 'success' : 'error';
-
-      const html = `
-        <div class="attempt-item">
-          <strong>${status}</strong> ${attempt.profiles.display_name}
-          → ${attempt.advent_tasks.title}
-          <div class="time">${formatTime(time)}</div>
-        </div>
-      `;
-      container.innerHTML += html;
-    });
-  } catch (error) {
-    console.error('Błąd ładowania ostatnich odpowiedzi:', error);
+  if (attempts.length === 0) {
+    container.innerHTML = '<p class="loading-text">Brak odpowiedzi</p>';
+    return;
   }
+
+  attempts.forEach(attempt => {
+    const item = document.createElement('div');
+    item.className = 'attempt-item';
+    item.innerHTML = `
+      <strong>${attempt.is_correct ? '✓' : '✗'}</strong>
+      <span class="student"></span> → <span class="task"></span>
+      <div class="time">${formatTime(new Date(attempt.attempted_at))}</div>
+    `;
+    item.querySelector('.student').textContent = attempt.student_name;
+    item.querySelector('.task').textContent = attempt.task_title;
+    container.appendChild(item);
+  });
 }
 
 function loadSolutionsChart() {
@@ -214,19 +160,7 @@ async function loadTasks() {
   if (!currentEdition) return;
 
   try {
-    const { data, error } = await supabase.functions.invoke('manage-tasks-ts', {
-      body: {
-        action: 'list',
-      },
-    });
-
-    if (error) {
-      console.error('Błąd ładowania zadań:', error);
-      showToast('Błąd ładowania zadań', 'error');
-      return;
-    }
-
-    const tasks = data?.tasks || [];
+    const tasks = allTasks;
     const calendar = document.getElementById('tasks-calendar');
     calendar.innerHTML = '';
 
@@ -292,51 +226,44 @@ async function loadTasks() {
   }
 }
 
+// Payload zapisu zadania na podstawie istniejącego zadania (z rozwiązaniem)
+function buildPayload(task, overrides = {}) {
+  const solution = task.solution || {};
+  return {
+    task_id: task.id,
+    edition_id: currentEdition.id,
+    day_number: task.day_number,
+    unlock_at: task.unlock_at,
+    title: task.title,
+    category: task.category,
+    difficulty: task.difficulty,
+    points: task.points,
+    is_published: task.is_published,
+    content: task.content,
+    correct_answer: Number(solution.correct_answer),
+    tolerance: solution.tolerance ?? null,
+    hint: solution.hint ?? null,
+    explanation: solution.explanation ?? null,
+    ...overrides,
+  };
+}
+
 async function toggleTaskPublish(task) {
   try {
-    // Create updated task with toggled is_published status
-    const updatedTask = {
-      ...task,
-      is_published: !task.is_published,
-    };
+    if (task.solution?.correct_answer == null) {
+      showToast('Najpierw ustaw poprawną odpowiedź (edycja zadania)', 'error');
+      return;
+    }
 
-    // Convert content if it's a string
-    const content = typeof task.content === 'string' 
-      ? { prompt: task.content }
-      : (task.content || { prompt: '' });
-
-    // Convert correct_answer to number if it's the solution value
-    const correctAnswer = task.solution?.correct_answer 
-      ? parseFloat(task.solution.correct_answer)
-      : 0;
-
-    const { error } = await supabase.functions.invoke('manage-tasks-ts', {
-      body: {
-        action: 'save',
-        payload: {
-          task_id: task.id,
-          edition_id: currentEdition.id,
-          day_number: task.day_number,
-          unlock_at: task.unlock_at,
-          title: task.title,
-          category: task.category,
-          difficulty: task.difficulty,
-          points: task.points,
-          is_published: !task.is_published,
-          content: content,
-          correct_answer: correctAnswer,
-          tolerance: task.solution?.tolerance || null,
-          hint: task.solution?.hint || null,
-          explanation: task.solution?.explanation || null,
-        },
-      },
+    await callFunction('manage-tasks-ts', {
+      action: 'save',
+      payload: buildPayload(task, { is_published: !task.is_published }),
     });
 
-    if (error) throw error;
-    
-    const action = !task.is_published ? 'Opublikowano' : 'Wycofano publikację';
-    showToast(action, 'success');
+    showToast(task.is_published ? 'Wycofano publikację' : 'Opublikowano', 'success');
+    await fetchTasks();
     await loadTasks();
+    await loadSolutions();
   } catch (error) {
     console.error('Błąd publikacji zadania:', error);
     showToast('Błąd publikacji: ' + error.message, 'error');
@@ -434,11 +361,13 @@ async function openTaskModal(task = null, day = null) {
       document.getElementById('task-unlock-at').value = utcToLocal(task.unlock_at);
     }
     
-    // Handle content - could be object or string
-    const content = typeof task.content === 'string' 
-      ? task.content
-      : (task.content?.prompt || '');
-    document.getElementById('task-content').value = content;
+    const solution = task.solution || {};
+    document.getElementById('task-content').value = task.content?.prompt || '';
+    document.getElementById('task-correct-answer').value = solution.correct_answer ?? '';
+    document.getElementById('task-tolerance').value = solution.tolerance ?? '';
+    document.getElementById('task-hint').value = solution.hint?.text || '';
+    document.getElementById('task-explanation').value = solution.explanation?.text || '';
+    document.getElementById('task-published').checked = !!task.is_published;
   } else {
     title.textContent = 'Nowe zadanie';
     form.dataset.taskId = '';
@@ -447,80 +376,70 @@ async function openTaskModal(task = null, day = null) {
     if (day) {
       document.getElementById('task-day').value = day;
     }
-    
-    // Set default unlock time to today at 06:00 Warsaw time
-    const now = new Date();
-    const defaultTime = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 6, 0);
-    document.getElementById('task-unlock-at').value = utcToLocal(defaultTime.toISOString());
+
+    // Domyślnie: 1 grudnia 2026 + numer dnia, godz. 06:00 (czas warszawski)
+    const d = Number(day) || 1;
+    document.getElementById('task-unlock-at').value =
+      `2026-12-${String(d).padStart(2, '0')}T06:00`;
   }
 
   modal.showModal();
 }
-const { data: { session }, error: sessionError } =
-  await supabase.auth.getSession();
 
-if (sessionError || !session) {
-  throw new Error('Brak aktywnej sesji użytkownika');
-}
 async function saveTask(form) {
   const taskId = form.dataset.taskId;
-  
+
   try {
-    const dayNumber = parseInt(form.elements['day_number'].value);
-    const title = form.elements['title'].value;
-    const category = form.elements['category'].value;
-    const difficulty = parseInt(form.elements['difficulty'].value);
-    const points = parseInt(form.elements['points'].value);
-    const content = form.elements['content'].value;
-    const unlockAtLocal = form.elements['unlock_at'].value;
-
-    // Convert local datetime to UTC ISO string
-    const unlockAtUTC = localToUTC(unlockAtLocal);
-
-    if (!currentEdition || !currentEdition.id) {
-      showToast('Edycja nie została załadowana', 'error');
+    if (!currentEdition?.id) {
+      showToast('Brak aktywnej edycji w bazie (advent_editions.is_active)', 'error');
       return;
     }
+
+    const correctAnswer = parseFloat(form.elements['correct_answer'].value);
+    if (!Number.isFinite(correctAnswer)) {
+      showToast('Poprawna odpowiedź musi być liczbą', 'error');
+      return;
+    }
+
+    const toleranceRaw = form.elements['tolerance'].value;
+    const tolerance = toleranceRaw === '' ? null : parseFloat(toleranceRaw);
+    if (tolerance !== null && (!Number.isFinite(tolerance) || tolerance < 0)) {
+      showToast('Tolerancja musi być liczbą nieujemną', 'error');
+      return;
+    }
+
+    const hint = form.elements['hint'].value.trim();
+    const explanation = form.elements['explanation'].value.trim();
 
     const payload = {
       task_id: taskId || null,
       edition_id: currentEdition.id,
-      day_number: dayNumber,
-      unlock_at: unlockAtUTC,
-      title: title,
-      category: category,
-      difficulty: difficulty,
-      points: points,
-      is_published: false,
-      content: { prompt: content },
-      correct_answer: 0, // Default value - will be set via solutions form
+      day_number: parseInt(form.elements['day_number'].value, 10),
+      unlock_at: warsawLocalToUTC(form.elements['unlock_at'].value),
+      title: form.elements['title'].value.trim(),
+      category: form.elements['category'].value,
+      difficulty: parseInt(form.elements['difficulty'].value, 10),
+      points: parseInt(form.elements['points'].value, 10),
+      is_published: form.elements['is_published'].checked,
+      content: { prompt: form.elements['content'].value },
+      correct_answer: correctAnswer,
+      tolerance,
+      hint: hint ? { text: hint } : null,
+      explanation: explanation ? { text: explanation } : null,
     };
 
-    const { data, error } = await supabase.functions.invoke('manage-tasks-ts', {
-      body: {
-        action: 'save',
-        payload: payload,
-      },
-      headers: {
-        apikey: 'sb_publishable_yF7BPmrr3fx4HR9jjD6yLw_vvTWxpuD',
-        Authorization: `Bearer ${session.access_token}`,
-      }
-    });
+    const data = await callFunction('manage-tasks-ts', { action: 'save', payload });
 
-    if (error) {
-      console.error('Edge Function error:', error);
-      showToast('Błąd zapisywania zadania: ' + error.message, 'error');
-      return;
+    if (!data?.success) {
+      throw new Error('Nieoczekiwana odpowiedź serwera');
     }
 
-    if (data?.success) {
-      showToast(taskId ? 'Zadanie zaktualizowane' : 'Zadanie dodane', 'success');
-      document.getElementById('task-modal').close();
-      await loadTasks();
-      await loadSolutions(); // Refresh solutions list
-    } else {
-      showToast('Błąd zapisywania: ' + JSON.stringify(data), 'error');
-    }
+    showToast(taskId ? 'Zadanie zaktualizowane' : 'Zadanie dodane', 'success');
+    document.getElementById('task-modal').close();
+    await fetchTasks();
+    await loadTasks();
+    await loadSolutions();
+    await loadDashboard();
   } catch (error) {
     console.error('Błąd zapisywania zadania:', error);
     showToast('Błąd zapisywania zadania: ' + error.message, 'error');
@@ -535,23 +454,10 @@ async function loadSolutions() {
   if (!currentEdition) return;
 
   try {
-    // Get tasks from Edge Function
-    const { data, error } = await supabase.functions.invoke('manage-tasks-ts', {
-      body: {
-        action: 'list',
-      },
-    });
-
-    if (error) {
-      console.error('Błąd ładowania rozwiązań:', error);
-      return;
-    }
-
-    const tasks = data?.tasks || [];
     const select = document.getElementById('solution-task-select');
     select.innerHTML = '<option value="">-- Wybierz zadanie --</option>';
 
-    tasks.forEach((task) => {
+    allTasks.forEach((task) => {
       const option = document.createElement('option');
       option.value = task.id;
       option.textContent = `Dzień ${task.day_number}: ${task.title}`;
@@ -564,41 +470,18 @@ async function loadSolutions() {
 
 async function loadSolutionForm(taskId) {
   try {
-    // Get tasks from Edge Function to find the solution
-    const { data, error } = await supabase.functions.invoke('manage-tasks-ts', {
-      body: {
-        action: 'list',
-      },
-    });
-
-    if (error) throw error;
-
-    const task = data?.tasks?.find((t) => t.id === taskId);
+    const task = allTasks.find((t) => t.id === taskId);
     const solution = task?.solution;
 
     const editor = document.getElementById('solution-editor');
     document.getElementById('solution-task-id').value = taskId;
 
     if (solution) {
-      // Extract value from JSON if needed
-      const correctAnswer = typeof solution.correct_answer === 'number'
-        ? solution.correct_answer
-        : JSON.parse(solution.correct_answer);
-      
-      const hint = typeof solution.hint === 'object'
-        ? solution.hint?.text || ''
-        : (solution.hint || '');
-      
-      const explanation = typeof solution.explanation === 'object'
-        ? solution.explanation?.text || ''
-        : (solution.explanation || '');
-
-      document.getElementById('solution-answer').value = correctAnswer || '';
-      document.getElementById('solution-tolerance').value = solution.tolerance || '';
-      document.getElementById('solution-explanation').value = explanation;
-      document.getElementById('solution-hint').value = hint;
+      document.getElementById('solution-answer').value = solution.correct_answer ?? '';
+      document.getElementById('solution-tolerance').value = solution.tolerance ?? '';
+      document.getElementById('solution-explanation').value = solution.explanation?.text || '';
+      document.getElementById('solution-hint').value = solution.hint?.text || '';
     } else {
-      // New solution
       document.getElementById('solution-form').reset();
     }
 
@@ -621,70 +504,41 @@ async function saveSolution(form) {
   }
 
   try {
-    // Get current task to pass all required fields
-    const { data, error: listError } = await supabase.functions.invoke('manage-tasks-ts', {
-      body: {
-        action: 'list',
-      },
-    });
-
-    if (listError) throw listError;
-
-    const task = data?.tasks?.find((t) => t.id === taskId);
+    const task = allTasks.find((t) => t.id === taskId);
     if (!task) {
       showToast('Zadanie nie znalezione', 'error');
       return;
     }
 
-    // Parse form values
     const correctAnswer = parseFloat(form.elements['correct_answer'].value);
-    const tolerance = form.elements['tolerance'].value 
-      ? parseFloat(form.elements['tolerance'].value)
-      : null;
-    const explanationText = form.elements['explanation'].value || null;
-    const hintText = form.elements['hint'].value || null;
+    const toleranceRaw = form.elements['tolerance'].value;
+    const tolerance = toleranceRaw === '' ? null : parseFloat(toleranceRaw);
+    const explanationText = form.elements['explanation'].value.trim();
+    const hintText = form.elements['hint'].value.trim();
 
-    if (isNaN(correctAnswer)) {
+    if (!Number.isFinite(correctAnswer)) {
       showToast('Odpowiedź musi być liczbą', 'error');
       return;
     }
 
-    // Prepare content
-    const content = typeof task.content === 'string' 
-      ? { prompt: task.content }
-      : (task.content || { prompt: '' });
+    if (tolerance !== null && (!Number.isFinite(tolerance) || tolerance < 0)) {
+      showToast('Tolerancja musi być liczbą nieujemną', 'error');
+      return;
+    }
 
-    // Save via Edge Function
-    const { data: saveData, error: saveError } = await supabase.functions.invoke('manage-tasks-ts', {
-      body: {
-        action: 'save',
-        payload: {
-          task_id: taskId,
-          edition_id: currentEdition.id,
-          day_number: task.day_number,
-          unlock_at: task.unlock_at,
-          title: task.title,
-          category: task.category,
-          difficulty: task.difficulty,
-          points: task.points,
-          is_published: task.is_published,
-          content: content,
-          correct_answer: correctAnswer,
-          tolerance: tolerance,
-          hint: hintText ? { text: hintText } : null,
-          explanation: explanationText ? { text: explanationText } : null,
-        },
-      },
+    await callFunction('manage-tasks-ts', {
+      action: 'save',
+      payload: buildPayload(task, {
+        correct_answer: correctAnswer,
+        tolerance,
+        hint: hintText ? { text: hintText } : null,
+        explanation: explanationText ? { text: explanationText } : null,
+      }),
     });
 
-    if (saveError) throw saveError;
-
-    if (saveData?.success) {
-      showToast('Rozwiązanie zapisane', 'success');
-      await loadSolutions(); // Refresh solutions
-    } else {
-      showToast('Błąd zapisywania: ' + JSON.stringify(saveData), 'error');
-    }
+    showToast('Rozwiązanie zapisane', 'success');
+    await fetchTasks();
+    await loadTasks();
   } catch (error) {
     console.error('Błąd zapisywania rozwiązania:', error);
     showToast('Błąd zapisywania rozwiązania: ' + error.message, 'error');
@@ -697,16 +551,7 @@ async function saveSolution(form) {
 
 async function loadStudents() {
   try {
-    const { data: students } = await supabase
-      .from('profiles')
-      .select(`
-        id,
-        display_name,
-        class_name,
-        created_at
-      `)
-      .eq('role', 'student')
-      .order('display_name', { ascending: true });
+    const { students } = await callFunction('manage-tasks-ts', { action: 'students' });
 
     const tbody = document.getElementById('students-tbody');
     tbody.innerHTML = '';
@@ -729,30 +574,17 @@ async function loadStudents() {
 
     // Render students
     for (const student of students) {
-      const { data: progress } = await supabase
-        .from('task_progress')
-        .select('is_completed', { count: 'exact' })
-        .eq('user_id', student.id)
-        .eq('is_completed', true);
-
-      const { data: attempts } = await supabase
-        .from('task_attempts')
-        .select('attempted_at')
-        .eq('user_id', student.id)
-        .order('attempted_at', { ascending: false })
-        .limit(1);
-
-      const completed = progress?.length || 0;
-      const lastActivity = attempts?.[0]?.attempted_at 
-        ? formatTime(new Date(attempts[0].attempted_at))
+      const completed = student.completed_count || 0;
+      const lastActivity = student.last_activity
+        ? formatTime(new Date(student.last_activity))
         : 'Brak aktywności';
 
       const tr = document.createElement('tr');
       tr.dataset.studentId = student.id;
       tr.dataset.studentClass = student.class_name || '';
       tr.innerHTML = `
-        <td>${student.display_name}</td>
-        <td>${student.class_name || '-'}</td>
+        <td></td>
+        <td></td>
         <td>${lastActivity}</td>
         <td>${completed}/24</td>
         <td>
@@ -760,6 +592,8 @@ async function loadStudents() {
           <button class="button button--small" data-action="reset" data-id="${student.id}">Reset hasła</button>
         </td>
       `;
+      tr.cells[0].textContent = student.display_name;
+      tr.cells[1].textContent = student.class_name || '-';
 
       tr.querySelectorAll('button').forEach(btn => {
         btn.addEventListener('click', (e) => handleStudentAction(e, student));
@@ -818,18 +652,12 @@ async function saveStudent(form) {
       const password = form.elements['password'].value;
 
       // Use Edge Function to create student account securely
-      const { data, error } = await supabase.functions.invoke('create-student', {
-        body: {
-          email: email,
-          password: password,
-          display_name: displayName,
-          class_name: className,
-        },
+      const data = await callFunction('create-student', {
+        email: email,
+        password: password,
+        display_name: displayName,
+        class_name: className,
       });
-
-      if (error) {
-        throw new Error(error.message || 'Failed to create student account');
-      }
 
       if (data?.success) {
         showToast('Uczeń dodany - email: ' + email, 'success');
@@ -937,121 +765,39 @@ function filterStudents() {
 // UTILITY FUNCTIONS
 // ============================================================
 
-// ============================================================
-// UTILITY FUNCTIONS
-// ============================================================
-
-// Convert local datetime string to UTC ISO string
-// Assumes input is in Europe/Warsaw timezone
-function localToUTC(localDatetimeString) {
-  if (!localDatetimeString) return null;
-
-  // Parse the datetime-local input (format: YYYY-MM-DDTHH:mm)
-  const date = new Date(localDatetimeString);
-
-  // Convert to UTC by accounting for Warsaw timezone
-  // Warsaw is UTC+1 in winter, UTC+2 in summer
-  const formatter = new Intl.DateTimeFormat('en-US', {
+// Przesunięcie Europe/Warsaw względem UTC (ms) w danym momencie
+function warsawOffsetMs(utcMs) {
+  const p = {};
+  new Intl.DateTimeFormat('en-US', {
     timeZone: 'Europe/Warsaw',
-    year: 'numeric',
-    month: '2-digit',
-    day: '2-digit',
-    hour: '2-digit',
-    minute: '2-digit',
-    second: '2-digit',
-  });
+    hourCycle: 'h23',
+    year: 'numeric', month: '2-digit', day: '2-digit',
+    hour: '2-digit', minute: '2-digit', second: '2-digit',
+  }).formatToParts(new Date(utcMs)).forEach(x => { p[x.type] = x.value; });
 
-  // Parse the formatted parts
-  const parts = formatter.formatToParts(date);
-  const partsObject = {};
-  parts.forEach((part) => {
-    partsObject[part.type] = part.value;
-  });
-
-  // Create a date with the local Warsaw components
-  const warsawDate = new Date(
-    parseInt(partsObject.year),
-    parseInt(partsObject.month) - 1,
-    parseInt(partsObject.day),
-    parseInt(partsObject.hour),
-    parseInt(partsObject.minute),
-    parseInt(partsObject.second)
-  );
-
-  // Calculate the offset between the local time and UTC
-  // by checking what time the browser thinks it is in Warsaw vs UTC
-  const testDate = new Date(date);
-  const browserUTCString = testDate.toISOString();
-  const warsawString = formatter.format(testDate);
-
-  // For simplicity, use the datetime-local value and convert it properly
-  // datetime-local gives us the wall clock time we see
-  // We need to find what UTC time corresponds to that wall clock in Warsaw
-  
-  const offsetMs = getWarsawUTCOffset(date);
-  const utcDate = new Date(date.getTime() - offsetMs);
-
-  return utcDate.toISOString();
+  const asUtc = Date.UTC(+p.year, +p.month - 1, +p.day, +p.hour, +p.minute, +p.second);
+  return asUtc - Math.floor(utcMs / 1000) * 1000;
 }
 
-// Get the UTC offset for Warsaw timezone at a given date
-function getWarsawUTCOffset(date) {
-  const formatter = new Intl.DateTimeFormat('en-US', {
-    timeZone: 'Europe/Warsaw',
-  });
+// 'YYYY-MM-DDTHH:mm' (czas warszawski) -> ISO UTC, niezależnie od strefy przeglądarki
+function warsawLocalToUTC(value) {
+  const m = /^(\d{4})-(\d{2})-(\d{2})T(\d{2}):(\d{2})/.exec(value || '');
+  if (!m) return null;
 
-  // Find the offset by comparing UTC time with local time
-  const utcString = date.toISOString();
-  const localString = formatter.format(date);
-
-  // Create two dates and compare
-  const utcDate = new Date(date.toUTCString());
-  const parts = new Intl.DateTimeFormat('en-US', {
-    timeZone: 'Europe/Warsaw',
-    year: 'numeric',
-    month: '2-digit',
-    day: '2-digit',
-    hour: '2-digit',
-    minute: '2-digit',
-  }).formatToParts(date);
-
-  const partsObj = {};
-  parts.forEach((p) => {
-    partsObj[p.type] = p.value;
-  });
-
-  const localDate = new Date(
-    parseInt(partsObj.year),
-    parseInt(partsObj.month) - 1,
-    parseInt(partsObj.day),
-    parseInt(partsObj.hour),
-    parseInt(partsObj.minute)
-  );
-
-  return date.getTime() - localDate.getTime();
+  const wall = Date.UTC(+m[1], +m[2] - 1, +m[3], +m[4], +m[5]);
+  // Dwa przebiegi poprawnie obsługują okolice zmiany czasu
+  let utc = wall - warsawOffsetMs(wall);
+  utc = wall - warsawOffsetMs(utc);
+  return new Date(utc).toISOString();
 }
 
-// Convert UTC ISO string to local datetime-local format (for Warsaw)
+// ISO UTC -> 'YYYY-MM-DDTHH:mm' w czasie warszawskim (dla datetime-local)
 function utcToLocal(isoString) {
   if (!isoString) return '';
 
-  const date = new Date(isoString);
-  const formatter = new Intl.DateTimeFormat('en-US', {
-    timeZone: 'Europe/Warsaw',
-    year: 'numeric',
-    month: '2-digit',
-    day: '2-digit',
-    hour: '2-digit',
-    minute: '2-digit',
-  });
-
-  const parts = formatter.formatToParts(date);
-  const partsObj = {};
-  parts.forEach((p) => {
-    partsObj[p.type] = p.value;
-  });
-
-  return `${partsObj.year}-${partsObj.month}-${partsObj.day}T${partsObj.hour}:${partsObj.minute}`;
+  const ms = new Date(isoString).getTime();
+  const d = new Date(ms + warsawOffsetMs(ms));
+  return d.toISOString().slice(0, 16);
 }
 
 function formatTime(date) {
