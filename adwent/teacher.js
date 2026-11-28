@@ -456,7 +456,12 @@ async function openTaskModal(task = null, day = null) {
 
   modal.showModal();
 }
+const { data: { session }, error: sessionError } =
+  await supabase.auth.getSession();
 
+if (sessionError || !session) {
+  throw new Error('Brak aktywnej sesji użytkownika');
+}
 async function saveTask(form) {
   const taskId = form.dataset.taskId;
   
