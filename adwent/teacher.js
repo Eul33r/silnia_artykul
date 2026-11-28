@@ -3,6 +3,7 @@ import { requireTeacher, logout } from './js/auth.js';
 
 let currentAccount = null;
 let currentEdition = null;
+let currentSession = null;
 
 // ============================================================
 // INITIALIZATION
@@ -11,6 +12,12 @@ let currentEdition = null;
 async function init() {
   currentAccount = await requireTeacher();
   if (!currentAccount) return;
+
+  // Get the current session for invoking Edge Functions
+  const { data: { session }, error: sessionError } = await supabase.auth.getSession();
+  if (session) {
+    currentSession = session;
+  }
 
   updateUserInfo();
   await loadEdition();
@@ -31,18 +38,25 @@ function updateUserInfo() {
 }
 
 async function loadEdition() {
-  const { data: edition, error } = await supabase
-    .from('advent_editions')
-    .select('*')
-    .eq('year', 2026)
-    .single();
+  try {
+    // Use Edge Function to list tasks and get edition
+    const { data, error } = await supabase.functions.invoke('manage-tasks-ts', {
+      body: {
+        action: 'list',
+      },
+    });
 
-  if (error) {
+    if (error) {
+      console.error('Błąd ładowania edycji:', error);
+      return;
+    }
+
+    if (data?.edition) {
+      currentEdition = data.edition;
+    }
+  } catch (error) {
     console.error('Błąd ładowania edycji:', error);
-    return;
   }
-
-  currentEdition = edition;
 }
 
 // ============================================================
@@ -86,14 +100,21 @@ async function loadDashboard() {
   if (!currentEdition) return;
 
   try {
-    // Loaded tasks statistics
-    const { data: allTasks } = await supabase
-      .from('advent_tasks')
-      .select('id, is_published')
-      .eq('edition_id', currentEdition.id);
+    // Load data using Edge Function
+    const { data, error } = await supabase.functions.invoke('manage-tasks-ts', {
+      body: {
+        action: 'list',
+      },
+    });
 
-    const tasksCreated = allTasks?.length || 0;
-    const tasksPublished = allTasks?.filter(t => t.is_published).length || 0;
+    if (error) {
+      console.error('Błąd ładowania pulpitu:', error);
+      return;
+    }
+
+    const tasks = data?.tasks || [];
+    const tasksCreated = tasks.length;
+    const tasksPublished = tasks.filter(t => t.is_published).length;
 
     document.getElementById('stat-tasks-created').textContent = tasksCreated;
     document.getElementById('stat-tasks-published').textContent = tasksPublished;
@@ -193,18 +214,25 @@ async function loadTasks() {
   if (!currentEdition) return;
 
   try {
-    const { data: tasks } = await supabase
-      .from('advent_tasks')
-      .select('*')
-      .eq('edition_id', currentEdition.id)
-      .order('day_number', { ascending: true });
+    const { data, error } = await supabase.functions.invoke('manage-tasks-ts', {
+      body: {
+        action: 'list',
+      },
+    });
 
+    if (error) {
+      console.error('Błąd ładowania zadań:', error);
+      showToast('Błąd ładowania zadań', 'error');
+      return;
+    }
+
+    const tasks = data?.tasks || [];
     const calendar = document.getElementById('tasks-calendar');
     calendar.innerHTML = '';
 
     // Create all 24 day cards
     for (let day = 1; day <= 24; day++) {
-      const task = tasks?.find(t => t.day_number === day);
+      const task = tasks.find(t => t.day_number === day);
       
       const card = document.createElement('div');
       card.className = 'task-day-card';
@@ -266,19 +294,52 @@ async function loadTasks() {
 
 async function toggleTaskPublish(task) {
   try {
-    const { error } = await supabase
-      .from('advent_tasks')
-      .update({ is_published: !task.is_published })
-      .eq('id', task.id);
+    // Create updated task with toggled is_published status
+    const updatedTask = {
+      ...task,
+      is_published: !task.is_published,
+    };
+
+    // Convert content if it's a string
+    const content = typeof task.content === 'string' 
+      ? { prompt: task.content }
+      : (task.content || { prompt: '' });
+
+    // Convert correct_answer to number if it's the solution value
+    const correctAnswer = task.solution?.correct_answer 
+      ? parseFloat(task.solution.correct_answer)
+      : 0;
+
+    const { error } = await supabase.functions.invoke('manage-tasks-ts', {
+      body: {
+        action: 'save',
+        payload: {
+          task_id: task.id,
+          edition_id: currentEdition.id,
+          day_number: task.day_number,
+          unlock_at: task.unlock_at,
+          title: task.title,
+          category: task.category,
+          difficulty: task.difficulty,
+          points: task.points,
+          is_published: !task.is_published,
+          content: content,
+          correct_answer: correctAnswer,
+          tolerance: task.solution?.tolerance || null,
+          hint: task.solution?.hint || null,
+          explanation: task.solution?.explanation || null,
+        },
+      },
+    });
 
     if (error) throw error;
     
-    const action = task.is_published ? 'Wycofano publikację' : 'Opublikowano';
+    const action = !task.is_published ? 'Opublikowano' : 'Wycofano publikację';
     showToast(action, 'success');
     await loadTasks();
   } catch (error) {
     console.error('Błąd publikacji zadania:', error);
-    showToast('Błąd publikacji', 'error');
+    showToast('Błąd publikacji: ' + error.message, 'error');
   }
 }
 
@@ -366,9 +427,18 @@ async function openTaskModal(task = null, day = null) {
     document.getElementById('task-title').value = task.title;
     document.getElementById('task-category').value = task.category;
     document.getElementById('task-difficulty').value = task.difficulty;
-    document.getElementById('task-answer-type').value = task.answer_type;
     document.getElementById('task-points').value = task.points;
-    document.getElementById('task-content').value = task.content.text || '';
+    
+    // Convert UTC to local Warsaw time for display
+    if (task.unlock_at) {
+      document.getElementById('task-unlock-at').value = utcToLocal(task.unlock_at);
+    }
+    
+    // Handle content - could be object or string
+    const content = typeof task.content === 'string' 
+      ? task.content
+      : (task.content?.prompt || '');
+    document.getElementById('task-content').value = content;
   } else {
     title.textContent = 'Nowe zadanie';
     form.dataset.taskId = '';
@@ -377,6 +447,11 @@ async function openTaskModal(task = null, day = null) {
     if (day) {
       document.getElementById('task-day').value = day;
     }
+    
+    // Set default unlock time to today at 06:00 Warsaw time
+    const now = new Date();
+    const defaultTime = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 6, 0);
+    document.getElementById('task-unlock-at').value = utcToLocal(defaultTime.toISOString());
   }
 
   modal.showModal();
@@ -384,40 +459,62 @@ async function openTaskModal(task = null, day = null) {
 
 async function saveTask(form) {
   const taskId = form.dataset.taskId;
-  const data = {
-    day_number: parseInt(form.elements['day_number'].value),
-    title: form.elements['title'].value,
-    category: form.elements['category'].value,
-    difficulty: parseInt(form.elements['difficulty'].value),
-    answer_type: form.elements['answer_type'].value,
-    points: parseInt(form.elements['points'].value),
-    content: { text: form.elements['content'].value },
-    edition_id: currentEdition.id,
-  };
-
+  
   try {
-    if (taskId) {
-      const { error } = await supabase
-        .from('advent_tasks')
-        .update(data)
-        .eq('id', taskId);
+    const dayNumber = parseInt(form.elements['day_number'].value);
+    const title = form.elements['title'].value;
+    const category = form.elements['category'].value;
+    const difficulty = parseInt(form.elements['difficulty'].value);
+    const points = parseInt(form.elements['points'].value);
+    const content = form.elements['content'].value;
+    const unlockAtLocal = form.elements['unlock_at'].value;
 
-      if (error) throw error;
-      showToast('Zadanie zaktualizowane', 'success');
-    } else {
-      const { error } = await supabase
-        .from('advent_tasks')
-        .insert([data]);
+    // Convert local datetime to UTC ISO string
+    const unlockAtUTC = localToUTC(unlockAtLocal);
 
-      if (error) throw error;
-      showToast('Zadanie dodane', 'success');
+    if (!currentEdition || !currentEdition.id) {
+      showToast('Edycja nie została załadowana', 'error');
+      return;
     }
 
-    document.getElementById('task-modal').close();
-    await loadTasks();
+    const payload = {
+      task_id: taskId || null,
+      edition_id: currentEdition.id,
+      day_number: dayNumber,
+      unlock_at: unlockAtUTC,
+      title: title,
+      category: category,
+      difficulty: difficulty,
+      points: points,
+      is_published: false,
+      content: { prompt: content },
+      correct_answer: 0, // Default value - will be set via solutions form
+    };
+
+    const { data, error } = await supabase.functions.invoke('manage-tasks-ts', {
+      body: {
+        action: 'save',
+        payload: payload,
+      },
+    });
+
+    if (error) {
+      console.error('Edge Function error:', error);
+      showToast('Błąd zapisywania zadania: ' + error.message, 'error');
+      return;
+    }
+
+    if (data?.success) {
+      showToast(taskId ? 'Zadanie zaktualizowane' : 'Zadanie dodane', 'success');
+      document.getElementById('task-modal').close();
+      await loadTasks();
+      await loadSolutions(); // Refresh solutions list
+    } else {
+      showToast('Błąd zapisywania: ' + JSON.stringify(data), 'error');
+    }
   } catch (error) {
     console.error('Błąd zapisywania zadania:', error);
-    showToast('Błąd zapisywania zadania', 'error');
+    showToast('Błąd zapisywania zadania: ' + error.message, 'error');
   }
 }
 
@@ -429,16 +526,23 @@ async function loadSolutions() {
   if (!currentEdition) return;
 
   try {
-    const { data: tasks } = await supabase
-      .from('advent_tasks')
-      .select('id, day_number, title')
-      .eq('edition_id', currentEdition.id)
-      .order('day_number', { ascending: true });
+    // Get tasks from Edge Function
+    const { data, error } = await supabase.functions.invoke('manage-tasks-ts', {
+      body: {
+        action: 'list',
+      },
+    });
 
+    if (error) {
+      console.error('Błąd ładowania rozwiązań:', error);
+      return;
+    }
+
+    const tasks = data?.tasks || [];
     const select = document.getElementById('solution-task-select');
     select.innerHTML = '<option value="">-- Wybierz zadanie --</option>';
 
-    tasks?.forEach(task => {
+    tasks.forEach((task) => {
       const option = document.createElement('option');
       option.value = task.id;
       option.textContent = `Dzień ${task.day_number}: ${task.title}`;
@@ -451,22 +555,47 @@ async function loadSolutions() {
 
 async function loadSolutionForm(taskId) {
   try {
-    const { data: solution } = await supabase
-      .from('private.task_solutions')
-      .select('*')
-      .eq('task_id', taskId)
-      .single();
+    // Get tasks from Edge Function to find the solution
+    const { data, error } = await supabase.functions.invoke('manage-tasks-ts', {
+      body: {
+        action: 'list',
+      },
+    });
+
+    if (error) throw error;
+
+    const task = data?.tasks?.find((t) => t.id === taskId);
+    const solution = task?.solution;
 
     const editor = document.getElementById('solution-editor');
     document.getElementById('solution-task-id').value = taskId;
-    document.getElementById('solution-answer').value = solution?.correct_answer || '';
-    document.getElementById('solution-tolerance').value = solution?.tolerance || '';
-    document.getElementById('solution-explanation').value = solution?.explanation || '';
-    document.getElementById('solution-hint').value = solution?.hint || '';
+
+    if (solution) {
+      // Extract value from JSON if needed
+      const correctAnswer = typeof solution.correct_answer === 'number'
+        ? solution.correct_answer
+        : JSON.parse(solution.correct_answer);
+      
+      const hint = typeof solution.hint === 'object'
+        ? solution.hint?.text || ''
+        : (solution.hint || '');
+      
+      const explanation = typeof solution.explanation === 'object'
+        ? solution.explanation?.text || ''
+        : (solution.explanation || '');
+
+      document.getElementById('solution-answer').value = correctAnswer || '';
+      document.getElementById('solution-tolerance').value = solution.tolerance || '';
+      document.getElementById('solution-explanation').value = explanation;
+      document.getElementById('solution-hint').value = hint;
+    } else {
+      // New solution
+      document.getElementById('solution-form').reset();
+    }
 
     editor.hidden = false;
   } catch (error) {
-    // New solution
+    console.error('Błąd ładowania rozwiązania:', error);
     const editor = document.getElementById('solution-editor');
     document.getElementById('solution-task-id').value = taskId;
     document.getElementById('solution-form').reset();
@@ -482,41 +611,74 @@ async function saveSolution(form) {
     return;
   }
 
-  const data = {
-    task_id: taskId,
-    correct_answer: form.elements['correct_answer'].value,
-    tolerance: form.elements['tolerance'].value ? parseFloat(form.elements['tolerance'].value) : null,
-    explanation: form.elements['explanation'].value || null,
-    hint: form.elements['hint'].value || null,
-  };
-
   try {
-    // Try to update first
-    const { data: existing } = await supabase
-      .from('private.task_solutions')
-      .select('task_id')
-      .eq('task_id', taskId)
-      .single();
+    // Get current task to pass all required fields
+    const { data, error: listError } = await supabase.functions.invoke('manage-tasks-ts', {
+      body: {
+        action: 'list',
+      },
+    });
 
-    if (existing) {
-      const { error } = await supabase
-        .from('private.task_solutions')
-        .update(data)
-        .eq('task_id', taskId);
-      
-      if (error) throw error;
-    } else {
-      const { error } = await supabase
-        .from('private.task_solutions')
-        .insert([data]);
-      
-      if (error) throw error;
+    if (listError) throw listError;
+
+    const task = data?.tasks?.find((t) => t.id === taskId);
+    if (!task) {
+      showToast('Zadanie nie znalezione', 'error');
+      return;
     }
 
-    showToast('Rozwiązanie zapisane', 'success');
+    // Parse form values
+    const correctAnswer = parseFloat(form.elements['correct_answer'].value);
+    const tolerance = form.elements['tolerance'].value 
+      ? parseFloat(form.elements['tolerance'].value)
+      : null;
+    const explanationText = form.elements['explanation'].value || null;
+    const hintText = form.elements['hint'].value || null;
+
+    if (isNaN(correctAnswer)) {
+      showToast('Odpowiedź musi być liczbą', 'error');
+      return;
+    }
+
+    // Prepare content
+    const content = typeof task.content === 'string' 
+      ? { prompt: task.content }
+      : (task.content || { prompt: '' });
+
+    // Save via Edge Function
+    const { data: saveData, error: saveError } = await supabase.functions.invoke('manage-tasks-ts', {
+      body: {
+        action: 'save',
+        payload: {
+          task_id: taskId,
+          edition_id: currentEdition.id,
+          day_number: task.day_number,
+          unlock_at: task.unlock_at,
+          title: task.title,
+          category: task.category,
+          difficulty: task.difficulty,
+          points: task.points,
+          is_published: task.is_published,
+          content: content,
+          correct_answer: correctAnswer,
+          tolerance: tolerance,
+          hint: hintText ? { text: hintText } : null,
+          explanation: explanationText ? { text: explanationText } : null,
+        },
+      },
+    });
+
+    if (saveError) throw saveError;
+
+    if (saveData?.success) {
+      showToast('Rozwiązanie zapisane', 'success');
+      await loadSolutions(); // Refresh solutions
+    } else {
+      showToast('Błąd zapisywania: ' + JSON.stringify(saveData), 'error');
+    }
   } catch (error) {
     console.error('Błąd zapisywania rozwiązania:', error);
-    showToast('Błąd zapisywania rozwiązania', 'error');
+    showToast('Błąd zapisywania rozwiązania: ' + error.message, 'error');
   }
 }
 
@@ -639,30 +801,40 @@ async function openStudentModal(student = null) {
 async function saveStudent(form) {
   try {
     const isNew = !form.dataset.studentId;
-    const data = {
-      display_name: form.elements['display_name'].value,
-      class_name: form.elements['class_name'].value,
-    };
+    const displayName = form.elements['display_name'].value;
+    const className = form.elements['class_name'].value;
 
     if (isNew) {
+      const email = form.elements['email'].value;
       const password = form.elements['password'].value;
-      const { data: authData, error: authError } = await supabase.auth.signUp({
-        email: form.elements['email'].value,
-        password: password,
-        options: {
-          data: {
-            display_name: data.display_name,
-            class_name: data.class_name,
-          }
-        }
+
+      // Use Edge Function to create student account securely
+      const { data, error } = await supabase.functions.invoke('create-student', {
+        body: {
+          email: email,
+          password: password,
+          display_name: displayName,
+          class_name: className,
+        },
       });
 
-      if (authError) throw authError;
-      showToast('Uczeń dodany - email: ' + form.elements['email'].value, 'success');
+      if (error) {
+        throw new Error(error.message || 'Failed to create student account');
+      }
+
+      if (data?.success) {
+        showToast('Uczeń dodany - email: ' + email, 'success');
+      } else {
+        throw new Error(data?.error || 'Unknown error creating student');
+      }
     } else {
+      // Update existing student profile
       const { error } = await supabase
         .from('profiles')
-        .update(data)
+        .update({
+          display_name: displayName,
+          class_name: className,
+        })
         .eq('id', form.dataset.studentId);
 
       if (error) throw error;
@@ -712,19 +884,20 @@ async function importBulkStudents(csv) {
     const password = generatePassword();
 
     try {
-      const { data: authData, error: authError } = await supabase.auth.signUp({
-        email: email,
-        password: password,
-        options: {
-          data: {
-            display_name: displayName,
-            class_name: className || '',
-          }
-        }
+      // Use Edge Function to create student account securely
+      const { data, error } = await supabase.functions.invoke('create-student', {
+        body: {
+          email: email,
+          password: password,
+          display_name: displayName,
+          class_name: className || '',
+        },
       });
 
-      if (!authError) {
+      if (!error && data?.success) {
         imported++;
+      } else {
+        console.error('Import error for', displayName, ':', error || data?.error);
       }
     } catch (error) {
       console.error('Błąd importu:', error);
@@ -754,6 +927,123 @@ function filterStudents() {
 // ============================================================
 // UTILITY FUNCTIONS
 // ============================================================
+
+// ============================================================
+// UTILITY FUNCTIONS
+// ============================================================
+
+// Convert local datetime string to UTC ISO string
+// Assumes input is in Europe/Warsaw timezone
+function localToUTC(localDatetimeString) {
+  if (!localDatetimeString) return null;
+
+  // Parse the datetime-local input (format: YYYY-MM-DDTHH:mm)
+  const date = new Date(localDatetimeString);
+
+  // Convert to UTC by accounting for Warsaw timezone
+  // Warsaw is UTC+1 in winter, UTC+2 in summer
+  const formatter = new Intl.DateTimeFormat('en-US', {
+    timeZone: 'Europe/Warsaw',
+    year: 'numeric',
+    month: '2-digit',
+    day: '2-digit',
+    hour: '2-digit',
+    minute: '2-digit',
+    second: '2-digit',
+  });
+
+  // Parse the formatted parts
+  const parts = formatter.formatToParts(date);
+  const partsObject = {};
+  parts.forEach((part) => {
+    partsObject[part.type] = part.value;
+  });
+
+  // Create a date with the local Warsaw components
+  const warsawDate = new Date(
+    parseInt(partsObject.year),
+    parseInt(partsObject.month) - 1,
+    parseInt(partsObject.day),
+    parseInt(partsObject.hour),
+    parseInt(partsObject.minute),
+    parseInt(partsObject.second)
+  );
+
+  // Calculate the offset between the local time and UTC
+  // by checking what time the browser thinks it is in Warsaw vs UTC
+  const testDate = new Date(date);
+  const browserUTCString = testDate.toISOString();
+  const warsawString = formatter.format(testDate);
+
+  // For simplicity, use the datetime-local value and convert it properly
+  // datetime-local gives us the wall clock time we see
+  // We need to find what UTC time corresponds to that wall clock in Warsaw
+  
+  const offsetMs = getWarsawUTCOffset(date);
+  const utcDate = new Date(date.getTime() - offsetMs);
+
+  return utcDate.toISOString();
+}
+
+// Get the UTC offset for Warsaw timezone at a given date
+function getWarsawUTCOffset(date) {
+  const formatter = new Intl.DateTimeFormat('en-US', {
+    timeZone: 'Europe/Warsaw',
+  });
+
+  // Find the offset by comparing UTC time with local time
+  const utcString = date.toISOString();
+  const localString = formatter.format(date);
+
+  // Create two dates and compare
+  const utcDate = new Date(date.toUTCString());
+  const parts = new Intl.DateTimeFormat('en-US', {
+    timeZone: 'Europe/Warsaw',
+    year: 'numeric',
+    month: '2-digit',
+    day: '2-digit',
+    hour: '2-digit',
+    minute: '2-digit',
+  }).formatToParts(date);
+
+  const partsObj = {};
+  parts.forEach((p) => {
+    partsObj[p.type] = p.value;
+  });
+
+  const localDate = new Date(
+    parseInt(partsObj.year),
+    parseInt(partsObj.month) - 1,
+    parseInt(partsObj.day),
+    parseInt(partsObj.hour),
+    parseInt(partsObj.minute)
+  );
+
+  return date.getTime() - localDate.getTime();
+}
+
+// Convert UTC ISO string to local datetime-local format (for Warsaw)
+function utcToLocal(isoString) {
+  if (!isoString) return '';
+
+  const date = new Date(isoString);
+  const formatter = new Intl.DateTimeFormat('en-US', {
+    timeZone: 'Europe/Warsaw',
+    year: 'numeric',
+    month: '2-digit',
+    day: '2-digit',
+    hour: '2-digit',
+    minute: '2-digit',
+  });
+
+  const parts = formatter.formatToParts(date);
+  const partsObj = {};
+  parts.forEach((p) => {
+    partsObj[p.type] = p.value;
+  });
+
+  return `${partsObj.year}-${partsObj.month}-${partsObj.day}T${partsObj.hour}:${partsObj.minute}`;
+}
 
 function formatTime(date) {
   const now = new Date();

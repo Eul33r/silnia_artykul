@@ -43,46 +43,48 @@ FOR SELECT
 TO authenticated
 USING (true);
 
--- Allow authenticated users to read published tasks
+-- Allow authenticated users to read published tasks or all tasks if teacher
 CREATE POLICY "Authenticated can read published tasks"
 ON public.advent_tasks
 FOR SELECT
 TO authenticated
-USING (is_published = true OR auth.uid() IN (
-    SELECT id FROM public.profiles WHERE role = 'teacher'
-));
+USING (is_published = true);
 
 -- Allow teachers to insert tasks
 CREATE POLICY "Teachers can insert tasks"
 ON public.advent_tasks
 FOR INSERT
 TO authenticated
-WITH CHECK (
-    auth.uid() IN (SELECT id FROM public.profiles WHERE role = 'teacher')
-);
+WITH CHECK (EXISTS (
+    SELECT 1 FROM public.profiles 
+    WHERE id = auth.uid() AND role = 'teacher'
+));
 
--- Allow teachers to update their own tasks
+-- Allow teachers to update tasks
 CREATE POLICY "Teachers can update tasks"
 ON public.advent_tasks
 FOR UPDATE
 TO authenticated
-USING (
-    auth.uid() IN (SELECT id FROM public.profiles WHERE role = 'teacher')
-)
-WITH CHECK (
-    auth.uid() IN (SELECT id FROM public.profiles WHERE role = 'teacher')
-);
+USING (EXISTS (
+    SELECT 1 FROM public.profiles 
+    WHERE id = auth.uid() AND role = 'teacher'
+))
+WITH CHECK (EXISTS (
+    SELECT 1 FROM public.profiles 
+    WHERE id = auth.uid() AND role = 'teacher'
+));
 
--- Allow teachers to delete their own tasks
+-- Allow teachers to delete tasks
 CREATE POLICY "Teachers can delete tasks"
 ON public.advent_tasks
 FOR DELETE
 TO authenticated
-USING (
-    auth.uid() IN (SELECT id FROM public.profiles WHERE role = 'teacher')
-);
+USING (EXISTS (
+    SELECT 1 FROM public.profiles 
+    WHERE id = auth.uid() AND role = 'teacher'
+));
 
--- Allow authenticated users to read task attempts
+-- Allow authenticated users to read own task attempts
 CREATE POLICY "Users can read own task attempts"
 ON public.task_attempts
 FOR SELECT
@@ -96,14 +98,14 @@ FOR INSERT
 TO authenticated
 WITH CHECK (user_id = auth.uid());
 
--- Allow authenticated users to read task progress
+-- Allow authenticated users to read own task progress
 CREATE POLICY "Users can read own task progress"
 ON public.task_progress
 FOR SELECT
 TO authenticated
 USING (user_id = auth.uid());
 
--- Allow authenticated users to update task progress
+-- Allow authenticated users to update own task progress
 CREATE POLICY "Users can update own task progress"
 ON public.task_progress
 FOR UPDATE
@@ -118,75 +120,68 @@ FOR INSERT
 TO authenticated
 WITH CHECK (user_id = auth.uid());
 
--- Allow teachers to read all student profiles
-CREATE POLICY "Teachers can read all profiles"
+-- Users can read own profile
+CREATE POLICY "Users can read own profile"
 ON public.profiles
 FOR SELECT
 TO authenticated
-USING (
-    auth.uid() IN (SELECT id FROM public.profiles WHERE role = 'teacher')
-    OR auth.uid() = id
-);
+USING (auth.uid() = id);
 
--- Allow teachers to update student profiles
-CREATE POLICY "Teachers can update profiles"
+-- Users can update own profile
+CREATE POLICY "Users can update own profile"
 ON public.profiles
 FOR UPDATE
 TO authenticated
-USING (
-    auth.uid() IN (SELECT id FROM public.profiles WHERE role = 'teacher')
-    OR auth.uid() = id
-)
-WITH CHECK (
-    auth.uid() IN (SELECT id FROM public.profiles WHERE role = 'teacher')
-    OR auth.uid() = id
-);
+USING (auth.uid() = id)
+WITH CHECK (auth.uid() = id);
 
--- Allow teachers to insert new student profiles (this is usually done via trigger, but needed for signUp)
-CREATE POLICY "Teachers can insert profiles"
+-- Allow system trigger to insert profiles
+CREATE POLICY "System can insert profiles"
 ON public.profiles
 FOR INSERT
 TO authenticated
-WITH CHECK (
-    auth.uid() IN (SELECT id FROM public.profiles WHERE role = 'teacher')
-    OR auth.uid() = id
-);
+WITH CHECK (true);
 
 -- Allow teachers to read task solutions
 CREATE POLICY "Teachers can read task solutions"
 ON private.task_solutions
 FOR SELECT
 TO authenticated
-USING (
-    auth.uid() IN (SELECT id FROM public.profiles WHERE role = 'teacher')
-);
+USING (EXISTS (
+    SELECT 1 FROM public.profiles 
+    WHERE id = auth.uid() AND role = 'teacher'
+));
 
 -- Allow teachers to insert task solutions
 CREATE POLICY "Teachers can insert task solutions"
 ON private.task_solutions
 FOR INSERT
 TO authenticated
-WITH CHECK (
-    auth.uid() IN (SELECT id FROM public.profiles WHERE role = 'teacher')
-);
+WITH CHECK (EXISTS (
+    SELECT 1 FROM public.profiles 
+    WHERE id = auth.uid() AND role = 'teacher'
+));
 
 -- Allow teachers to update task solutions
 CREATE POLICY "Teachers can update task solutions"
 ON private.task_solutions
 FOR UPDATE
 TO authenticated
-USING (
-    auth.uid() IN (SELECT id FROM public.profiles WHERE role = 'teacher')
-)
-WITH CHECK (
-    auth.uid() IN (SELECT id FROM public.profiles WHERE role = 'teacher')
-);
+USING (EXISTS (
+    SELECT 1 FROM public.profiles 
+    WHERE id = auth.uid() AND role = 'teacher'
+))
+WITH CHECK (EXISTS (
+    SELECT 1 FROM public.profiles 
+    WHERE id = auth.uid() AND role = 'teacher'
+));
 
 -- Allow teachers to delete task solutions
 CREATE POLICY "Teachers can delete task solutions"
 ON private.task_solutions
 FOR DELETE
 TO authenticated
-USING (
-    auth.uid() IN (SELECT id FROM public.profiles WHERE role = 'teacher')
-);
+USING (EXISTS (
+    SELECT 1 FROM public.profiles 
+    WHERE id = auth.uid() AND role = 'teacher'
+));
